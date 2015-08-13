@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 1.0, 2015-08-09
+# Version: 1.1, 2015-08-13
 ##########
 
 If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
@@ -61,6 +61,9 @@ If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings")) {
 	New-Item -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Force | Out-Null
 }
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value 0
+If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization")) {
+	New-Item -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Force | Out-Null
+}
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Name "RestrictImplicitTextCollection" -Type DWord -Value 1
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value 1
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Name "TrainedDataStore\HarvestContacts" -Type DWord -Value 0
@@ -162,6 +165,14 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" 
 Write-Host "Hiding Task View button..."
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
 
+# Show small icons in taskbar
+Write-Host "Showing small icons in taskbar..."
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarSmallIcons" -Type DWord -Value 1
+
+# Show titles in taskbar
+Write-Host "Showing titles in taskbar..."
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarGlomLevel" -Type DWord -Value 1
+
 # Show all tray icons
 Write-Host "Showing all tray icons..."
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Type DWord -Value 0
@@ -245,7 +256,9 @@ Remove-Item ([System.Environment]::ExpandEnvironmentVariables("%PROGRAMDATA%\Mic
 If (Test-Path ([System.Environment]::ExpandEnvironmentVariables("%SYSTEMDRIVE%\OneDriveTemp"))) {
 	Remove-Item ([System.Environment]::ExpandEnvironmentVariables("%SYSTEMDRIVE%\OneDriveTemp")) -Force -Recurse | Out-Null
 }
-New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+If (!(Test-Path "HKCR:")) {
+	New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+}
 Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse
 Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse
 
@@ -280,6 +293,33 @@ dism /online /Disable-Feature /FeatureName:MediaPlayback /Quiet /NoRestart
 # Uninstall Work Folders Client
 Write-Host "Uninstalling Work Folders Client..."
 dism /online /Disable-Feature /FeatureName:WorkFolders-Client /Quiet /NoRestart
+
+# Set Photo Viewer as default for bmp, gif, jpg, png and tif
+Write-Host "Setting Photo Viewer as default for bmp, gif, jpg, png and tif..."
+If (!(Test-Path "HKCR:")) {
+	New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+}
+ForEach ($type in @("Paint.Picture", "giffile", "jpegfile", "pngfile", "TIFImage.Document")) {
+	New-Item -Path $("HKCR:\$type\shell\open") -Force | Out-Null
+	New-Item -Path $("HKCR:\$type\shell\open\command") | Out-Null
+	Set-ItemProperty -Path $("HKCR:\$type\shell\open") -Name "MuiVerb" -Type ExpandString -Value "@%ProgramFiles%\Windows Photo Viewer\photoviewer.dll,-3043"
+	Set-ItemProperty -Path $("HKCR:\$type\shell\open\command") -Name "(Default)" -Type ExpandString -Value "%SystemRoot%\System32\rundll32.exe `"%ProgramFiles%\Windows Photo Viewer\PhotoViewer.dll`", ImageView_Fullscreen %1"
+}
+
+# Show Photo Viewer in "Open with..."
+Write-Host "Showing Photo Viewer in `"Open with...`""
+If (!(Test-Path "HKCR:")) {
+	New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+}
+New-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open\command" -Force | Out-Null
+New-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open\DropTarget" -Force | Out-Null
+New-Item -Path "HKCR:\Applications\photoviewer.dll\shell\print\command" -Force | Out-Null
+New-Item -Path "HKCR:\Applications\photoviewer.dll\shell\print\DropTarget" -Force | Out-Null
+Set-ItemProperty -Path "HKCR:\Applications\photoviewer.dll\shell\open" -Name "MuiVerb" -Type String -Value "@photoviewer.dll,-3043"
+Set-ItemProperty -Path "HKCR:\Applications\photoviewer.dll\shell\open\command" -Name "(Default)" -Type ExpandString -Value "%SystemRoot%\System32\rundll32.exe `"%ProgramFiles%\Windows Photo Viewer\PhotoViewer.dll`", ImageView_Fullscreen %1"
+Set-ItemProperty -Path "HKCR:\Applications\photoviewer.dll\shell\open\DropTarget" -Name "Clsid" -Type String -Value "{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
+Set-ItemProperty -Path "HKCR:\Applications\photoviewer.dll\shell\print\command" -Name "(Default)" -Type ExpandString -Value "%SystemRoot%\System32\rundll32.exe `"%ProgramFiles%\Windows Photo Viewer\PhotoViewer.dll`", ImageView_Fullscreen %1"
+Set-ItemProperty -Path "HKCR:\Applications\photoviewer.dll\shell\print\DropTarget" -Name "Clsid" -Type String -Value "{60fd46de-f830-4894-a628-6fa81bc0190d}"
 
 
 
