@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 1.2, 2015-10-13
+# Version: 1.3, 2015-12-13
 ##########
 
 # Ask for elevated permissions if required
@@ -25,6 +25,9 @@ Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\DataCollection
 
 # Disable Wi-Fi Sense
 Write-Host "Disabling Wi-Fi Sense..."
+If (!(Test-Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting")) {
+	New-Item -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Force | Out-Null
+}
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "Value" -Type DWord -Value 0
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "Value" -Type DWord -Value 0
 
@@ -423,11 +426,11 @@ Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
 Start-Sleep -s 3
 Stop-Process -Name explorer
 Start-Sleep -s 3
-Remove-Item "$env:USERPROFILE\OneDrive" -Force -Recurse | Out-Null
-Remove-Item "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse | Out-Null
-Remove-Item "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse | Out-Null
+Remove-Item "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 If (Test-Path "$env:SYSTEMDRIVE\OneDriveTemp") {
-	Remove-Item "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse | Out-Null
+	Remove-Item "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
 }
 If (!(Test-Path "HKCR:")) {
 	New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
@@ -555,5 +558,8 @@ Set-ItemProperty -Path "HKCR:\Applications\photoviewer.dll\shell\open\DropTarget
 ##########
 # Restart
 ##########
+Write-Host
+Write-Host "Press any key to restart your system..." -ForegroundColor Black -BackgroundColor White
+$key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 Write-Host "Restarting..."
 Restart-Computer
