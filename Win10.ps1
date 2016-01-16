@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 1.3, 2015-12-13
+# Version: 1.4, 2016-01-16
 ##########
 
 # Ask for elevated permissions if required
@@ -338,15 +338,15 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 
 # Remove Desktop icon from computer namespace
 Write-Host "Removing Desktop icon from computer namespace..."
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}" -Recurse
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Desktop icon to computer namespace
 # New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}"
 
 # Remove Documents icon from computer namespace
 Write-Host "Removing Documents icon from computer namespace..."
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{d3162b92-9365-467a-956b-92703aca08af}" -Recurse
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A8CDFF1C-4878-43be-B5FD-F8091C1C60D0}" -Recurse
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{d3162b92-9365-467a-956b-92703aca08af}" -Recurse -ErrorAction SilentlyContinue
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A8CDFF1C-4878-43be-B5FD-F8091C1C60D0}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Documents icon to computer namespace
 # New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{d3162b92-9365-467a-956b-92703aca08af}"
@@ -354,8 +354,8 @@ Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyCo
 
 # Remove Downloads icon from computer namespace
 Write-Host "Removing Downloads icon from computer namespace..."
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{088e3905-0323-4b02-9826-5d99428e115f}" -Recurse
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{374DE290-123F-4565-9164-39C4925E467B}" -Recurse
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{088e3905-0323-4b02-9826-5d99428e115f}" -Recurse -ErrorAction SilentlyContinue
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{374DE290-123F-4565-9164-39C4925E467B}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Downloads icon to computer namespace
 # New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{088e3905-0323-4b02-9826-5d99428e115f}"
@@ -363,8 +363,8 @@ Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyCo
 
 # Remove Music icon from computer namespace
 Write-Host "Removing Music icon from computer namespace..."
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}" -Recurse
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{1CF1260C-4DD0-4ebb-811F-33C572699FDE}" -Recurse
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}" -Recurse -ErrorAction SilentlyContinue
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{1CF1260C-4DD0-4ebb-811F-33C572699FDE}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Music icon to computer namespace
 # New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}"
@@ -372,8 +372,8 @@ Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyCo
 
 # Remove Pictures icon from computer namespace
 Write-Host "Removing Pictures icon from computer namespace..."
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}" -Recurse
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3ADD1653-EB32-4cb0-BBD7-DFA0ABB5ACCA}" -Recurse
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}" -Recurse -ErrorAction SilentlyContinue
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3ADD1653-EB32-4cb0-BBD7-DFA0ABB5ACCA}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Pictures icon to computer namespace
 # New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}"
@@ -381,8 +381,8 @@ Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyCo
 
 # Remove Videos icon from computer namespace
 Write-Host "Removing Videos icon from computer namespace..."
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}" -Recurse
-Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A0953C92-50DC-43bf-BE83-3742FED03C9C}" -Recurse
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}" -Recurse -ErrorAction SilentlyContinue
+Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A0953C92-50DC-43bf-BE83-3742FED03C9C}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Videos icon to computer namespace
 # New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}"
@@ -416,7 +416,7 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Nam
 
 # Uninstall OneDrive
 Write-Host "Uninstalling OneDrive..."
-Stop-Process -Name OneDrive
+Stop-Process -Name OneDrive -ErrorAction SilentlyContinue
 Start-Sleep -s 3
 $onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
 If (!(Test-Path $onedrive)) {
@@ -424,7 +424,7 @@ If (!(Test-Path $onedrive)) {
 }
 Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
 Start-Sleep -s 3
-Stop-Process -Name explorer
+Stop-Process -Name explorer -ErrorAction SilentlyContinue
 Start-Sleep -s 3
 Remove-Item "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 Remove-Item "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
@@ -435,8 +435,8 @@ If (Test-Path "$env:SYSTEMDRIVE\OneDriveTemp") {
 If (!(Test-Path "HKCR:")) {
 	New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 }
-Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse
-Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse
+Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
 
 # Install OneDrive
 # $onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
@@ -468,6 +468,13 @@ Get-AppxPackage "Microsoft.WindowsSoundRecorder" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.XboxApp" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.ZuneMusic" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.ZuneVideo" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.AppConnector" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.ConnectivityStore" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.Office.Sway" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.Messaging" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.CommsPhone" | Remove-AppxPackage
+Get-AppxPackage "9E2F88E3.Twitter" | Remove-AppxPackage
+Get-AppxPackage "king.com.CandyCrushSodaSaga" | Remove-AppxPackage
 
 # Install default Microsoft applications
 # Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.3DBuilder").InstallLocation)\AppXManifest.xml"
@@ -491,6 +498,11 @@ Get-AppxPackage "Microsoft.ZuneVideo" | Remove-AppxPackage
 # Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.XboxApp").InstallLocation)\AppXManifest.xml"
 # Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.ZuneMusic").InstallLocation)\AppXManifest.xml"
 # Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.ZuneVideo").InstallLocation)\AppXManifest.xml"
+# Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.AppConnector").InstallLocation)\AppXManifest.xml"
+# Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.ConnectivityStore").InstallLocation)\AppXManifest.xml"
+# Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.Office.Sway").InstallLocation)\AppXManifest.xml"
+# Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.Messaging").InstallLocation)\AppXManifest.xml"
+# Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.CommsPhone").InstallLocation)\AppXManifest.xml"
 # In case you have removed them for good, you can try to restore the files using installation medium as follows
 # New-Item C:\Mnt -Type Directory | Out-Null
 # dism /Mount-Image /ImageFile:D:\sources\install.wim /index:1 /ReadOnly /MountDir:C:\Mnt
