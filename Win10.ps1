@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 1.6, 2016-08-07
+# Version: 1.6a, 2016-08-13
 ##########
 
 # Ask for elevated permissions if required
@@ -195,7 +195,7 @@ Set-NetFirewallProfile -Profile * -Enabled False
 # Disable Windows Defender
 Write-Host "Disabling Windows Defender..."
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware" -Type DWord -Value 1
-Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "WindowsDefender"
+Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "WindowsDefender" -ErrorAction SilentlyContinue
 
 # Enable Windows Defender
 # Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware"
@@ -526,6 +526,7 @@ Get-AppxPackage "Microsoft.MicrosoftStickyNotes" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.OneConnect" | Remove-AppxPackage
 Get-AppxPackage "D52A8D61.FarmVille2CountryEscape" | Remove-AppxPackage
 Get-AppxPackage "GAMELOFTSA.Asphalt8Airborne" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.WindowsFeedbackHub" | Remove-AppxPackage
 
 # Install default Microsoft applications
 # Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.3DBuilder").InstallLocation)\AppXManifest.xml"
@@ -562,6 +563,7 @@ Get-AppxPackage "GAMELOFTSA.Asphalt8Airborne" | Remove-AppxPackage
 # Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.OneConnect").InstallLocation)\AppXManifest.xml"
 # Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "D52A8D61.FarmVille2CountryEscape").InstallLocation)\AppXManifest.xml"
 # Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "GAMELOFTSA.Asphalt8Airborne").InstallLocation)\AppXManifest.xml"
+# Add-AppxPackage -DisableDevelopmentMode -Register "$($(Get-AppXPackage -AllUsers "Microsoft.WindowsFeedbackHub").InstallLocation)\AppXManifest.xml"
 # In case you have removed them for good, you can try to restore the files using installation medium as follows
 # New-Item C:\Mnt -Type Directory | Out-Null
 # dism /Mount-Image /ImageFile:D:\sources\install.wim /index:1 /ReadOnly /MountDir:C:\Mnt
