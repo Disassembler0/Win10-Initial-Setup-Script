@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 1.6a, 2016-08-13
+# Version: 1.7, 2016-08-15
 ##########
 
 # Ask for elevated permissions if required
@@ -273,6 +273,26 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalizatio
 
 # Enable Lock screen
 # Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoLockScreen"
+
+# Disable Lock screen (Anniversary Update workaround)
+#If ([System.Environment]::OSVersion.Version.Build -gt 14392) { # Apply only for Redstone 1 or newer
+#	$service = New-Object -com Schedule.Service
+#	$service.Connect()
+#	$task = $service.NewTask(0)
+#	$task.Settings.DisallowStartIfOnBatteries = $false
+#	$trigger = $task.Triggers.Create(9)
+#	$trigger = $task.Triggers.Create(11)
+#	$trigger.StateChange = 8
+#	$action = $task.Actions.Create(0)
+#	$action.Path = "reg.exe"
+#	$action.Arguments = "add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\SessionData /t REG_DWORD /v AllowLockScreen /d 0 /f"
+#	$service.GetFolder("\").RegisterTaskDefinition("Disable LockScreen", $task, 6, "NT AUTHORITY\SYSTEM", $null, 4) | Out-Null
+#}
+
+# Enable Lock screen (Anniversary Update workaround)
+#If ([System.Environment]::OSVersion.Version.Build -gt 14392) { # Apply only for Redstone 1 or newer
+#	Unregister-ScheduledTask -TaskName "Disable LockScreen" -Confirm:$false -ErrorAction SilentlyContinue
+#}
 
 # Disable Autoplay
 Write-Host "Disabling Autoplay..."
@@ -571,6 +591,15 @@ Get-AppxPackage "Microsoft.WindowsFeedbackHub" | Remove-AppxPackage
 # dism /Unmount-Image /Discard /MountDir:C:\Mnt
 # Remove-Item -Path C:\Mnt -Recurse
 
+# Disable Xbox DVR
+If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR")) {
+	New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" | Out-Null
+}
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
+
+# Enable Xbox DVR
+#Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -ErrorAction SilentlyContinue
+
 # Uninstall Windows Media Player
 Write-Host "Uninstalling Windows Media Player..."
 dism /online /Disable-Feature /FeatureName:MediaPlayback /Quiet /NoRestart
@@ -586,7 +615,7 @@ dism /online /Disable-Feature /FeatureName:WorkFolders-Client /Quiet /NoRestart
 # dism /online /Enable-Feature /FeatureName:WorkFolders-Client /Quiet /NoRestart
 
 # Install Linux Subsystem
-# If ([System.Environment]::OSVersion.Version.Build -gt 14315) { # Apply only for build 14316 or newer
+# If ([System.Environment]::OSVersion.Version.Build -gt 14392) { # Apply only for Redstone 1 or newer
 # 	Write-Host "Installing Linux Subsystem..."
 # 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Type DWord -Value 1
 # 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
