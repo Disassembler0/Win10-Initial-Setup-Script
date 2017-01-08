@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: development, do not use
+# Version: 2.0, 2017-01-08
 ##########
 
 # Ask for elevated permissions if required
@@ -15,12 +15,13 @@ $preset = @(
 	"DisableTelemetry",
 	"DisableWiFiSense",
 	"DisableSmartScreen",
-	"DisableBingSearch",
+	"DisableWebSearch",
 	"DisableStartSuggestions",
 	"DisableLocationTracking",
 	"DisableFeedback",
 	"DisableAdvertisingID",
 	"DisableCortana",
+	"DisableErrorReporting",
 	"RestrictUpdateP2P",
 	"DisableAutoLogger",
 	"DisableDiagTrack",
@@ -31,7 +32,8 @@ $preset = @(
 	"DisableAdminShares",
 	"DisableFirewall",
 	# "DisableDefender",
-	# "DisableMSRTOffering",
+	# "DisableUpdateMSRT",
+	# "DisableUpdateDriver",
 	"DisableUpdateRestart",
 	"DisableHomeGroups",
 	"DisableRemoteAssistance",
@@ -137,28 +139,35 @@ Function EnableSmartScreen {
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation"
 }
 
-# Disable Bing Search in Start Menu
-Function DisableBingSearch {
+# Disable Web Search in Start Menu
+Function DisableWebSearch {
 	Write-Host "Disabling Bing Search in Start Menu..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Type DWord -Value 0
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type DWord -Value 1
 }
 
-# Enable Bing Search in Start Menu
-Function EnableBingSearch {
+# Enable Web Search in Start Menu
+Function EnableWebSearch {
 	Write-Host "Enabling Bing Search in Start Menu..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled"
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch"
 }
 
 # Disable Start Menu suggestions
 Function DisableStartSuggestions {
 	Write-Host "Disabling Start Menu suggestions..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SilentInstalledAppsEnabled" -Type DWord -Value 0
 }
 
 # Enable Start Menu suggestions
 Function EnableStartSuggestions {
 	Write-Host "Enabling Start Menu suggestions..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SilentInstalledAppsEnabled" -Type DWord -Value 1
 }
 
 # Disable Location Tracking
@@ -221,6 +230,10 @@ Function DisableCortana {
 		New-Item -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" -Force | Out-Null
 	}
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" -Name "HarvestContacts" -Type DWord -Value 0
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -Type DWord -Value 0
 }
 
 # Enable Cortana
@@ -230,6 +243,19 @@ Function EnableCortana {
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Name "RestrictImplicitTextCollection" -Type DWord -Value 0
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value 0
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" -Name "HarvestContacts"
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana"
+}
+
+# Disable Error reporting
+Function DisableErrorReporting {
+	Write-Host "Disabling Error reporting..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 1
+}
+
+# Enable Error reporting
+Function EnableErrorReporting {
+	Write-Host "Enabling Error reporting..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled"
 }
 
 # Restrict Windows Update P2P only to local network
@@ -366,7 +392,7 @@ Function EnableDefender {
 }
 
 # Disable offering of Malicious Software Removal Tool through Windows Update
-Function DisableMSRTOffering {
+Function DisableUpdateMSRT {
 	Write-Host "Disabling Malicious Software Removal Tool offering..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT" | Out-Null
@@ -375,21 +401,43 @@ Function DisableMSRTOffering {
 }
 
 # Enable offering of Malicious Software Removal Tool through Windows Update
-Function EnableMSRTOffering {
+Function EnableUpdateMSRT {
 	Write-Host "Enabling Malicious Software Removal Tool offering..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT" -Name "DontOfferThroughWUAU"
+}
+
+# Disable offering of drivers through Windows Update
+Function DisableUpdateDriver {
+	Write-Host "Disabling driver offering through Windows Update..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 0
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ExcludeWUDriversInQualityUpdate" -Type DWord -Value 1
+}
+
+# Enable offering of drivers through Windows Update
+Function EnableUpdateDriver {
+	Write-Host "Enabling driver offering through Windows Update..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 1
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ExcludeWUDriversInQualityUpdate"
 }
 
 # Disable Windows Update automatic restart
 Function DisableUpdateRestart {
 	Write-Host "Disabling Windows Update automatic restart..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoRebootWithLoggedOnUsers" -Type DWord -Value 1
 }
 
 # Enable Windows Update automatic restart
 Function EnableUpdateRestart {
 	Write-Host "Enabling Windows Update automatic restart..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 0
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoRebootWithLoggedOnUsers"
 }
 
 # Stop and disable Home Groups services
@@ -910,6 +958,7 @@ Function InstallBloatware {
 # Disable Xbox DVR
 Function DisableXboxDVR {
 	Write-Host "Disabling Xbox DVR..."
+	Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" | Out-Null
 	}
@@ -919,6 +968,7 @@ Function DisableXboxDVR {
 # Enable Xbox DVR
 Function EnableXboxDVR {
 	Write-Host "Enabling Xbox DVR..."
+	Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -ErrorAction SilentlyContinue
 }
 
@@ -1033,7 +1083,7 @@ Function DisableF8BootMenu {
 
 Function WaitForKey {
 	Write-Host
-	Write-Host "Press any key to restart your system..." -ForegroundColor Black -BackgroundColor White
+	Write-Host "Press any key to continue..." -ForegroundColor Black -BackgroundColor White
 	$key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
 
