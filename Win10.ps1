@@ -6,8 +6,82 @@
 
 # Ask for elevated permissions if required
 If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
-	Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+	Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" $args" -Verb RunAs
 	Exit
+}
+
+# Default preset
+$preset = @(
+	"DisableTelemetry",
+	"DisableWiFiSense",
+	"DisableSmartScreen",
+	"DisableBingSearch",
+	"DisableStartSuggestions",
+	"DisableLocationTracking",
+	"DisableFeedback",
+	"DisableAdvertisingID",
+	"DisableCortana",
+	"RestrictUpdateP2P",
+	"DisableAutoLogger",
+	"DisableDiagTrack",
+	"DisableWAPPush",
+
+	# "LowerUAC",
+	# "EnableSharingMappedDrives",
+	"DisableAdminShares",
+	"DisableFirewall",
+	# "DisableDefender",
+	# "DisableMSRTOffering",
+	"DisableUpdateRestart",
+	"DisableHomeGroups",
+	"DisableRemoteAssistance",
+	"EnableRemoteDesktop",
+
+	"DisableActionCenter",
+	"DisableLockScreen",
+	# "DisableLockScreenWorkaround",
+	"DisableAutoplay",
+	"DisableAutorun",
+	"DisableStickyKeys",
+	"HideTaskbarSearchBox",
+	"HideTaskView",
+	"ShowSmallTaskbarIcons",
+	"ShowTaskbarTitles",
+	"ShowTrayIcons",
+	"ShowKnownExtensions",
+	"ShowHiddenFiles",
+	"ExplorerThisPC",
+	"ShowThisPCOnDesktop",
+	"HideDesktopFromThisPC",
+	"HideDocumentsFromThisPC",
+	"HideDownloadsFromThisPC",
+	"HideMusicFromThisPC",
+	"HidePicturesFromThisPC",
+	"HideVideosFromThisPC",
+	# "AddENKeyboard",
+	# "EnableNumlock",
+
+	"DisableOneDrive",
+	"UninstallOneDrive",
+	"UninstallBloatware",
+	"DisableXboxDVR",
+	# "UninstallMediaPlayer",
+	# "UninstallWorkFolders",
+	# "InstallLinuxSubsystem",
+	"SetPhotoViewerAssociation",
+	"AddPhotoViewerOpenWith",
+	"EnableF8BootMenu",
+
+	"WaitForKey",
+	"Restart"
+)
+
+# Load preset from arguments or a file
+If ($args.length -gt 0) {
+	$preset = $args
+	If ($args[0] -eq "-preset") {
+		$preset = Get-Content $args[1] -ErrorAction Stop
+	}
 }
 
 
@@ -966,4 +1040,14 @@ Function WaitForKey {
 Function Restart {
 	Write-Host "Restarting..."
 	Restart-Computer
+}
+
+
+# Call the functions defined by preset
+ForEach ($line in $preset) {
+	$line = $line.Trim()
+	If ($line -eq "" -Or $line[0] -eq "#") {
+		continue
+	}
+	Invoke-Expression $line
 }
