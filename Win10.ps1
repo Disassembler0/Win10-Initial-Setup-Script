@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: development, do not use
+# Version: 2.1, 2017-02-08
 ##########
 
 # Ask for elevated permissions if required
@@ -40,13 +40,15 @@ $preset = @(
 	"DisableHomeGroups",			# "EnableHomeGroups",
 	"DisableRemoteAssistance",		# "EnableRemoteAssistance",
 	"EnableRemoteDesktop",			# "DisableRemoteDesktop",
+	"DisableAutoplay",				# "EnableAutoplay",
+	"DisableAutorun",				# "EnableAutorun",
+	# "DisableDefragmentation",		# "EnableDefragmentation",
+	# "SetBIOSTimeUTC",				# "SetBIOSTimeLocal",
 
 	### UI Tweaks ###
 	"DisableActionCenter",			# "EnableActionCenter",
 	"DisableLockScreen",			# "EnableLockScreen",
 	# "DisableLockScreenRS1",		# "EnableLockScreenRS1",
-	"DisableAutoplay",				# "EnableAutoplay",
-	"DisableAutorun",				# "EnableAutorun",
 	"DisableStickyKeys",			# "EnableStickyKeys",
 	"HideTaskbarSearchBox",			# "ShowTaskbarSearchBox",
 	"HideTaskView",					# "ShowTaskView",
@@ -70,12 +72,15 @@ $preset = @(
 	"DisableOneDrive",				# "EnableOneDrive",
 	"UninstallOneDrive",			# "InstallOneDrive",
 	"UninstallBloatware",			# "InstallBloatware",
+	"DisableConsumerApps",			# "EnableConsumerApps",
 	"DisableXboxDVR",				# "EnableXboxDVR",
 	# "UninstallMediaPlayer",		# "InstallMediaPlayer",
 	# "UninstallWorkFolders",		# "InstallWorkFolders",
 	# "InstallLinuxSubsystem",		# "UninstallLinuxSubsystem",
 	"SetPhotoViewerAssociation",	# "UnsetPhotoViewerAssociation",
 	"AddPhotoViewerOpenWith",		# "RemovePhotoViewerOpenWith",
+	"DisableSearchAppInStore",		# "EnableSearchAppInStore",
+	"DisableNewAppPrompt",			# "EnableNewAppPrompt",
 	"EnableF8BootMenu",				# "DisableF8BootMenu",
 
 	### Auxiliary Functions ###
@@ -488,6 +493,57 @@ Function DisableRemoteDesktop {
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "UserAuthentication" -Type DWord -Value 1
 }
 
+# Disable Autoplay
+Function DisableAutoplay {
+	Write-Host "Disabling Autoplay..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 1
+}
+
+# Enable Autoplay
+Function EnableAutoplay {
+	Write-Host "Enabling Autoplay..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 0
+}
+
+# Disable Autorun for all drives
+Function DisableAutorun {
+	Write-Host "Disabling Autorun for all drives..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
+}
+
+# Enable Autorun for removable drives
+Function EnableAutorun {
+	Write-Host "Enabling Autorun for all drives..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -ErrorAction SilentlyContinue
+}
+
+# Disable scheduled defragmentation
+Function DisableDefragmentation {
+	Write-Host "Disabling scheduled defragmentation..."
+	Disable-ScheduledTask -TaskName "\Microsoft\Windows\Defrag\ScheduledDefrag" | Out-Null
+}
+
+# Enable scheduled defragmentation
+Function EnableDefragmentation {
+	Write-Host "Enabling scheduled defragmentation..."
+	Enable-ScheduledTask -TaskName "\Microsoft\Windows\Defrag\ScheduledDefrag" | Out-Null
+}
+
+# Set BIOS time to UTC
+Function SetBIOSTimeUTC {
+	Write-Host "Setting BIOS time to UTC..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value 1
+}
+
+# Set BIOS time to local time
+Function SetBIOSTimeLocal {
+	Write-Host "Setting BIOS time to Local time..."
+	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -ErrorAction SilentlyContinue
+}
+
 
 
 ##########
@@ -546,33 +602,6 @@ Function DisableLockScreenRS1 {
 Function EnableLockScreenRS1 {
 	Write-Host "Enabling Lock screen (removing scheduler workaround)..."
 	Unregister-ScheduledTask -TaskName "Disable LockScreen" -Confirm:$false -ErrorAction SilentlyContinue
-}
-
-# Disable Autoplay
-Function DisableAutoplay {
-	Write-Host "Disabling Autoplay..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 1
-}
-
-# Enable Autoplay
-Function EnableAutoplay {
-	Write-Host "Enabling Autoplay..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 0
-}
-
-# Disable Autorun for all drives
-Function DisableAutorun {
-	Write-Host "Disabling Autorun for all drives..."
-	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
-		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
-	}
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
-}
-
-# Enable Autorun for removable drives
-Function EnableAutorun {
-	Write-Host "Enabling Autorun for all drives..."
-	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -ErrorAction SilentlyContinue
 }
 
 # Disable Sticky keys prompt
@@ -806,6 +835,11 @@ Function EnableNumlock {
 		New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
 	}
 	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 2147483650
+	Add-Type -AssemblyName System.Windows.Forms
+	If (!([System.Windows.Forms.Control]::IsKeyLocked('NumLock'))) {
+		$wsh = New-Object -ComObject WScript.Shell
+		$wsh.SendKeys('{NUMLOCK}')
+	}
 }
 
 # Disable NumLock after startup
@@ -815,6 +849,11 @@ Function DisableNumlock {
 		New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
 	}
 	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 2147483648
+	Add-Type -AssemblyName System.Windows.Forms
+	If ([System.Windows.Forms.Control]::IsKeyLocked('NumLock')) {
+		$wsh = New-Object -ComObject WScript.Shell
+		$wsh.SendKeys('{NUMLOCK}')
+	}
 }
 
 
@@ -960,6 +999,21 @@ Function InstallBloatware {
 # dism /Unmount-Image /Discard /MountDir:C:\Mnt
 # Remove-Item -Path C:\Mnt -Recurse
 
+# Disable installation of consumer experience applications
+Function DisableConsumerApps {
+	Write-Host "Disabling installation of consumer experience applications..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
+}
+
+# Enable installation of consumer experience applications
+Function EnableConsumerApps {
+	Write-Host "Enabling installation of consumer experience applications..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -ErrorAction SilentlyContinue
+}
+
 # Disable Xbox DVR
 Function DisableXboxDVR {
 	Write-Host "Disabling Xbox DVR..."
@@ -1037,13 +1091,13 @@ Function UnsetPhotoViewerAssociation {
 	If (!(Test-Path "HKCR:")) {
 		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 	}
-	Remove-Item -Path "HKCR:\Paint.Picture\shell\open" -Recurse
+	Remove-Item -Path "HKCR:\Paint.Picture\shell\open" -Recurse -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCR:\giffile\shell\open" -Name "MuiVerb" -ErrorAction SilentlyContinue
 	Set-ItemProperty -Path "HKCR:\giffile\shell\open" -Name "CommandId" -Type String -Value "IE.File"
 	Set-ItemProperty -Path "HKCR:\giffile\shell\open\command" -Name "(Default)" -Type String -Value "`"$env:SystemDrive\Program Files\Internet Explorer\iexplore.exe`" %1"
 	Set-ItemProperty -Path "HKCR:\giffile\shell\open\command" -Name "DelegateExecute" -Type String -Value "{17FE9752-0B5A-4665-84CD-569794602F5C}"
-	Remove-Item -Path "HKCR:\jpegfile\shell\open" -Recurse
-	Remove-Item -Path "HKCR:\pngfile\shell\open" -Recurse
+	Remove-Item -Path "HKCR:\jpegfile\shell\open" -Recurse -ErrorAction SilentlyContinue
+	Remove-Item -Path "HKCR:\pngfile\shell\open" -Recurse -ErrorAction SilentlyContinue
 }
 
 # Add Photo Viewer to "Open with..."
@@ -1065,7 +1119,37 @@ Function RemovePhotoViewerOpenWith {
 	If (!(Test-Path "HKCR:")) {
 		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 	}
-	Remove-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open" -Recurse
+	Remove-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open" -Recurse -ErrorAction SilentlyContinue
+}
+
+# Disable search for app in store for unknown extensions
+Function DisableSearchAppInStore {
+	Write-Host "Disabling search for app in store for unknown extensions..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
+}
+
+# Enable search for app in store for unknown extensions
+Function EnableSearchAppInStore {
+	Write-Host "Enabling search for app in store for unknown extensions..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -ErrorAction SilentlyContinue
+}
+
+# Disable 'How do you want to open this file?' prompt
+Function DisableNewAppPrompt {
+	Write-Host "Disabling 'How do you want to open this file?' prompt..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -Type DWord -Value 1
+}
+
+# Enable 'How do you want to open this file?' prompt
+Function EnableNewAppPrompt {
+	Write-Host "Enabling 'How do you want to open this file?' prompt..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -ErrorAction SilentlyContinue
 }
 
 # Enable F8 boot menu options
@@ -1089,7 +1173,7 @@ Function DisableF8BootMenu {
 Function WaitForKey {
 	Write-Host
 	Write-Host "Press any key to continue..." -ForegroundColor Black -BackgroundColor White
-	$key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+	[Console]::ReadKey($true) | Out-Null
 }
 
 Function Restart {
