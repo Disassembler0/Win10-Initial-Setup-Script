@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 2.0, 2017-01-08
+# Version: development, do not use
 ##########
 
 # Ask for elevated permissions if required
@@ -12,68 +12,73 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 
 # Default preset
 $preset = @(
-	"DisableTelemetry",
-	"DisableWiFiSense",
-	"DisableSmartScreen",
-	"DisableWebSearch",
-	"DisableStartSuggestions",
-	"DisableLocationTracking",
-	"DisableFeedback",
-	"DisableAdvertisingID",
-	"DisableCortana",
-	"DisableErrorReporting",
-	"RestrictUpdateP2P",
-	"DisableAutoLogger",
-	"DisableDiagTrack",
-	"DisableWAPPush",
+	### Privacy Settings ###
+	"DisableTelemetry",				# "EnableTelemetry",
+	"DisableWiFiSense",				# "EnableWiFiSense",
+	"DisableSmartScreen",			# "EnableSmartScreen",
+	"DisableWebSearch",				# "EnableWebSearch",
+	"DisableStartSuggestions",		# "EnableStartSuggestions",
+	"DisableLocationTracking",		# "EnableLocationTracking",
+	"DisableFeedback",				# "EnableFeedback",
+	"DisableAdvertisingID",			# "EnableAdvertisingID",
+	"DisableCortana",				# "EnableCortana",
+	"DisableErrorReporting",		# "EnableErrorReporting",
+	"RestrictUpdateP2P",			# "UnrestrictUpdateP2P",
+	"DisableAutoLogger",			# "EnableAutoLogger",
+	"DisableDiagTrack",				# "EnableDiagTrack",
+	"DisableWAPPush",				# "EnableWAPPush",
 
-	# "LowerUAC",
-	# "EnableSharingMappedDrives",
-	"DisableAdminShares",
-	"DisableFirewall",
-	# "DisableDefender",
-	# "DisableUpdateMSRT",
-	# "DisableUpdateDriver",
-	"DisableUpdateRestart",
-	"DisableHomeGroups",
-	"DisableRemoteAssistance",
-	"EnableRemoteDesktop",
+	### Service Tweaks ###
+	# "LowerUAC",					# "RaiseUAC",
+	# "EnableSharingMappedDrives",	# "DisableSharingMappedDrives",
+	"DisableAdminShares",			# "EnableAdminShares",
+	"DisableFirewall",				# "EnableFirewall",
+	# "DisableDefender",			# "EnableDefender",
+	# "DisableUpdateMSRT",			# "EnableUpdateMSRT",
+	# "DisableUpdateDriver",		# "EnableUpdateDriver",
+	"DisableUpdateRestart",			# "EnableUpdateRestart",
+	"DisableHomeGroups",			# "EnableHomeGroups",
+	"DisableRemoteAssistance",		# "EnableRemoteAssistance",
+	"EnableRemoteDesktop",			# "DisableRemoteDesktop",
 
-	"DisableActionCenter",
-	"DisableLockScreen",
-	# "DisableLockScreenWorkaround",
-	"DisableAutoplay",
-	"DisableAutorun",
-	"DisableStickyKeys",
-	"HideTaskbarSearchBox",
-	"HideTaskView",
-	"ShowSmallTaskbarIcons",
-	"ShowTaskbarTitles",
-	"ShowTrayIcons",
-	"ShowKnownExtensions",
-	"ShowHiddenFiles",
-	"ExplorerThisPC",
-	"ShowThisPCOnDesktop",
-	"HideDesktopFromThisPC",
-	"HideDocumentsFromThisPC",
-	"HideDownloadsFromThisPC",
-	"HideMusicFromThisPC",
-	"HidePicturesFromThisPC",
-	"HideVideosFromThisPC",
-	# "AddENKeyboard",
-	# "EnableNumlock",
+	### UI Tweaks ###
+	"DisableActionCenter",			# "EnableActionCenter",
+	"DisableLockScreen",			# "EnableLockScreen",
+	# "DisableLockScreenRS1",		# "EnableLockScreenRS1",
+	"DisableAutoplay",				# "EnableAutoplay",
+	"DisableAutorun",				# "EnableAutorun",
+	"DisableStickyKeys",			# "EnableStickyKeys",
+	"HideTaskbarSearchBox",			# "ShowTaskbarSearchBox",
+	"HideTaskView",					# "ShowTaskView",
+	"ShowSmallTaskbarIcons",		# "ShowLargeTaskbarIcons",
+	"ShowTaskbarTitles",			# "HideTaskbarTitles",
+	"ShowTrayIcons",				# "HideTrayIcons",
+	"ShowKnownExtensions",			# "HideKnownExtensions",
+	"ShowHiddenFiles",				# "HideHiddenFiles",
+	"ExplorerThisPC",				# "ExplorerQuickAccess",
+	"ShowThisPCOnDesktop",			# "HideThisPCFromDesktop",
+	"HideDesktopFromThisPC",		# "ShowDesktopInThisPC",
+	"HideDocumentsFromThisPC",		# "ShowDocumentsInThisPC",
+	"HideDownloadsFromThisPC",		# "ShowDownloadsInThisPC",
+	"HideMusicFromThisPC",			# "ShowMusicInThisPC",
+	"HidePicturesFromThisPC",		# "ShowPicturesInThisPC",
+	"HideVideosFromThisPC",			# "ShowVideosInThisPC",
+	# "AddENKeyboard",				# "RemoveENKeyboard",
+	# "EnableNumlock",				# "DisableNumlock",
 
-	"DisableOneDrive",
-	"UninstallOneDrive",
-	"UninstallBloatware",
-	"DisableXboxDVR",
-	# "UninstallMediaPlayer",
-	# "UninstallWorkFolders",
-	# "InstallLinuxSubsystem",
-	"SetPhotoViewerAssociation",
-	"AddPhotoViewerOpenWith",
-	"EnableF8BootMenu",
+	### Application Tweaks ###
+	"DisableOneDrive",				# "EnableOneDrive",
+	"UninstallOneDrive",			# "InstallOneDrive",
+	"UninstallBloatware",			# "InstallBloatware",
+	"DisableXboxDVR",				# "EnableXboxDVR",
+	# "UninstallMediaPlayer",		# "InstallMediaPlayer",
+	# "UninstallWorkFolders",		# "InstallWorkFolders",
+	# "InstallLinuxSubsystem",		# "UninstallLinuxSubsystem",
+	"SetPhotoViewerAssociation",	# "UnsetPhotoViewerAssociation",
+	"AddPhotoViewerOpenWith",		# "RemovePhotoViewerOpenWith",
+	"EnableF8BootMenu",				# "DisableF8BootMenu",
 
+	### Auxiliary Functions ###
 	"WaitForKey",
 	"Restart"
 )
@@ -522,7 +527,7 @@ Function EnableLockScreen {
 }
 
 # Disable Lock screen (Anniversary Update workaround) - Applicable to RS1 or newer
-Function DisableLockScreenWorkaround {
+Function DisableLockScreenRS1 {
 	Write-Host "Disabling Lock screen using scheduler workaround..."
 	$service = New-Object -com Schedule.Service
 	$service.Connect()
@@ -538,7 +543,7 @@ Function DisableLockScreenWorkaround {
 }
 
 # Enable Lock screen (Anniversary Update workaround) - Applicable to RS1 or newer
-Function EnableLockScreenWorkaround {
+Function EnableLockScreenRS1 {
 	Write-Host "Enabling Lock screen (removing scheduler workaround)..."
 	Unregister-ScheduledTask -TaskName "Disable LockScreen" -Confirm:$false -ErrorAction SilentlyContinue
 }
@@ -564,7 +569,7 @@ Function DisableAutorun {
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
 }
 
-# Enable Autorun
+# Enable Autorun for removable drives
 Function EnableAutorun {
 	Write-Host "Enabling Autorun for all drives..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -ErrorAction SilentlyContinue
@@ -815,7 +820,7 @@ Function DisableNumlock {
 
 
 ##########
-# Remove unwanted applications
+# Application Tweaks
 ##########
 
 # Disable OneDrive
@@ -1078,7 +1083,7 @@ Function DisableF8BootMenu {
 
 
 ##########
-# Auxiliary
+# Auxiliary Functions
 ##########
 
 Function WaitForKey {
