@@ -32,14 +32,14 @@ $preset = @(
 	# "LowerUAC",                   # "RaiseUAC",
 	# "EnableSharingMappedDrives",  # "DisableSharingMappedDrives",
 	"DisableAdminShares",           # "EnableAdminShares",
-	"DisableFirewall",              # "EnableFirewall",
+	# "DisableFirewall",            # "EnableFirewall",
 	# "DisableDefender",            # "EnableDefender",
 	# "DisableUpdateMSRT",          # "EnableUpdateMSRT",
-	# "DisableUpdateDriver",        # "EnableUpdateDriver",
+	"DisableUpdateDriver",          # "EnableUpdateDriver",
 	"DisableUpdateRestart",         # "EnableUpdateRestart",
 	"DisableHomeGroups",            # "EnableHomeGroups",
 	"DisableRemoteAssistance",      # "EnableRemoteAssistance",
-	"EnableRemoteDesktop",          # "DisableRemoteDesktop",
+	# "EnableRemoteDesktop",        # "DisableRemoteDesktop",
 	"DisableAutoplay",              # "EnableAutoplay",
 	"DisableAutorun",               # "EnableAutorun",
 	# "DisableDefragmentation",     # "EnableDefragmentation",
@@ -48,23 +48,23 @@ $preset = @(
 	### UI Tweaks ###
 	"DisableActionCenter",          # "EnableActionCenter",
 	"DisableLockScreen",            # "EnableLockScreen",
-	# "DisableLockScreenRS1",       # "EnableLockScreenRS1",
+	"DisableLockScreenRS1",         # "EnableLockScreenRS1",
 	"DisableStickyKeys",            # "EnableStickyKeys",
 	"HideTaskbarSearchBox",         # "ShowTaskbarSearchBox",
 	"HideTaskView",                 # "ShowTaskView",
-	"ShowSmallTaskbarIcons",        # "ShowLargeTaskbarIcons",
-	"ShowTaskbarTitles",            # "HideTaskbarTitles",
+	# "ShowSmallTaskbarIcons",      # "ShowLargeTaskbarIcons",
+	# "ShowTaskbarTitles",          # "HideTaskbarTitles",
 	"ShowTrayIcons",                # "HideTrayIcons",
 	"ShowKnownExtensions",          # "HideKnownExtensions",
 	"ShowHiddenFiles",              # "HideHiddenFiles",
 	"ExplorerThisPC",               # "ExplorerQuickAccess",
-	"ShowThisPCOnDesktop",          # "HideThisPCFromDesktop",
+	# "ShowThisPCOnDesktop",        # "HideThisPCFromDesktop",
 	"HideDesktopFromThisPC",        # "ShowDesktopInThisPC",
 	"HideDocumentsFromThisPC",      # "ShowDocumentsInThisPC",
 	"HideDownloadsFromThisPC",      # "ShowDownloadsInThisPC",
-	"HideMusicFromThisPC",          # "ShowMusicInThisPC",
-	"HidePicturesFromThisPC",       # "ShowPicturesInThisPC",
-	"HideVideosFromThisPC",         # "ShowVideosInThisPC",
+	# "HideMusicFromThisPC",        # "ShowMusicInThisPC",
+	# "HidePicturesFromThisPC",     # "ShowPicturesInThisPC",
+	# "HideVideosFromThisPC",       # "ShowVideosInThisPC",
 	# "AddENKeyboard",              # "RemoveENKeyboard",
 	# "EnableNumlock",              # "DisableNumlock",
 
@@ -74,11 +74,11 @@ $preset = @(
 	"UninstallBloatware",           # "InstallBloatware",
 	"DisableConsumerApps",          # "EnableConsumerApps",
 	"DisableXboxDVR",               # "EnableXboxDVR",
-	# "UninstallMediaPlayer",       # "InstallMediaPlayer",
-	# "UninstallWorkFolders",       # "InstallWorkFolders",
+	"UninstallMediaPlayer",         # "InstallMediaPlayer",
+	"UninstallWorkFolders",         # "InstallWorkFolders",
 	# "InstallLinuxSubsystem",      # "UninstallLinuxSubsystem",
-	"SetPhotoViewerAssociation",    # "UnsetPhotoViewerAssociation",
-	"AddPhotoViewerOpenWith",       # "RemovePhotoViewerOpenWith",
+	# "SetPhotoViewerAssociation",  # "UnsetPhotoViewerAssociation",
+	# "AddPhotoViewerOpenWith",     # "RemovePhotoViewerOpenWith",
 	"DisableSearchAppInStore",      # "EnableSearchAppInStore",
 	"DisableNewAppPrompt",          # "EnableNewAppPrompt",
 	"EnableF8BootMenu",             # "DisableF8BootMenu",
@@ -946,7 +946,7 @@ Function UninstallBloatware {
 	Get-AppxPackage "king.com.CandyCrushSodaSaga" | Remove-AppxPackage
 	Get-AppxPackage "4DF9E0F8.Netflix" | Remove-AppxPackage
 	Get-AppxPackage "Drawboard.DrawboardPDF" | Remove-AppxPackage
-	Get-AppxPackage "Microsoft.MicrosoftStickyNotes" | Remove-AppxPackage
+	# Get-AppxPackage "Microsoft.MicrosoftStickyNotes" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.OneConnect" | Remove-AppxPackage
 	Get-AppxPackage "D52A8D61.FarmVille2CountryEscape" | Remove-AppxPackage
 	Get-AppxPackage "GAMELOFTSA.Asphalt8Airborne" | Remove-AppxPackage
