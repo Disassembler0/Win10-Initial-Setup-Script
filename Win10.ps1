@@ -60,7 +60,7 @@ $preset = @(
 	"ExplorerThisPC",               # "ExplorerQuickAccess",
 	# "ShowThisPCOnDesktop",        # "HideThisPCFromDesktop",
 	# "HideDesktopFromThisPC",      # "ShowDesktopInThisPC",
-	# "HideDocumentsFromThisPC",    # "ShowDocumentsInThisPC",
+	"HideDocumentsFromThisPC",      # "ShowDocumentsInThisPC",
 	# "HideDownloadsFromThisPC",    # "ShowDownloadsInThisPC",
 	"HideMusicFromThisPC",          # "ShowMusicInThisPC",
 	"HidePicturesFromThisPC",       # "ShowPicturesInThisPC",
@@ -82,6 +82,9 @@ $preset = @(
 	"DisableSearchAppInStore",      # "EnableSearchAppInStore",
 	"DisableNewAppPrompt",          # "EnableNewAppPrompt",
 	"EnableF8BootMenu",             # "DisableF8BootMenu",
+	
+	Write-Host "Custom Commands"
+	Get-AppxPackage *windowsstore* | Remove-AppxPackage
 
 	### Auxiliary Functions ###
 	"WaitForKey",
