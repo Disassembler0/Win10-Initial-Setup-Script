@@ -82,9 +82,6 @@ $preset = @(
 	"DisableSearchAppInStore",      # "EnableSearchAppInStore",
 	"DisableNewAppPrompt",          # "EnableNewAppPrompt",
 	"EnableF8BootMenu",             # "DisableF8BootMenu",
-	
-	Write-Host "Custom Commands"
-	Get-AppxPackage *windowsstore* | Remove-AppxPackage
 
 	### Auxiliary Functions ###
 	"WaitForKey",
@@ -954,6 +951,7 @@ Function UninstallBloatware {
 	Get-AppxPackage "D52A8D61.FarmVille2CountryEscape" | Remove-AppxPackage
 	Get-AppxPackage "GAMELOFTSA.Asphalt8Airborne" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.WindowsFeedbackHub" | Remove-AppxPackage
+	Get-AppxPackage "Microsoft.WindowsStore" | Remove-AppxPackage
 }
 
 # Install default Microsoft applications
