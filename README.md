@@ -5,7 +5,7 @@ This is a PowerShell script for automation of routine tasks done after fresh ins
 This repository has been originaly created as complementary to article https://www.dasm.cz/clanek/jak-z-windows-10-udelat-desktopovy-system (written in czech) which explains the respective snippets a bit more in detail. The article was last updated on 2016-08-15 and will not be updated further. All development and discussion has been moved here.
 
 ## Usage
-If you just want to run the script with default preset, simply right click on the *Win10.ps1* file, choose *Run with PowerShell*, and confirm execution policy change. Make sure your account is a member of Administrators group as the script attempts to run with elevated privileges.
+If you just want to run the script with default preset, simply right click on the *Win10.ps1* file, choose *Run with PowerShell*, and confirm execution policy change. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
 
 ### Advanced usage
 The script supports customized presets where you can specify which tweaks should be applied. You can either pass the function names directly as parameters.  
@@ -21,6 +21,9 @@ Or you can create a file where you write the function names (one function per li
 
 **Q:** Can I run the script repeatedly?  
 **A:** Yes! In fact the script has been written to support exactly this as it's not uncommon that big Windows Updates reset some of the settings.
+
+**Q:** Can I run the script in multi-user environment?  
+**A:** Yes, to certain extent. Some tweaks (most notably UI tweaks) are set only for the user currently executing the script. As stated above, the script can be run repeatedly; therefore it's possible to run it multiple times, each time as different user. Due to the nature of authentication and privilege escalation mechanisms in Windows, the script can be successfully applied only for users belonging to *Administrators* group. Standard users will get an UAC prompt asking for admin credentials which then causes the tweaks to be applied to the given admin account instead of the original non-privileged one. To circumvent this, add the standard user to the *Administrators* group, run the script, and then remove the user from *Administrators* group again. There are a few ways how the same functionality can be achieved programmatically, but I'm not planning to include any of them as it would negatively impact code complexity and readability.
 
 **Q:** Did you test the script?  
 **A:** Yes. I'm testing new additions on up-to-date Home and Enterprise editions in VMs. I'm also regularly using it for all my home installations after all bigger updates.
