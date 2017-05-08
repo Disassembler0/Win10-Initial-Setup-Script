@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 2.2, 2017-04-08
+# Version: 2.3, 2017-05-08
 ##########
 
 # Ask for elevated permissions if required
@@ -32,6 +32,8 @@ $preset = @(
 	# "LowerUAC",                   # "RaiseUAC",
 	# "EnableSharingMappedDrives",  # "DisableSharingMappedDrives",
 	"DisableAdminShares",           # "EnableAdminShares",
+	"SetCurrentNetworkPrivate",     # "SetCurrentNetworkPublic",
+	# "SetUnknownNetworksPrivate",  # "SetUnknownNetworksPublic",
 	# "DisableFirewall",            # "EnableFirewall",
 	# "DisableDefender",            # "EnableDefender",
 	# "DisableUpdateMSRT",          # "EnableUpdateMSRT",
@@ -50,6 +52,7 @@ $preset = @(
 	"DisableLockScreen",            # "EnableLockScreen",
 	# "DisableLockScreenRS1",       # "EnableLockScreenRS1",
 	"DisableStickyKeys",            # "EnableStickyKeys",
+	"ShowTaskManagerDetails"        # "HideTaskManagerDetails",
 	"ShowFileOperationsDetails",    # "HideFileOperationsDetails",
 	"HideTaskbarSearchBox",         # "ShowTaskbarSearchBox",
 	"HideTaskView",                 # "ShowTaskView",
@@ -85,6 +88,7 @@ $preset = @(
 	"DisableSearchAppInStore",      # "EnableSearchAppInStore",
 	"DisableNewAppPrompt",          # "EnableNewAppPrompt",
 	"EnableF8BootMenu",             # "DisableF8BootMenu",
+	# "SetDEPOptOut",               # "SetDEPOptIn",
 
 	### Auxiliary Functions ###
 	"WaitForKey",
@@ -387,16 +391,46 @@ Function EnableAdminShares {
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "AutoShareWks" -ErrorAction SilentlyContinue
 }
 
+# Set current network profile to private (allow file sharing, device discovery, etc.)
+Function SetCurrentNetworkPrivate {
+	Write-Host "Setting current network profile to private..."
+	Set-NetConnectionProfile -NetworkCategory Private
+}
+
+# Set current network profile to public (deny file sharing, device discovery, etc.)
+Function SetCurrentNetworkPublic {
+	Write-Host "Setting current network profile to public..."
+	Set-NetConnectionProfile -NetworkCategory Public
+}
+
+# Set unknown networks profile to private (allow file sharing, device discovery, etc.)
+Function SetUnknownNetworksPrivate {
+	Write-Host "Setting unknown networks profile to private..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\010103000F0000F0010000000F0000F0C967A3643C3AD745950DA7859209176EF5B87C875FA20DF21951640E807D7C24")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\010103000F0000F0010000000F0000F0C967A3643C3AD745950DA7859209176EF5B87C875FA20DF21951640E807D7C24" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\010103000F0000F0010000000F0000F0C967A3643C3AD745950DA7859209176EF5B87C875FA20DF21951640E807D7C24" -Name "Category" -Type DWord -Value 1
+}
+
+# Set unknown networks profile to public (deny file sharing, device discovery, etc.)
+Function SetUnknownNetworksPublic {
+	Write-Host "Setting unknown networks profile to public..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\010103000F0000F0010000000F0000F0C967A3643C3AD745950DA7859209176EF5B87C875FA20DF21951640E807D7C24" -Name "Category" -ErrorAction SilentlyContinue
+}
+
 # Disable Firewall
 Function DisableFirewall {
 	Write-Host "Disabling Firewall..."
-	Set-NetFirewallProfile -Profile * -Enabled False
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" -Name "EnableFirewall" -Type DWord -Value 0
 }
 
 # Enable Firewall
 Function EnableFirewall {
 	Write-Host "Enabling Firewall..."
-	Set-NetFirewallProfile -Profile * -Enabled True
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" -Name "EnableFirewall" -ErrorAction SilentlyContinue
 }
 
 # Disable Windows Defender
@@ -626,6 +660,35 @@ Function DisableStickyKeys {
 Function EnableStickyKeys {
 	Write-Host "Enabling Sticky keys prompt..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "510"
+}
+
+# Show Task Manager details
+Function ShowTaskManagerDetails {
+	Write-Host "Showing task manager details..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Force | Out-Null
+	}
+	$preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
+	If (!($preferences)) {
+		$taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
+		While (!($preferences)) {
+			Start-Sleep -m 250
+			$preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
+		}
+		Stop-Process $taskmgr
+	}
+	$preferences.Preferences[28] = 0
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
+}
+
+# Hide Task Manager details
+Function HideTaskManagerDetails {
+	Write-Host "Hiding task manager details..."
+	$preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
+	If ($preferences) {
+		$preferences.Preferences[28] = 1
+		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
+	}
 }
 
 # Show file operations details
@@ -932,9 +995,7 @@ Function UninstallOneDrive {
 	Remove-Item "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	Remove-Item "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	Remove-Item "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
-	If (Test-Path "$env:SYSTEMDRIVE\OneDriveTemp") {
-		Remove-Item "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
-	}
+	Remove-Item "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
 	If (!(Test-Path "HKCR:")) {
 		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 	}
@@ -1247,6 +1308,18 @@ Function EnableF8BootMenu {
 Function DisableF8BootMenu {
 	Write-Host "Disabling F8 boot menu options..."
 	bcdedit /set `{current`} bootmenupolicy Standard | Out-Null
+}
+
+# Set Data Execution Prevention (DEP) policy to OptOut
+Function SetDEPOptOut {
+	Write-Host "Setting Data Execution Prevention (DEP) policy to OptOut..."
+	bcdedit /set `{current`} nx OptOut | Out-Null
+}
+
+# Set Data Execution Prevention (DEP) policy to OptIn
+Function SetDEPOptIn {
+	Write-Host "Setting Data Execution Prevention (DEP) policy to OptIn..."
+	bcdedit /set `{current`} nx OptIn | Out-Null
 }
 
 
