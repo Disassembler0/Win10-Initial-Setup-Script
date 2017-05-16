@@ -754,6 +754,18 @@ Function HideTaskbarTitles {
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarGlomLevel" -ErrorAction SilentlyContinue
 }
 
+# Hide Taskbar People icon
+Function HideTaskbarPeopleIcon {
+	Write-Host "Hiding People icon..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
+}
+
+# Show Taskbar People icon
+Function ShowTaskbarPeopleIcon {
+	Write-Host "Showing People icon..."
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -ErrorAction SilentlyContinue
+}
+
 # Show all tray icons
 Function ShowTrayIcons {
 	Write-Host "Showing all tray icons..."
