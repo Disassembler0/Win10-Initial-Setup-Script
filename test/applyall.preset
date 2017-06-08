@@ -1,0 +1,79 @@
+
+	# Apply all
+
+	DisableTelemetry
+	DisableWiFiSense
+	DisableSmartScreen
+	DisableWebSearch
+	DisableStartSuggestions
+	DisableLocationTracking
+	DisableFeedback
+	DisableAdvertisingID
+	DisableCortana
+	DisableErrorReporting
+	RestrictUpdateP2P
+	DisableAutoLogger
+	DisableDiagTrack
+	DisableWAPPush
+	
+	LowerUAC
+	EnableSharingMappedDrives
+	DisableAdminShares
+	SetCurrentNetworkPrivate
+	SetUnknownNetworksPrivate
+	DisableFirewall
+	DisableDefender
+	DisableUpdateMSRT
+	DisableUpdateDriver
+	DisableUpdateRestart
+	DisableHomeGroups
+	DisableRemoteAssistance
+	EnableRemoteDesktop
+	DisableAutoplay
+	DisableAutorun
+	DisableDefragmentation
+	SetBIOSTimeUTC
+
+	DisableActionCenter
+	DisableLockScreen
+	DisableLockScreenRS1
+	DisableStickyKeys
+	ShowTaskManagerDetails
+	ShowFileOperationsDetails
+	HideTaskbarSearchBox
+	HideTaskView
+	ShowSmallTaskbarIcons
+	ShowTaskbarTitles
+	ShowTrayIcons
+	ShowKnownExtensions
+	ShowHiddenFiles
+	HideSyncNotifications
+	ExplorerThisPC
+	ShowThisPCOnDesktop
+	HideDesktopFromThisPC
+	HideDocumentsFromThisPC
+	HideDownloadsFromThisPC
+	HideMusicFromThisPC
+	HidePicturesFromThisPC
+	HideVideosFromThisPC
+	AddENKeyboard
+	EnableNumlock
+
+	DisableOneDrive
+	UninstallOneDrive
+	UninstallBloatware
+	UninstallWindowsStore
+	DisableConsumerApps
+	DisableXboxFeatures
+	UninstallMediaPlayer
+	UninstallWorkFolders
+	InstallLinuxSubsystem
+	SetPhotoViewerAssociation
+	AddPhotoViewerOpenWith
+	DisableSearchAppInStore
+	DisableNewAppPrompt
+	EnableF8BootMenu
+	SetDEPOptOut
+
+	WaitForKey
+	Restart

@@ -1,0 +1,79 @@
+
+	# Restore all
+
+	EnableTelemetry
+	EnableWiFiSense
+	EnableSmartScreen
+	EnableWebSearch
+	EnableStartSuggestions
+	EnableLocationTracking
+	EnableFeedback
+	EnableAdvertisingID
+	EnableCortana
+	EnableErrorReporting
+	UnrestrictUpdateP2P
+	EnableAutoLogger
+	EnableDiagTrack
+	EnableWAPPush
+	
+	RaiseUAC
+	DisableSharingMappedDrives
+	EnableAdminShares
+	SetCurrentNetworkPublic
+	SetUnknownNetworksPublic
+	EnableFirewall
+	EnableDefender
+	EnableUpdateMSRT
+	EnableUpdateDriver
+	EnableUpdateRestart
+	EnableHomeGroups
+	EnableRemoteAssistance
+	DisableRemoteDesktop
+	EnableAutoplay
+	EnableAutorun
+	EnableDefragmentation
+	SetBIOSTimeLocal
+
+	EnableActionCenter
+	EnableLockScreen
+	EnableLockScreenRS1
+	EnableStickyKeys
+	HideTaskManagerDetails
+	HideFileOperationsDetails
+	ShowTaskbarSearchBox
+	ShowTaskView
+	ShowLargeTaskbarIcons
+	HideTaskbarTitles
+	HideTrayIcons
+	HideKnownExtensions
+	HideHiddenFiles
+	ShowSyncNotifications
+	ExplorerQuickAccess
+	HideThisPCFromDesktop
+	ShowDesktopInThisPC
+	ShowDocumentsInThisPC
+	ShowDownloadsInThisPC
+	ShowMusicInThisPC
+	ShowPicturesInThisPC
+	ShowVideosInThisPC
+	RemoveENKeyboard
+	DisableNumlock
+
+	EnableOneDrive
+	InstallOneDrive
+	InstallBloatware
+	InstallWindowsStore
+	EnableConsumerApps
+	EnableXboxFeatures
+	InstallMediaPlayer
+	InstallWorkFolders
+	UninstallLinuxSubsystem
+	UnsetPhotoViewerAssociation
+	RemovePhotoViewerOpenWith
+	EnableSearchAppInStore
+	EnableNewAppPrompt
+	DisableF8BootMenu
+	SetDEPOptIn
+
+	WaitForKey
+	Restart
