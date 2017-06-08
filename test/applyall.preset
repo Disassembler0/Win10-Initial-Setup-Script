@@ -44,10 +44,12 @@
 	HideTaskView
 	ShowSmallTaskbarIcons
 	ShowTaskbarTitles
+	HideTaskbarPeopleIcon
 	ShowTrayIcons
 	ShowKnownExtensions
 	ShowHiddenFiles
 	HideSyncNotifications
+	HideRecentShortcuts
 	ExplorerThisPC
 	ShowThisPCOnDesktop
 	HideDesktopFromThisPC
@@ -67,6 +69,7 @@
 	DisableXboxFeatures
 	UninstallMediaPlayer
 	UninstallWorkFolders
+	InstallHyperV
 	InstallLinuxSubsystem
 	SetPhotoViewerAssociation
 	AddPhotoViewerOpenWith

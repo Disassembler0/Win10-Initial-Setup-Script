@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 2.3, 2017-05-08
+# Version: 2.4, 2017-06-08
 ##########
 
 # Ask for elevated permissions if required
@@ -58,10 +58,12 @@ $preset = @(
 	"HideTaskView",                 # "ShowTaskView",
 	"ShowSmallTaskbarIcons",        # "ShowLargeTaskbarIcons",
 	"ShowTaskbarTitles",            # "HideTaskbarTitles",
+	"HideTaskbarPeopleIcon",        # "ShowTaskbarPeopleIcon",
 	"ShowTrayIcons",                # "HideTrayIcons",
 	"ShowKnownExtensions",          # "HideKnownExtensions",
 	"ShowHiddenFiles",              # "HideHiddenFiles",
-	"HideSyncNotifications"         # "ShowSyncNotifications"
+	"HideSyncNotifications"         # "ShowSyncNotifications",
+	"HideRecentShortcuts",          # "ShowRecentShortcuts",
 	"ExplorerThisPC",               # "ExplorerQuickAccess",
 	"ShowThisPCOnDesktop",          # "HideThisPCFromDesktop",
 	"HideDesktopFromThisPC",        # "ShowDesktopInThisPC",
@@ -82,6 +84,7 @@ $preset = @(
 	"DisableXboxFeatures",          # "EnableXboxFeatures",
 	# "UninstallMediaPlayer",       # "InstallMediaPlayer",
 	# "UninstallWorkFolders",       # "InstallWorkFolders",
+	# "InstallHyperV",              # "UninstallHyperV",
 	# "InstallLinuxSubsystem",      # "UninstallLinuxSubsystem",
 	"SetPhotoViewerAssociation",    # "UnsetPhotoViewerAssociation",
 	"AddPhotoViewerOpenWith",       # "RemovePhotoViewerOpenWith",
@@ -757,6 +760,9 @@ Function HideTaskbarTitles {
 # Hide Taskbar People icon
 Function HideTaskbarPeopleIcon {
 	Write-Host "Hiding People icon..."
+	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People")) {
+		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" | Out-Null
+	}
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
 }
 
@@ -812,6 +818,20 @@ Function HideSyncNotifications {
 Function ShowSyncNotifications {
 	Write-Host "Showing sync provider notifications..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value 1
+}
+
+# Hide recently and frequently used item shortcuts in Explorer
+Function HideRecentShortcuts {
+	Write-Host "Hiding recent shortcuts..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowRecent" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowFrequent" -Type DWord -Value 0
+}
+
+# Show recently and frequently used item shortcuts in Explorer
+Function ShowRecentShortcuts {
+	Write-Host "Showing recent shortcuts..."
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowRecent" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowFrequent" -ErrorAction SilentlyContinue
 }
 
 # Change default Explorer view to This PC
@@ -1192,25 +1212,37 @@ Function EnableXboxFeatures {
 # Uninstall Windows Media Player
 Function UninstallMediaPlayer {
 	Write-Host "Uninstalling Windows Media Player..."
-	dism /online /Disable-Feature /FeatureName:MediaPlayback /Quiet /NoRestart
+	Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Install Windows Media Player
 Function InstallMediaPlayer {
 	Write-Host "Installing Windows Media Player..."
-	dism /online /Enable-Feature /FeatureName:MediaPlayback /Quiet /NoRestart
+	Enable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Uninstall Work Folders Client
 Function UninstallWorkFolders {
 	Write-Host "Uninstalling Work Folders Client..."
-	dism /online /Disable-Feature /FeatureName:WorkFolders-Client /Quiet /NoRestart
+	Disable-WindowsOptionalFeature -Online -FeatureName "WorkFolders-Client" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Install Work Folders Client
 Function InstallWorkFolders {
 	Write-Host "Installing Work Folders Client..."
-	dism /online /Enable-Feature /FeatureName:WorkFolders-Client /Quiet /NoRestart
+	Enable-WindowsOptionalFeature -Online -FeatureName "WorkFolders-Client" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Install Hyper-V - Applicable to Pro, Ent, Edu editions
+Function InstallHyperV {
+	Write-Host "Installing Hyper-V..."
+	Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V" -All -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Uninstall Hyper-V
+Function UninstallHyperV {
+	Write-Host "Uninstalling Hyper-V..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Hyper-V-All" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Install Linux Subsystem - Applicable to RS1 or newer
@@ -1218,7 +1250,7 @@ Function InstallLinuxSubsystem {
 	Write-Host "Installing Linux Subsystem..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Type DWord -Value 1
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
-	dism /online /Enable-Feature /FeatureName:Microsoft-Windows-Subsystem-Linux /Quiet /NoRestart
+	Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Uninstall Linux Subsystem - Applicable to RS1 or newer
@@ -1226,7 +1258,7 @@ Function UninstallLinuxSubsystem {
 	Write-Host "Uninstalling Linux Subsystem..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Type DWord -Value 0
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 0
-	dism /online /Disable-Feature /FeatureName:Microsoft-Windows-Subsystem-Linux /Quiet /NoRestart
+	Disable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Set Photo Viewer association for bmp, gif, jpg, png and tif
