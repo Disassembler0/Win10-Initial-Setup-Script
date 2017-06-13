@@ -5,14 +5,8 @@
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
-# Ask for elevated permissions if required
-If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
-	Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" $args" -Verb RunAs
-	Exit
-}
-
 # Default preset
-$preset = @(
+$tweaks = @(
 	### Privacy Settings ###
 	"DisableTelemetry",             # "EnableTelemetry",
 	"DisableWiFiSense",             # "EnableWiFiSense",
@@ -98,14 +92,6 @@ $preset = @(
 	"WaitForKey",
 	"Restart"
 )
-
-# Load preset from arguments or a file
-If ($args.length -gt 0) {
-	$preset = $args
-	If ($args[0] -eq "-preset") {
-		$preset = Get-Content $args[1] -ErrorAction Stop
-	}
-}
 
 
 
@@ -1385,11 +1371,24 @@ Function Restart {
 }
 
 
-# Call the functions defined by preset
-ForEach ($line in $preset) {
-	$line = $line.Trim()
-	If ($line -eq "" -Or $line[0] -eq "#") {
-		continue
-	}
-	Invoke-Expression $line
+
+##########
+# Parse parameters and apply tweaks
+##########
+
+# Ask for elevated privileges if required
+If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
+	Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" $args" -WorkingDirectory $pwd -Verb RunAs
+	Exit
 }
+
+# Load function names from command line arguments or a preset file
+If ($args) {
+	$tweaks = $args
+	If ($args[0].ToLower() -eq "-preset") {
+		$tweaks = Get-Content $args[1] -ErrorAction Stop | ForEach { $_.Trim() } | Where { $_ -ne "" -and $_[0] -ne "#" }
+	}
+}
+
+# Call the desired tweak functions
+$tweaks | ForEach { Invoke-Expression $_ }
