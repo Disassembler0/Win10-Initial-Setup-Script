@@ -1,7 +1,8 @@
 ##########
 # Win10 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 2.4, 2017-06-08
+# Version: development, do not use
+# Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
 # Ask for elevated permissions if required
