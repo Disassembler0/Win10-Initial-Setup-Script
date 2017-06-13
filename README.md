@@ -14,7 +14,7 @@ To supply a customized preset, you can either pass the function names directly a
 
     powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 EnableFirewall EnableDefender
 
-Or you can create a file where you write the function names (one function name per line, no commas, whitespaces allowed, comments on separate lines starting with `#`) and then pass the filename using *-preset* parameter. Don't forget that the script will try to run with elevated privileges and will use different working directory, therefore use of absolute paths is recommended.  
+Or you can create a file where you write the function names (one function name per line, no commas, whitespaces allowed, comments on separate lines starting with `#`) and then pass the filename using *-preset* parameter.  
 Example of a preset file `mypreset.txt`:
 
     # Security tweaks
@@ -27,7 +27,7 @@ Example of a preset file `mypreset.txt`:
 
 Command using the preset file above:
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 -preset D:\Install\mypreset.txt
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 -preset mypreset.txt
 
 ## FAQ
 
@@ -39,6 +39,12 @@ Command using the preset file above:
 
 **Q:** Can I run the script in multi-user environment?  
 **A:** Yes, to certain extent. Some tweaks (most notably UI tweaks) are set only for the user currently executing the script. As stated above, the script can be run repeatedly; therefore it's possible to run it multiple times, each time as different user. Due to the nature of authentication and privilege escalation mechanisms in Windows, the script can be successfully applied only for users belonging to *Administrators* group. Standard users will get an UAC prompt asking for admin credentials which then causes the tweaks to be applied to the given admin account instead of the original non-privileged one. To circumvent this, add the standard user to the *Administrators* group, run the script, and then remove the user from *Administrators* group again. There are a few ways how the same functionality can be achieved programmatically, but I'm not planning to include any of them as it would negatively impact code complexity and readability.
+
+**Q:** Can I run the script on Windows Server 2016?  
+**A:** Yes. Starting from version 2.5, Windows Server 2016 is supported. There are even few tweaks specific to Server environment. Keep in mind though, that the script is still primarily designed for Windows 10, so you have to create your own preset for Windows Server 2016.
+
+**Q:** Can I run the script on Windows 7, 8, 8.1 or other versions of Windows?  
+**A:** No. Although some tweaks may work also on older versions of Windows, the script is developed only for Windows 10 and Windows Server 2016. There are no plans to add support for older versions.
 
 **Q:** Did you test the script?  
 **A:** Yes. I'm testing new additions on up-to-date Home and Enterprise editions in VMs. I'm also regularly using it for all my home installations after all bigger updates.
