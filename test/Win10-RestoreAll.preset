@@ -1,5 +1,7 @@
 # Windows 10 - Restore all
 
+RequireAdmin
+
 EnableTelemetry
 EnableWiFiSense
 EnableSmartScreen

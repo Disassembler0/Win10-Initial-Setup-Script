@@ -7,6 +7,9 @@
 
 # Default preset
 $tweaks = @(
+	### Require administrator privileges ###
+	"RequireAdmin",
+
 	### Privacy Settings ###
 	"DisableTelemetry",             # "EnableTelemetry",
 	"DisableWiFiSense",             # "EnableWiFiSense",
@@ -1478,12 +1481,22 @@ Function EnableIEEnhancedSecurity {
 # Auxiliary Functions
 ##########
 
+# Relaunch the script with administrator privileges
+Function RequireAdmin {
+	If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
+		Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" $args" -WorkingDirectory $pwd -Verb RunAs
+		Exit
+	}
+}
+
+# Wait for key press
 Function WaitForKey {
 	Write-Host
 	Write-Host "Press any key to continue..." -ForegroundColor Black -BackgroundColor White
 	[Console]::ReadKey($true) | Out-Null
 }
 
+# Restart computer
 Function Restart {
 	Write-Host "Restarting..."
 	Restart-Computer
@@ -1494,12 +1507,6 @@ Function Restart {
 ##########
 # Parse parameters and apply tweaks
 ##########
-
-# Ask for elevated privileges if required
-If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
-	Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" $args" -WorkingDirectory $pwd -Verb RunAs
-	Exit
-}
 
 # Load function names from command line arguments or a preset file
 If ($args) {
