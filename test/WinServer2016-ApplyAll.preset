@@ -63,7 +63,8 @@ EnableNumlock
 
 DisableOneDrive
 # UninstallOneDrive
-UninstallBloatware
+UninstallMsftBloat
+UninstallThirdPartyBloat
 UninstallWindowsStore
 DisableConsumerApps
 DisableXboxFeatures
