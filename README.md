@@ -1,6 +1,6 @@
 ## Description
 
-This is a PowerShell script for automation of routine tasks done after fresh installations of Windows 10. This is by no means any complete set of all existing Windows tweaks and neither is it another "antispying" type of script. It's simply a setting which I like to use and which in my opinion make the system less obtrusive.
+This is a PowerShell script for automation of routine tasks done after fresh installations of Windows 10 and Windows Server 2016. This is by no means any complete set of all existing Windows tweaks and neither is it another "antispying" type of script. It's simply a setting which I like to use and which in my opinion make the system less obtrusive.
 
 This repository has been originally created as complementary to article https://www.dasm.cz/clanek/jak-z-windows-10-udelat-desktopovy-system (written in Czech) which explains the respective snippets a bit more in detail. The article was last updated on 2016-08-15 and will not be updated further. All development and discussion has been moved here.
 
@@ -8,7 +8,7 @@ This repository has been originally created as complementary to article https://
 If you just want to run the script with default preset, simply right click on the *Win10.ps1* file, choose *Run with PowerShell*, and confirm execution policy change. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
 
 ### Advanced usage
-The script consists of separate functions, each of which contains one tweak. The functions can be grouped to *presets*. Preset is simply a list of function names which should be called. If you don't supply any specific preset, the default preset defined by `$preset` array in the beginning of the script will be applied. Any function which is not present or is commented in a preset will not be called, thus the corresponding tweak will not be applied. If you choose to fork the script and adjust the defaults instead of creating a customized preset file, then all you have to modify is the `$preset` array.
+The script consists of separate functions, each of which contains one tweak. The functions can be grouped to *presets*. Preset is simply a list of function names which should be called. If you don't supply any specific preset, the default preset defined by `$tweaks` array in the beginning of the script will be applied. Any function which is not present or is commented in a preset will not be called, thus the corresponding tweak will not be applied. If you choose to fork the script and adjust the defaults instead of creating a customized preset file, then all you have to modify is the `$tweaks` array.
 
 To supply a customized preset, you can either pass the function names directly as parameters.
 

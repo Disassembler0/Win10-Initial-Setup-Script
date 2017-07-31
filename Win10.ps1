@@ -1,7 +1,7 @@
 ##########
 # Win10 / WinServer2016 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 2.5, 2017-06-13
+# Version: 2.6, 2017-07-31
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -41,6 +41,8 @@ $tweaks = @(
 	"DisableAutoplay",              # "EnableAutoplay",
 	"DisableAutorun",               # "EnableAutorun",
 	# "DisableDefragmentation",     # "EnableDefragmentation",
+	# "DisableSuperfetch",          # "EnableSuperfetch",
+	# "DisableIndexing",            # "EnableIndexing",
 	# "SetBIOSTimeUTC",             # "SetBIOSTimeLocal",
 
 	### UI Tweaks ###
@@ -74,8 +76,8 @@ $tweaks = @(
 	### Application Tweaks ###
 	"DisableOneDrive",              # "EnableOneDrive",
 	"UninstallOneDrive",            # "InstallOneDrive",
-	"UninstallThirdPartyBloat",     # "InstallThirdPartyBloat",
 	"UninstallMsftBloat",           # "InstallMsftBloat",
+	"UninstallThirdPartyBloat",     # "InstallThirdPartyBloat",
 	# "UninstallWindowsStore",      # "InstallWindowsStore",
 	"DisableConsumerApps",          # "EnableConsumerApps",
 	"DisableXboxFeatures",          # "EnableXboxFeatures",
@@ -323,7 +325,7 @@ Function EnableAutoLogger {
 # Stop and disable Diagnostics Tracking Service
 Function DisableDiagTrack {
 	Write-Host "Stopping and disabling Diagnostics Tracking Service..."
-	Stop-Service "DiagTrack"
+	Stop-Service "DiagTrack" -WarningAction SilentlyContinue
 	Set-Service "DiagTrack" -StartupType Disabled
 }
 
@@ -331,13 +333,13 @@ Function DisableDiagTrack {
 Function EnableDiagTrack {
 	Write-Host "Enabling and starting Diagnostics Tracking Service..."
 	Set-Service "DiagTrack" -StartupType Automatic
-	Start-Service "DiagTrack"
+	Start-Service "DiagTrack" -WarningAction SilentlyContinue
 }
 
 # Stop and disable WAP Push Service
 Function DisableWAPPush {
 	Write-Host "Stopping and disabling WAP Push Service..."
-	Stop-Service "dmwappushservice"
+	Stop-Service "dmwappushservice" -WarningAction SilentlyContinue
 	Set-Service "dmwappushservice" -StartupType Disabled
 }
 
@@ -345,7 +347,7 @@ Function DisableWAPPush {
 Function EnableWAPPush {
 	Write-Host "Enabling and starting WAP Push Service..."
 	Set-Service "dmwappushservice" -StartupType Automatic
-	Start-Service "dmwappushservice"
+	Start-Service "dmwappushservice" -WarningAction SilentlyContinue
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\dmwappushservice" -Name "DelayedAutoStart" -Type DWord -Value 1
 }
 
@@ -516,9 +518,9 @@ Function EnableUpdateRestart {
 # Stop and disable Home Groups services - Not applicable to Server
 Function DisableHomeGroups {
 	Write-Host "Stopping and disabling Home Groups services..."
-	Stop-Service "HomeGroupListener"
+	Stop-Service "HomeGroupListener" -WarningAction SilentlyContinue
 	Set-Service "HomeGroupListener" -StartupType Disabled
-	Stop-Service "HomeGroupProvider"
+	Stop-Service "HomeGroupProvider" -WarningAction SilentlyContinue
 	Set-Service "HomeGroupProvider" -StartupType Disabled
 }
 
@@ -527,7 +529,7 @@ Function EnableHomeGroups {
 	Write-Host "Starting and enabling Home Groups services..."
 	Set-Service "HomeGroupListener" -StartupType Manual
 	Set-Service "HomeGroupProvider" -StartupType Manual
-	Start-Service "HomeGroupProvider"
+	Start-Service "HomeGroupProvider" -WarningAction SilentlyContinue
 }
 
 # Disable Remote Assistance - Not applicable to Server (unless Remote Assistance is explicitly installed)
@@ -583,16 +585,45 @@ Function EnableAutorun {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -ErrorAction SilentlyContinue
 }
 
-# Disable scheduled defragmentation
+# Disable scheduled defragmentation task
 Function DisableDefragmentation {
 	Write-Host "Disabling scheduled defragmentation..."
 	Disable-ScheduledTask -TaskName "\Microsoft\Windows\Defrag\ScheduledDefrag" | Out-Null
 }
 
-# Enable scheduled defragmentation
+# Enable scheduled defragmentation task
 Function EnableDefragmentation {
 	Write-Host "Enabling scheduled defragmentation..."
 	Enable-ScheduledTask -TaskName "\Microsoft\Windows\Defrag\ScheduledDefrag" | Out-Null
+}
+
+# Stop and disable Superfetch service - Not applicable to Server
+Function DisableSuperfetch {
+	Write-Host "Stopping and disabling Superfetch service..."
+	Stop-Service "SysMain" -WarningAction SilentlyContinue
+	Set-Service "SysMain" -StartupType Disabled
+}
+
+# Start and enable Superfetch service - Not applicable to Server
+Function EnableSuperfetch {
+	Write-Host "Starting and enabling Superfetch service..."
+	Set-Service "SysMain" -StartupType Automatic
+	Start-Service "SysMain" -WarningAction SilentlyContinue
+}
+
+# Stop and disable Windows Search indexing service
+Function DisableIndexing {
+	Write-Host "Stopping and disabling Windows Search indexing service..."
+	Stop-Service "WSearch" -WarningAction SilentlyContinue
+	Set-Service "WSearch" -StartupType Disabled
+}
+
+# Start and enable Windows Search indexing service
+Function EnableIndexing {
+	Write-Host "Starting and enabling Windows Search indexing service..."
+	Set-Service "WSearch" -StartupType Automatic
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\WSearch" -Name "DelayedAutoStart" -Type DWord -Value 1
+	Start-Service "WSearch" -WarningAction SilentlyContinue
 }
 
 # Set BIOS time to UTC
@@ -1101,7 +1132,6 @@ Function UninstallMsftBloat {
 	Get-AppxPackage "Microsoft.RemoteDesktop" | Remove-AppxPackage
 }
 
-
 # Install default Microsoft applications
 Function InstallMsftBloat {
 	Write-Host "Installing default Microsoft applications..."
@@ -1147,7 +1177,7 @@ Function InstallMsftBloat {
 # dism /Unmount-Image /Discard /MountDir:C:\Mnt
 # Remove-Item -Path C:\Mnt -Recurse
 
-# Uninstall default Microsoft applications from third parties
+# Uninstall default third party applications
 function UninstallThirdPartyBloat {
 	
 	Get-AppxPackage "9E2F88E3.Twitter" | Remove-AppxPackage
@@ -1165,7 +1195,7 @@ function UninstallThirdPartyBloat {
 	Get-AppxPackage "A278AB0D.MarchofEmpires" | Remove-AppxPackage
 }
 
-# Install default Microsoft applications from third parties
+# Install default third party applications
 Function InstallThirdPartyBloat {
 	Get-AppxPackage -AllUsers "9E2F88E3.Twitter" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "king.com.CandyCrushSodaSaga" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
@@ -1181,12 +1211,6 @@ Function InstallThirdPartyBloat {
 	Get-AppxPackage -AllUsers "46928bounde.EclipseManager" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "A278AB0D.MarchofEmpires" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 }
-# In case you have removed them for good, you can try to restore the files using installation medium as follows
-# New-Item C:\Mnt -Type Directory | Out-Null
-# dism /Mount-Image /ImageFile:D:\sources\install.wim /index:1 /ReadOnly /MountDir:C:\Mnt
-# robocopy /S /SEC /R:0 "C:\Mnt\Program Files\WindowsApps" "C:\Program Files\WindowsApps"
-# dism /Unmount-Image /Discard /MountDir:C:\Mnt
-# Remove-Item -Path C:\Mnt -Recurse
 
 # Uninstall Windows Store
 Function UninstallWindowsStore {

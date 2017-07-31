@@ -32,6 +32,8 @@ DisableRemoteDesktop
 EnableAutoplay
 EnableAutorun
 EnableDefragmentation
+EnableSuperfetch
+EnableIndexing
 SetBIOSTimeLocal
 
 EnableActionCenter
