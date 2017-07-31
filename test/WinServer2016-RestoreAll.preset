@@ -63,7 +63,8 @@ DisableNumlock
 
 EnableOneDrive
 # InstallOneDrive
-InstallBloatware
+InstallMsftBloat
+InstallThirdPartyBloat
 InstallWindowsStore
 EnableConsumerApps
 EnableXboxFeatures
