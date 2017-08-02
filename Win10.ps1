@@ -1179,7 +1179,7 @@ Function InstallMsftBloat {
 
 # Uninstall default third party applications
 function UninstallThirdPartyBloat {
-	
+	Write-Host "Uninstalling default third party applications..."
 	Get-AppxPackage "9E2F88E3.Twitter" | Remove-AppxPackage
 	Get-AppxPackage "king.com.CandyCrushSodaSaga" | Remove-AppxPackage
 	Get-AppxPackage "4DF9E0F8.Netflix" | Remove-AppxPackage
@@ -1197,6 +1197,7 @@ function UninstallThirdPartyBloat {
 
 # Install default third party applications
 Function InstallThirdPartyBloat {
+	Write-Host "Installing default third party applications..."
 	Get-AppxPackage -AllUsers "9E2F88E3.Twitter" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "king.com.CandyCrushSodaSaga" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "4DF9E0F8.Netflix" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
