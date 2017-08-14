@@ -35,6 +35,7 @@ EnableDefragmentation
 EnableSuperfetch
 EnableIndexing
 SetBIOSTimeLocal
+EnableFastStartup
 
 EnableActionCenter
 EnableLockScreen

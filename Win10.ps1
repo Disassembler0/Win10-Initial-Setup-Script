@@ -44,6 +44,7 @@ $tweaks = @(
 	# "DisableSuperfetch",          # "EnableSuperfetch",
 	# "DisableIndexing",            # "EnableIndexing",
 	# "SetBIOSTimeUTC",             # "SetBIOSTimeLocal",
+	# "DisableFastStartup",         # "EnableFastStartup",
 
 	### UI Tweaks ###
 	"DisableActionCenter",          # "EnableActionCenter",
@@ -636,6 +637,18 @@ Function SetBIOSTimeUTC {
 Function SetBIOSTimeLocal {
 	Write-Host "Setting BIOS time to Local time..."
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -ErrorAction SilentlyContinue
+}
+
+# Disable Fast Startup
+Function DisableFastStartup {
+	Write-Host "Disabling Fast Startup..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name "HiberbootEnabled" -Type DWord -Value 0
+}
+
+# Enable Fast Startup
+Function EnableFastStartup {
+	Write-Host "Enabling Fast Startup..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name "HiberbootEnabled" -Type DWord -Value 1
 }
 
 
