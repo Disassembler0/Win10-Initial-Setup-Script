@@ -35,6 +35,7 @@ DisableDefragmentation
 DisableSuperfetch
 DisableIndexing
 SetBIOSTimeUTC
+EnableHibernation
 DisableFastStartup
 
 DisableActionCenter
