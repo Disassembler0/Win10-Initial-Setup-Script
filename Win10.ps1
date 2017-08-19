@@ -1,7 +1,7 @@
 ##########
 # Win10 / WinServer2016 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 2.6, 2017-07-31
+# Version: development
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -1211,6 +1211,7 @@ function UninstallThirdPartyBloat {
 	Get-AppxPackage "KeeperSecurityInc.Keeper" | Remove-AppxPackage
 	Get-AppxPackage "king.com.BubbleWitch3Saga" | Remove-AppxPackage
 	Get-AppxPackage "89006A2E.AutodeskSketchBook" | Remove-AppxPackage
+	Get-AppxPackage "CAF9E577.Plex" | Remove-AppxPackage
 }
 
 # Install default third party applications
@@ -1232,6 +1233,7 @@ Function InstallThirdPartyBloat {
 	Get-AppxPackage -AllUsers "KeeperSecurityInc.Keeper" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "king.com.BubbleWitch3Saga" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "89006A2E.AutodeskSketchBook" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+	Get-AppxPackage -AllUsers "CAF9E577.Plex" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 }
 
 # Uninstall Windows Store
