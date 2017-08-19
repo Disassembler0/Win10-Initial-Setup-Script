@@ -2,7 +2,7 @@
 
 This is a PowerShell script for automation of routine tasks done after fresh installations of Windows 10 and Windows Server 2016. This is by no means any complete set of all existing Windows tweaks and neither is it another "antispying" type of script. It's simply a setting which I like to use and which in my opinion make the system less obtrusive.
 
-This repository has been originally created as complementary to article https://www.dasm.cz/clanek/jak-z-windows-10-udelat-desktopovy-system (written in Czech) which explains the respective snippets a bit more in detail. The article was last updated on 2016-08-15 and will not be updated further. All development and discussion has been moved here.
+This repository has been originally created as complementary to article <https://www.dasm.cz/clanek/jak-z-windows-10-udelat-desktopovy-system> (written in Czech) which explains the respective snippets a bit more in detail. The article was last updated on 2016-08-15 and will not be updated further. All development and discussion has been moved here.
 
 ## Usage
 If you just want to run the script with default preset, simply right click on the *Win10.ps1* file, choose *Run with PowerShell*, and confirm execution policy change. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
@@ -66,3 +66,6 @@ Command using the preset file above:
 
 **Q:** For how long are you going to maintain the script?  
 **A:** As long as I use Windows 10.
+
+**Q:** I really like the script. Is there any way to express gratitude and send donation?  
+**A:** Feel free to send donations via [PayPal donation link](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=disassembler%40dasm%2ecz&item_name=Disassembler&no_shipping=1). Any amount is appreciated, just be aware that PayPal charges [mediation fees](https://www.paypal.com/selfhelp/article/FAQ690). Also be aware that donations are completely voluntary and I'm not obliged to make any script adjustments in your favor regardless of the donated amount.
