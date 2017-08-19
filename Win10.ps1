@@ -1,7 +1,7 @@
 ##########
 # Win10 / WinServer2016 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: development
+# Version: 2.7, 2017-08-19
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
