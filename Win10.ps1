@@ -1072,9 +1072,9 @@ Function HideNetworkFromLockScreen {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DontDisplayNetworkSelectionUI" -Type DWord -Value 1
 }
 
-# Show network options from lock screen
+# Show network options on lock screen
 Function ShowNetworkOnLockScreen {
-	Write-Host "Showing network options from Lock Screen..."
+	Write-Host "Showing network options on Lock Screen..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DontDisplayNetworkSelectionUI" -ErrorAction SilentlyContinue
 }
 
