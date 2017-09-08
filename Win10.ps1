@@ -75,6 +75,8 @@ $tweaks = @(
 	"SetVisualFXPerformance",       # "SetVisualFXAppearance",
 	# "AddENKeyboard",              # "RemoveENKeyboard",
 	# "EnableNumlock",              # "DisableNumlock",
+	"EnableFastMenus",              # "DisableFastMenus",
+	"EnableShortKeyboardDelay",     # "DisableShortKeyboardDelay",
 
 	### Application Tweaks ###
 	"DisableOneDrive",              # "EnableOneDrive",
@@ -1103,6 +1105,34 @@ Function DisableNumlock {
 		$wsh = New-Object -ComObject WScript.Shell
 		$wsh.SendKeys('{NUMLOCK}')
 	}
+}
+
+# Enable fast menu fly-outs
+function EnableFastMenus
+{
+	Write-Host "Enabling fast menu fly-outs..."
+	New-ItemProperty "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 0 -Force
+}
+
+# Disable fast menu fly-outs
+function DisableFastMenus
+{
+	Write-Host "Disabling fast menu fly-outs..."
+	New-ItemProperty "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 400 -Force
+}
+
+# Enable short keyboard delay
+function EnableShortKeyboardDelay
+{
+	Write-Host "Enabling short keyboard delay..."
+	New-ItemProperty "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 0 -Force
+}
+
+# Disable short keyboard delay
+function DisableShortKeyboardDelay
+{
+	Write-Host "Disabling short keyboard delay..."
+	New-ItemProperty "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 1 -Force
 }
 
 

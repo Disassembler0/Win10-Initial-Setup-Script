@@ -65,6 +65,8 @@ ShowVideosInThisPC
 SetVisualFXAppearance
 RemoveENKeyboard
 DisableNumlock
+DisableFastMenus
+DisableShortKeyboardDelay
 
 EnableOneDrive
 InstallOneDrive
