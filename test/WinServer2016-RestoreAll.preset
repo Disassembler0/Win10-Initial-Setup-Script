@@ -83,6 +83,7 @@ EnableSearchAppInStore
 EnableNewAppPrompt
 DisableF8BootMenu
 SetDEPOptIn
+EnableThumbsDB
 
 ShowServerManagerOnLogin
 EnableShutdownTracker
