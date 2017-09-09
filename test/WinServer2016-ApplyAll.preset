@@ -1,5 +1,7 @@
 # Windows Server 2016 - Apply all
 
+RequireAdmin
+
 DisableTelemetry
 DisableWiFiSense
 DisableSmartScreen

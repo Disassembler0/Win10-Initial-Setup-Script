@@ -1,5 +1,7 @@
 # Windows 10 - Apply all
 
+RequireAdmin
+
 DisableTelemetry
 DisableWiFiSense
 DisableSmartScreen
