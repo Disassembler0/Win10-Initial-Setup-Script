@@ -1,7 +1,7 @@
 ##########
 # Win10 / WinServer2016 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: 2.7, 2017-08-19
+# Version: development
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -51,10 +51,11 @@ $tweaks = @(
 	"DisableActionCenter",          # "EnableActionCenter",
 	"DisableLockScreen",            # "EnableLockScreen",
 	# "DisableLockScreenRS1",       # "EnableLockScreenRS1",
+	"HideNetworkFromLockScreen",    # "ShowNetworkOnLockScreen",
 	"DisableStickyKeys",            # "EnableStickyKeys",
 	"ShowTaskManagerDetails"        # "HideTaskManagerDetails",
 	"ShowFileOperationsDetails",    # "HideFileOperationsDetails",
-	"EnableFileDeleteConfirmation", # "DisableFileDeleteConfirmation",
+	# "EnableFileDeleteConfirm",    # "DisableFileDeleteConfirm",
 	"HideTaskbarSearchBox",         # "ShowTaskbarSearchBox",
 	"HideTaskView",                 # "ShowTaskView",
 	"ShowSmallTaskbarIcons",        # "ShowLargeTaskbarIcons",
@@ -74,7 +75,7 @@ $tweaks = @(
 	"HidePicturesFromThisPC",       # "ShowPicturesInThisPC",
 	"HideVideosFromThisPC",         # "ShowVideosInThisPC",
 	"SetVisualFXPerformance",       # "SetVisualFXAppearance",
-	"HideNetworkFromLockScreen"     # "ShowNetworkOnLockScreen",
+	"DisableThumbsDB",              # "EnableThumbsDB",
 	# "AddENKeyboard",              # "RemoveENKeyboard",
 	# "EnableNumlock",              # "DisableNumlock",
 
@@ -96,7 +97,6 @@ $tweaks = @(
 	"DisableNewAppPrompt",          # "EnableNewAppPrompt",
 	"EnableF8BootMenu",             # "DisableF8BootMenu",
 	# "SetDEPOptOut",               # "SetDEPOptIn",
-	# "DisableThumbsDB",            # "EnableThumbsDB"
 
 	### Server Specific Tweaks ###
 	# "HideServerManagerOnLogin",   # "ShowServerManagerOnLogin",
@@ -742,6 +742,18 @@ Function EnableLockScreenRS1 {
 	Unregister-ScheduledTask -TaskName "Disable LockScreen" -Confirm:$false -ErrorAction SilentlyContinue
 }
 
+# Hide network options from Lock Screen
+Function HideNetworkFromLockScreen {
+	Write-Host "Hiding network options from Lock Screen..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DontDisplayNetworkSelectionUI" -Type DWord -Value 1
+}
+
+# Show network options on lock screen
+Function ShowNetworkOnLockScreen {
+	Write-Host "Showing network options on Lock Screen..."
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DontDisplayNetworkSelectionUI" -ErrorAction SilentlyContinue
+}
+
 # Disable Sticky keys prompt
 Function DisableStickyKeys {
 	Write-Host "Disabling Sticky keys prompt..."
@@ -799,7 +811,7 @@ Function HideFileOperationsDetails {
 }
 
 # Enable file delete confirmation dialog
-Function EnableFileDeleteConfirmation {
+Function EnableFileDeleteConfirm {
 	Write-Host "Enabling file delete confirmation dialog..."
 	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
 		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
@@ -808,7 +820,7 @@ Function EnableFileDeleteConfirmation {
 }
 
 # Disable file delete confirmation dialog
-Function DisableFileDeleteConfirmation {
+Function DisableFileDeleteConfirm {
 	Write-Host "Disabling file delete confirmation dialog..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ConfirmFileDelete" -ErrorAction SilentlyContinue
 }
@@ -1080,19 +1092,18 @@ Function SetVisualFXAppearance {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 1
 }
 
-# Hide network options from Lock Screen
-Function HideNetworkFromLockScreen {
-	Write-Host "Hiding network options from Lock Screen..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System")) {
-		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Force | Out-Null
-	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DontDisplayNetworkSelectionUI" -Type DWord -Value 1
+# Disable creation of Thumbs.db thumbnail cache files
+Function DisableThumbsDB {
+	Write-Host "Disabling creation of Thumbs.db..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbnailCache" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value 1
 }
 
-# Show network options on lock screen
-Function ShowNetworkOnLockScreen {
-	Write-Host "Showing network options on Lock Screen..."
-	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DontDisplayNetworkSelectionUI" -ErrorAction SilentlyContinue
+# Enable creation of Thumbs.db thumbnail cache files
+Function EnableThumbsDB {
+	Write-Host "Enable creation of Thumbs.db..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbnailCache" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -ErrorAction SilentlyContinue
 }
 
 # Add secondary en-US keyboard
@@ -1538,20 +1549,6 @@ Function SetDEPOptOut {
 Function SetDEPOptIn {
 	Write-Host "Setting Data Execution Prevention (DEP) policy to OptIn..."
 	bcdedit /set `{current`} nx OptIn | Out-Null
-}
-
-function DisableThumbsDB
-{
-    Write-Host "Disable Thumbs.db..."
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbnailCache" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value 1
-}
-
-function EnableThumbsDB
-{
-    Write-Host "Enable Thumbs.db..."
-	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbnailCache" -ErrorAction SilentlyContinue
-	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -ErrorAction SilentlyContinue
 }
 
 

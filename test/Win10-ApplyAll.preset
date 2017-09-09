@@ -41,10 +41,11 @@ DisableFastStartup
 DisableActionCenter
 DisableLockScreen
 DisableLockScreenRS1
+HideNetworkFromLockScreen
 DisableStickyKeys
 ShowTaskManagerDetails
 ShowFileOperationsDetails
-EnableFileDeleteConfirmation
+EnableFileDeleteConfirm
 HideTaskbarSearchBox
 HideTaskView
 ShowSmallTaskbarIcons
@@ -64,7 +65,7 @@ HideMusicFromThisPC
 HidePicturesFromThisPC
 HideVideosFromThisPC
 SetVisualFXPerformance
-HideNetworkFromLockScreen
+DisableThumbsDB
 AddENKeyboard
 EnableNumlock
 
@@ -85,7 +86,6 @@ DisableSearchAppInStore
 DisableNewAppPrompt
 EnableF8BootMenu
 SetDEPOptOut
-DisableThumbsDB
 
 # HideServerManagerOnLogin
 # DisableShutdownTracker

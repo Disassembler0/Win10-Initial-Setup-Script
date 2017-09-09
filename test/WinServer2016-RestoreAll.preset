@@ -41,10 +41,11 @@ EnableFastStartup
 EnableActionCenter
 EnableLockScreen
 EnableLockScreenRS1
+ShowNetworkOnLockScreen
 EnableStickyKeys
 HideTaskManagerDetails
 HideFileOperationsDetails
-DisableFileDeleteConfirmation
+DisableFileDeleteConfirm
 ShowTaskbarSearchBox
 ShowTaskView
 ShowLargeTaskbarIcons
@@ -64,7 +65,7 @@ ShowMusicInThisPC
 ShowPicturesInThisPC
 ShowVideosInThisPC
 SetVisualFXAppearance
-ShowNetworkOnLockScreen
+EnableThumbsDB
 RemoveENKeyboard
 DisableNumlock
 
@@ -85,7 +86,6 @@ EnableSearchAppInStore
 EnableNewAppPrompt
 DisableF8BootMenu
 SetDEPOptIn
-EnableThumbsDB
 
 ShowServerManagerOnLogin
 EnableShutdownTracker
