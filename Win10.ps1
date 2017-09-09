@@ -75,6 +75,7 @@ $tweaks = @(
 	"HidePicturesFromThisPC",       # "ShowPicturesInThisPC",
 	"HideVideosFromThisPC",         # "ShowVideosInThisPC",
 	"SetVisualFXPerformance",       # "SetVisualFXAppearance",
+	# "DisableThumbnails",          # "EnableThumbnails",
 	"DisableThumbsDB",              # "EnableThumbsDB",
 	# "AddENKeyboard",              # "RemoveENKeyboard",
 	# "EnableNumlock",              # "DisableNumlock",
@@ -1094,6 +1095,18 @@ Function SetVisualFXAppearance {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAnimations" -Type DWord -Value 1
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type DWord -Value 3
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 1
+}
+
+# Disable thumbnails, show only file extension icons
+Function DisableThumbnails {
+	Write-Host "Disabling thumbnails..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "IconsOnly" -Type DWord -Value 1
+}
+
+# Enable thumbnails
+Function EnableThumbnails {
+	Write-Host "Enabling thumbnails..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "IconsOnly" -Type DWord -Value 0
 }
 
 # Disable creation of Thumbs.db thumbnail cache files

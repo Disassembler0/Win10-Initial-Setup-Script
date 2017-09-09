@@ -65,6 +65,7 @@ HideMusicFromThisPC
 HidePicturesFromThisPC
 HideVideosFromThisPC
 SetVisualFXPerformance
+DisableThumbnails
 DisableThumbsDB
 AddENKeyboard
 EnableNumlock

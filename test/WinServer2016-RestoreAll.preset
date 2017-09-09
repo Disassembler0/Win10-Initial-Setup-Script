@@ -65,6 +65,7 @@ ShowMusicInThisPC
 ShowPicturesInThisPC
 ShowVideosInThisPC
 SetVisualFXAppearance
+EnableThumbnails
 EnableThumbsDB
 RemoveENKeyboard
 DisableNumlock
