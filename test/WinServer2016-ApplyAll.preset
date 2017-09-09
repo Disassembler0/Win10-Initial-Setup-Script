@@ -11,12 +11,12 @@ DisableFeedback
 DisableAdvertisingID
 DisableCortana
 DisableErrorReporting
-RestrictUpdateP2P
+SetP2PUpdateLocal
 DisableAutoLogger
 DisableDiagTrack
 DisableWAPPush
 
-LowerUAC
+SetUACHigh
 EnableSharingMappedDrives
 DisableAdminShares
 DisableSMB1
@@ -58,7 +58,7 @@ ShowKnownExtensions
 ShowHiddenFiles
 HideSyncNotifications
 HideRecentShortcuts
-ExplorerThisPC
+SetExplorerThisPC
 ShowThisPCOnDesktop
 HideDesktopFromThisPC
 HideDocumentsFromThisPC

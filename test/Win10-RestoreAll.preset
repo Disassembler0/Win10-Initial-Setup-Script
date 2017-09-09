@@ -11,12 +11,12 @@ EnableFeedback
 EnableAdvertisingID
 EnableCortana
 EnableErrorReporting
-UnrestrictUpdateP2P
+SetP2PUpdateInternet
 EnableAutoLogger
 EnableDiagTrack
 EnableWAPPush
 
-RaiseUAC
+SetUACHigh
 DisableSharingMappedDrives
 EnableAdminShares
 EnableSMB1
@@ -58,7 +58,7 @@ HideKnownExtensions
 HideHiddenFiles
 ShowSyncNotifications
 ShowRecentShortcuts
-ExplorerQuickAccess
+SetExplorerQuickAccess
 HideThisPCFromDesktop
 ShowDesktopInThisPC
 ShowDocumentsInThisPC
