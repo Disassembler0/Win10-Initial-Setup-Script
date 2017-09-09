@@ -1716,7 +1716,7 @@ Function Restart {
 If ($args) {
 	$tweaks = $args
 	If ($args[0].ToLower() -eq "-preset") {
-		$tweaks = Get-Content $args[1] -ErrorAction Stop | ForEach { $_.Trim() } | Where { $_ -ne "" -and $_[0] -ne "#" }
+		$tweaks = Get-Content "$($args | Select-Object -Skip 1)" -ErrorAction Stop | ForEach { $_.Trim() } | Where { $_ -ne "" -and $_[0] -ne "#" }
 	}
 }
 
