@@ -64,6 +64,7 @@ HideMusicFromThisPC
 HidePicturesFromThisPC
 HideVideosFromThisPC
 SetVisualFXPerformance
+HideNetworkFromLockScreen
 AddENKeyboard
 EnableNumlock
 
