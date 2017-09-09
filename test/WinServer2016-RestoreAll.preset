@@ -38,6 +38,8 @@ EnableIndexing
 SetBIOSTimeLocal
 DisableHibernation
 EnableFastStartup
+DisableFastMenus
+DisableShortKeyboardDelay
 
 EnableActionCenter
 EnableLockScreen

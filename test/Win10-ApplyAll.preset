@@ -71,6 +71,8 @@ DisableThumbnails
 DisableThumbsDB
 AddENKeyboard
 EnableNumlock
+EnableFastMenus
+EnableShortKeyboardDelay
 
 DisableOneDrive
 UninstallOneDrive
