@@ -52,6 +52,7 @@ $tweaks = @(
 	"DisableLockScreen",            # "EnableLockScreen",
 	# "DisableLockScreenRS1",       # "EnableLockScreenRS1",
 	"HideNetworkFromLockScreen",    # "ShowNetworkOnLockScreen",
+	"HideShutdownFromLockScreen",   # "ShowShutdownOnLockScreen",
 	"DisableStickyKeys",            # "EnableStickyKeys",
 	"ShowTaskManagerDetails"        # "HideTaskManagerDetails",
 	"ShowFileOperationsDetails",    # "HideFileOperationsDetails",
@@ -753,6 +754,18 @@ Function HideNetworkFromLockScreen {
 Function ShowNetworkOnLockScreen {
 	Write-Host "Showing network options on Lock Screen..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DontDisplayNetworkSelectionUI" -ErrorAction SilentlyContinue
+}
+
+# Hide shutdown options from Lock Screen
+Function HideShutdownFromLockScreen {
+	Write-Host "Hiding shutdown options from Lock Screen..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ShutdownWithoutLogon" -Type DWord -Value 0
+}
+
+# Show shutdown options on lock screen
+Function ShowShutdownOnLockScreen {
+	Write-Host "Showing shutdown options on Lock Screen..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ShutdownWithoutLogon" -Type DWord -Value 1
 }
 
 # Disable Sticky keys prompt
