@@ -85,6 +85,7 @@ DisableSearchAppInStore
 DisableNewAppPrompt
 EnableF8BootMenu
 SetDEPOptOut
+DisableThumbsDB
 
 # HideServerManagerOnLogin
 # DisableShutdownTracker
