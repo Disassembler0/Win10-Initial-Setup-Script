@@ -6,6 +6,7 @@ DisableSmartScreen
 DisableWebSearch
 DisableStartSuggestions
 DisableLocationTracking
+DisableMapUpdates
 DisableFeedback
 DisableAdvertisingID
 DisableCortana

@@ -14,6 +14,7 @@ $tweaks = @(
 	"DisableWebSearch",             # "EnableWebSearch",
 	"DisableStartSuggestions",      # "EnableStartSuggestions",
 	"DisableLocationTracking",      # "EnableLocationTracking",
+	"DisableMapUpdates",            # "EnableMapUpdates",
 	"DisableFeedback",              # "EnableFeedback",
 	"DisableAdvertisingID",         # "EnableAdvertisingID",
 	"DisableCortana",               # "EnableCortana",
@@ -220,6 +221,18 @@ Function EnableLocationTracking {
 	Write-Host "Enabling Location Tracking..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 1
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 1
+}
+
+# Disable automatic Maps updates
+Function DisableMapUpdates {
+	Write-Host "Disabling automatic Maps updates..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\Maps" -Name "AutoUpdateEnabled" -Type DWord -Value 0
+}
+
+# Enable automatic Maps updates
+Function EnableMapUpdates {
+	Write-Host "Enable automatic Maps updates..."
+	Remove-ItemProperty -Path "HKLM:\SYSTEM\Maps" -Name "AutoUpdateEnabled" -ErrorAction SilentlyContinue
 }
 
 # Disable Feedback

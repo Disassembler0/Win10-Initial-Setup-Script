@@ -6,6 +6,7 @@ EnableSmartScreen
 EnableWebSearch
 EnableStartSuggestions
 EnableLocationTracking
+EnableMapUpdates
 EnableFeedback
 EnableAdvertisingID
 EnableCortana
