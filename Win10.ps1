@@ -1,7 +1,7 @@
 ##########
 # Win10 / WinServer2016 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: v2.8, 2017-09-09
+# Version: development
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -1686,7 +1686,6 @@ Function EnableIEEnhancedSecurity {
 ##########
 
 # Relaunch the script with administrator privileges
-$PSCommandArgs = $args
 Function RequireAdmin {
 	If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
 		Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" $PSCommandArgs" -WorkingDirectory $pwd -Verb RunAs
@@ -1713,11 +1712,19 @@ Function Restart {
 # Parse parameters and apply tweaks
 ##########
 
+# Normalize path to preset file
+$preset = ""
+$PSCommandArgs = $args
+If ($args -And $args[0].ToLower() -eq "-preset") {
+	$preset = Resolve-Path $($args | Select-Object -Skip 1)
+	$PSCommandArgs = "-preset `"$preset`""
+}
+
 # Load function names from command line arguments or a preset file
 If ($args) {
 	$tweaks = $args
-	If ($args[0].ToLower() -eq "-preset") {
-		$tweaks = Get-Content "$($args | Select-Object -Skip 1)" -ErrorAction Stop | ForEach { $_.Trim() } | Where { $_ -ne "" -and $_[0] -ne "#" }
+	If ($preset) {
+		$tweaks = Get-Content $preset -ErrorAction Stop | ForEach { $_.Trim() } | Where { $_ -ne "" -and $_[0] -ne "#" }
 	}
 }
 
