@@ -18,7 +18,7 @@ DisableAutoLogger
 DisableDiagTrack
 DisableWAPPush
 
-SetUACHigh
+SetUACLow
 EnableSharingMappedDrives
 DisableAdminShares
 DisableSMB1
@@ -30,6 +30,7 @@ DisableUpdateMSRT
 DisableUpdateDriver
 DisableUpdateRestart
 # DisableHomeGroups
+# DisableSharedExperiences
 # DisableRemoteAssistance
 EnableRemoteDesktop
 DisableAutoplay
@@ -68,6 +69,7 @@ HideDownloadsFromThisPC
 HideMusicFromThisPC
 HidePicturesFromThisPC
 HideVideosFromThisPC
+Hide3DObjectsFromThisPC
 SetVisualFXPerformance
 DisableThumbnails
 DisableThumbsDB
@@ -81,6 +83,7 @@ UninstallThirdPartyBloat
 UninstallWindowsStore
 DisableConsumerApps
 DisableXboxFeatures
+DisableAdobeFlash
 UninstallMediaPlayer
 # UninstallWorkFolders
 # InstallLinuxSubsystem

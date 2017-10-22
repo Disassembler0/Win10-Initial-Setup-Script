@@ -30,6 +30,7 @@ EnableUpdateMSRT
 EnableUpdateDriver
 EnableUpdateRestart
 # EnableHomeGroups
+# EnableSharedExperiences
 # EnableRemoteAssistance
 DisableRemoteDesktop
 EnableAutoplay
@@ -68,6 +69,7 @@ ShowDownloadsInThisPC
 ShowMusicInThisPC
 ShowPicturesInThisPC
 ShowVideosInThisPC
+Show3DObjectsInThisPC
 SetVisualFXAppearance
 EnableThumbnails
 EnableThumbsDB
@@ -81,6 +83,7 @@ InstallThirdPartyBloat
 InstallWindowsStore
 EnableConsumerApps
 EnableXboxFeatures
+EnableAdobeFlash
 InstallMediaPlayer
 # InstallWorkFolders
 # UninstallLinuxSubsystem
