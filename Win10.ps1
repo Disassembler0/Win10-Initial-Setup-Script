@@ -34,6 +34,7 @@ $tweaks = @(
 	# "DisableSMB1",                # "EnableSMB1",
 	"SetCurrentNetworkPrivate",     # "SetCurrentNetworkPublic",
 	# "SetUnknownNetworksPrivate",  # "SetUnknownNetworksPublic",
+	"EnableCtrldFolderAccess",      # "DisableCtrldFolderAccess",
 	# "DisableFirewall",            # "EnableFirewall",
 	# "DisableDefender",            # "EnableDefender",
 	# "DisableUpdateMSRT",          # "EnableUpdateMSRT",
@@ -465,6 +466,18 @@ Function SetUnknownNetworksPrivate {
 Function SetUnknownNetworksPublic {
 	Write-Host "Setting unknown networks profile to public..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\010103000F0000F0010000000F0000F0C967A3643C3AD745950DA7859209176EF5B87C875FA20DF21951640E807D7C24" -Name "Category" -ErrorAction SilentlyContinue
+}
+
+# Enable Controlled Folder Access (Defender Exploit Guard feature) - Not applicable to Server
+Function EnableCtrldFolderAccess {
+	Write-Host "Enabling Controlled Folder Access..."
+	Set-MpPreference -EnableControlledFolderAccess Enabled
+}
+
+# Disable Controlled Folder Access (Defender Exploit Guard feature) - Not applicable to Server
+Function DisableCtrldFolderAccess {
+	Write-Host "Disabling Controlled Folder Access..."
+	Set-MpPreference -EnableControlledFolderAccess Disabled
 }
 
 # Disable Firewall
