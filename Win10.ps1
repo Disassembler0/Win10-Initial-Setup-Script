@@ -52,8 +52,8 @@ $tweaks = @(
 	# "SetBIOSTimeUTC",             # "SetBIOSTimeLocal",
 	# "EnableHibernation",          # "DisableHibernation",
 	# "DisableFastStartup",         # "EnableFastStartup",
-	# "DisableTelemetryScheduledTasks",      # "EnableTelemetryScheduledTasks",
-	# "DisableGamesScheduledTasks",      # "EnableGamesScheduledTasks",
+	# "DisableTelemetryScheduledTasks",    # "EnableTelemetryScheduledTasks",
+	# "DisableGamesScheduledTasks", # "EnableGamesScheduledTasks",
 
 	### UI Tweaks ###
 	"DisableActionCenter",          # "EnableActionCenter",
