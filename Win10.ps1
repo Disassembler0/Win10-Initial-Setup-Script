@@ -52,6 +52,8 @@ $tweaks = @(
 	# "SetBIOSTimeUTC",             # "SetBIOSTimeLocal",
 	# "EnableHibernation",          # "DisableHibernation",
 	# "DisableFastStartup",         # "EnableFastStartup",
+	# "DisableTelemetryScheduledTasks",      # "EnableTelemetryScheduledTasks",
+	# "DisableGamesScheduledTasks",      # "EnableGamesScheduledTasks",
 
 	### UI Tweaks ###
 	"DisableActionCenter",          # "EnableActionCenter",
@@ -728,6 +730,34 @@ Function DisableFastStartup {
 Function EnableFastStartup {
 	Write-Host "Enabling Fast Startup..."
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name "HiberbootEnabled" -Type DWord -Value 1
+}
+
+# Disable Telemetric Scheduled Tasks
+Function DisableTelemetryScheduledTasks {
+	Get-ScheduledTask -TaskName "Refresh Settings" | Disable-ScheduledTask 
+	Get-ScheduledTask -TaskName *"Automatic App Update"* | Disable-ScheduledTask
+	Get-ScheduledTask -TaskName *Location* | Disable-ScheduledTask
+	Get-ScheduledTask -TaskName *feedback* | Disable-ScheduledTask
+	Get-ScheduledTask -TaskName *speech* | Disable-ScheduledTask
+}
+
+# Enable Telemetric Scheduled Tasks
+Function EnableTelemetryScheduledTasks {
+	Get-ScheduledTask -TaskName "Refresh Settings" | Enable-ScheduledTask 
+	Get-ScheduledTask -TaskName *"Automatic App Update"* | Enable-ScheduledTask
+	Get-ScheduledTask -TaskName *Location* | Enable-ScheduledTask
+	Get-ScheduledTask -TaskName *feedback* | Enable-ScheduledTask
+	Get-ScheduledTask -TaskName *speech* | Enable-ScheduledTask
+}
+
+# Disable XBox Scheduled Tasks
+Function DisableGamesScheduledTasks {
+	Get-ScheduledTask -TaskName *xbox* | Disable-ScheduledTask
+}
+
+# Enable XBox Scheduled Tasks
+Function EnableGamesScheduledTasks {
+	Get-ScheduledTask -TaskName *xbox* | Enable-ScheduledTask
 }
 
 
