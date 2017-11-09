@@ -38,6 +38,7 @@ DisableRemoteAssistance
 EnableRemoteDesktop
 DisableAutoplay
 DisableAutorun
+EnableStorageSense
 DisableDefragmentation
 DisableSuperfetch
 DisableIndexing

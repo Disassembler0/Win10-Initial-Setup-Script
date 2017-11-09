@@ -48,6 +48,7 @@ $tweaks = @(
 	"EnableRemoteDesktop",          # "DisableRemoteDesktop",
 	"DisableAutoplay",              # "EnableAutoplay",
 	"DisableAutorun",               # "EnableAutorun",
+	# "EnableStorageSense",         # "DisableStorageSense",
 	# "DisableDefragmentation",     # "EnableDefragmentation",
 	# "DisableSuperfetch",          # "EnableSuperfetch",
 	# "DisableIndexing",            # "EnableIndexing",
@@ -690,6 +691,18 @@ Function DisableAutorun {
 Function EnableAutorun {
 	Write-Host "Enabling Autorun for all drives..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -ErrorAction SilentlyContinue
+}
+
+# Enable Storage Sense - automatic disk cleanup - Not applicable to Server
+Function EnableStorageSense {
+	Write-Host "Enabling Storage Sense..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" -Name "01" -Type DWord -Value 1
+}
+
+# Disable Storage Sense - Not applicable to Server
+Function DisableStorageSense {
+	Write-Host "Disabling Storage Sense..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" -Name "01" -Type DWord -Value 1
 }
 
 # Disable scheduled defragmentation task
