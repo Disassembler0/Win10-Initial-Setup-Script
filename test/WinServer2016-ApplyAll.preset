@@ -83,7 +83,6 @@ DisableOneDrive
 UninstallMsftBloat
 UninstallThirdPartyBloat
 UninstallWindowsStore
-DisableConsumerApps
 DisableXboxFeatures
 DisableAdobeFlash
 UninstallMediaPlayer

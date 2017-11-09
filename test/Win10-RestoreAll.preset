@@ -83,7 +83,6 @@ InstallOneDrive
 InstallMsftBloat
 InstallThirdPartyBloat
 InstallWindowsStore
-EnableConsumerApps
 EnableXboxFeatures
 EnableAdobeFlash
 InstallMediaPlayer
