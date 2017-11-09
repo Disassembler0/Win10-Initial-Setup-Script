@@ -801,7 +801,7 @@ Function HideNetworkFromLockScreen {
 # Show network options on lock screen
 Function ShowNetworkOnLockScreen {
 	Write-Host "Showing network options on Lock Screen..."
-	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DontDisplayNetworkSelectionUI" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DontDisplayNetworkSelectionUI" -ErrorAction SilentlyContinue
 }
 
 # Hide shutdown options from Lock Screen
