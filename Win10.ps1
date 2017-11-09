@@ -16,6 +16,7 @@ $tweaks = @(
 	# "DisableSmartScreen",         # "EnableSmartScreen",
 	"DisableWebSearch",             # "EnableWebSearch",
 	"DisableAppSuggestions",        # "EnableAppSuggestions",
+	"DisableBackgroundApps",        # "EnableBackgroundApps",
 	"DisableLockScreenSpotlight",   # "EnableLockScreenSpotlight",
 	"DisableLocationTracking",      # "EnableLocationTracking",
 	"DisableMapUpdates",            # "EnableMapUpdates",
@@ -232,6 +233,18 @@ Function EnableAppSuggestions {
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 1
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338388Enabled" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -ErrorAction SilentlyContinue
+}
+
+# Disable Background application access - Ie. if apps can download or update even when they aren't used
+Function DisableBackgroundApps {
+	Write-Host "Disabling Background application access..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
+}
+
+# Enable Background application access
+Function EnableBackgroundApps {
+	Write-Host "Enabling Background application access..."
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -ErrorAction SilentlyContinue
 }
 
 # Disable Lock screen Spotlight - New backgrounds, tips, advertisements etc.
