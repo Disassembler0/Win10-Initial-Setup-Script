@@ -6,7 +6,7 @@ EnableTelemetry
 EnableWiFiSense
 EnableSmartScreen
 EnableWebSearch
-EnableStartSuggestions
+EnableAppSuggestions
 EnableLockScreenSpotlight
 EnableLocationTracking
 EnableMapUpdates

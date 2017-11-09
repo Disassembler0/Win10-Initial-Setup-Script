@@ -6,7 +6,7 @@ DisableTelemetry
 DisableWiFiSense
 DisableSmartScreen
 DisableWebSearch
-DisableStartSuggestions
+DisableAppSuggestions
 DisableLockScreenSpotlight
 DisableLocationTracking
 DisableMapUpdates
