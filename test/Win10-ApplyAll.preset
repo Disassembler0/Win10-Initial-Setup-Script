@@ -65,6 +65,7 @@ HideSyncNotifications
 HideRecentShortcuts
 SetExplorerThisPC
 ShowThisPCOnDesktop
+ShowUserFolderOnDesktop
 HideDesktopFromThisPC
 HideDocumentsFromThisPC
 HideDownloadsFromThisPC

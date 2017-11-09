@@ -65,6 +65,7 @@ ShowSyncNotifications
 ShowRecentShortcuts
 SetExplorerQuickAccess
 HideThisPCFromDesktop
+HideUserFolderFromDesktop
 ShowDesktopInThisPC
 ShowDocumentsInThisPC
 ShowDownloadsInThisPC
