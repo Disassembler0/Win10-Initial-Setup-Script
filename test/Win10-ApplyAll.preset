@@ -29,6 +29,7 @@ SetUnknownNetworksPrivate
 EnableCtrldFolderAccess
 DisableFirewall
 DisableDefender
+DisableDefenderCloud
 DisableUpdateMSRT
 DisableUpdateDriver
 DisableUpdateRestart

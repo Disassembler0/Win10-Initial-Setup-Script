@@ -29,6 +29,7 @@ SetUnknownNetworksPublic
 DisableCtrldFolderAccess
 EnableFirewall
 EnableDefender
+EnableDefenderCloud
 EnableUpdateMSRT
 EnableUpdateDriver
 EnableUpdateRestart

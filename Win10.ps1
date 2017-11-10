@@ -16,7 +16,7 @@ $tweaks = @(
 	# "DisableSmartScreen",         # "EnableSmartScreen",
 	"DisableWebSearch",             # "EnableWebSearch",
 	"DisableAppSuggestions",        # "EnableAppSuggestions",
-	"DisableBackgroundApps",        # "EnableBackgroundApps",
+	# "DisableBackgroundApps",      # "EnableBackgroundApps",
 	"DisableLockScreenSpotlight",   # "EnableLockScreenSpotlight",
 	"DisableLocationTracking",      # "EnableLocationTracking",
 	"DisableMapUpdates",            # "EnableMapUpdates",
@@ -237,7 +237,7 @@ Function EnableAppSuggestions {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -ErrorAction SilentlyContinue
 }
 
-# Disable Background application access - Ie. if apps can download or update even when they aren't used
+# Disable Background application access - Ie. if apps can download or update even when they aren't used, affects also start menu tiles
 Function DisableBackgroundApps {
 	Write-Host "Disabling Background application access..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
