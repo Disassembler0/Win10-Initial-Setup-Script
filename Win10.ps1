@@ -39,7 +39,7 @@ $tweaks = @(
 	"EnableCtrldFolderAccess",      # "DisableCtrldFolderAccess",
 	# "DisableFirewall",            # "EnableFirewall",
 	# "DisableDefender",            # "EnableDefender",
-	# "DisableDefenderCloud,"       # "EnableDefenderCloud",
+	# "DisableDefenderCloud",       # "EnableDefenderCloud",
 	# "DisableUpdateMSRT",          # "EnableUpdateMSRT",
 	# "DisableUpdateDriver",        # "EnableUpdateDriver",
 	"DisableUpdateRestart",         # "EnableUpdateRestart",
