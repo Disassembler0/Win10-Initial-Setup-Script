@@ -16,7 +16,7 @@ $tweaks = @(
 	# "DisableSmartScreen",         # "EnableSmartScreen",
 	"DisableWebSearch",             # "EnableWebSearch",
 	"DisableAppSuggestions",        # "EnableAppSuggestions",
-	# "DisableBackgroundApps",      # "EnableBackgroundApps",
+	"DisableBackgroundApps",        # "EnableBackgroundApps",
 	"DisableLockScreenSpotlight",   # "EnableLockScreenSpotlight",
 	"DisableLocationTracking",      # "EnableLocationTracking",
 	"DisableMapUpdates",            # "EnableMapUpdates",
@@ -237,16 +237,22 @@ Function EnableAppSuggestions {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -ErrorAction SilentlyContinue
 }
 
-# Disable Background application access - Ie. if apps can download or update even when they aren't used, affects also start menu tiles
+# Disable Background application access - ie. if apps can download or update even when they aren't used
 Function DisableBackgroundApps {
 	Write-Host "Disabling Background application access..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
+	Get-ChildItem "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" | ForEach-Object {
+		Set-ItemProperty -Path $_.PsPath -Name "Disabled" -Type DWord -Value 1
+		Set-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -Type DWord -Value 1
+	}
 }
 
 # Enable Background application access
 Function EnableBackgroundApps {
 	Write-Host "Enabling Background application access..."
-	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -ErrorAction SilentlyContinue
+	Get-ChildItem "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" | ForEach-Object {
+		Remove-ItemProperty -Path $_.PsPath -Name "Disabled" -ErrorAction SilentlyContinue
+		Remove-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -ErrorAction SilentlyContinue
+	}
 }
 
 # Disable Lock screen Spotlight - New backgrounds, tips, advertisements etc.
