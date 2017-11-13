@@ -238,6 +238,7 @@ Function EnableAppSuggestions {
 }
 
 # Disable Background application access - Ie. if apps can download or update even when they aren't used, affects also start menu tiles
+# Also affects start menu searching!  See here:   https://superuser.com/a/1208858/810129
 Function DisableBackgroundApps {
 	Write-Host "Disabling Background application access..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
