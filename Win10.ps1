@@ -103,6 +103,7 @@ $tweaks = @(
 	"DisableThumbsDB",              # "EnableThumbsDB",
 	# "AddENKeyboard",              # "RemoveENKeyboard",
 	# "EnableNumlock",              # "DisableNumlock",
+	"EnableClassicControlPanel",    # "DisableClassicControlPanel",
 
 	### Application Tweaks ###
 	"DisableOneDrive",              # "EnableOneDrive",
@@ -1556,6 +1557,20 @@ Function DisableNumlock {
 		$wsh = New-Object -ComObject WScript.Shell
 		$wsh.SendKeys('{NUMLOCK}')
 	}
+}
+# Enable Classic Control Panel (Windows 7 style)
+Function EnableClassicControlPanel {
+	Write-Host "Enabling Classic Control Panel (Windows 7 style)..."
+	If (!(Test-Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+		New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -Type DWord -Value 1
+}
+
+# Disable Classic Control Panel (Windows 7 style)
+Function DisableClassicControlPanel {
+	Write-Host "Disabling Classic Control Panel (Windows 7 style)..."
+	Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -ErrorAction SilentlyContinue
 }
 
 
