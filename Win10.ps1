@@ -36,6 +36,7 @@ $tweaks = @(
 	# "DisableSMB1",                # "EnableSMB1",
 	"SetCurrentNetworkPrivate",     # "SetCurrentNetworkPublic",
 	# "SetUnknownNetworksPrivate",  # "SetUnknownNetworksPublic",
+	# "DisableNetDevicesAutoInst",  # "EnableNetDevicesAutoInst",
 	"EnableCtrldFolderAccess",      # "DisableCtrldFolderAccess",
 	# "DisableFirewall",            # "EnableFirewall",
 	# "DisableDefender",            # "EnableDefender",
@@ -527,6 +528,21 @@ Function SetUnknownNetworksPrivate {
 Function SetUnknownNetworksPublic {
 	Write-Host "Setting unknown networks profile to public..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\010103000F0000F0010000000F0000F0C967A3643C3AD745950DA7859209176EF5B87C875FA20DF21951640E807D7C24" -Name "Category" -ErrorAction SilentlyContinue
+}
+
+# Disable automatic installation of network devices
+Function DisableNetDevicesAutoInst {
+	Write-Host "Disabling automatic installation of network devices..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" -Name "AutoSetup" -Type DWord -Value 0
+}
+
+# Enable automatic installation of network devices
+Function EnableNetDevicesAutoInst {
+	Write-Host "Enabling automatic installation of network devices..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" -Name "AutoSetup"
 }
 
 # Enable Controlled Folder Access (Defender Exploit Guard feature) - Not applicable to Server

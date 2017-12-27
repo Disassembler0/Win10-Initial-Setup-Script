@@ -26,6 +26,7 @@ EnableAdminShares
 EnableSMB1
 SetCurrentNetworkPublic
 SetUnknownNetworksPublic
+EnableNetDevicesAutoInst
 # DisableCtrldFolderAccess
 EnableFirewall
 EnableDefender
