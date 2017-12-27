@@ -76,6 +76,7 @@ ShowMusicInThisPC
 ShowPicturesInThisPC
 ShowVideosInThisPC
 Show3DObjectsInThisPC
+SetControlPanelViewCategories
 SetVisualFXAppearance
 EnableThumbnails
 EnableThumbsDB

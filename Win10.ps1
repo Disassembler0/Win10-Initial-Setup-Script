@@ -1,7 +1,7 @@
 ##########
 # Win10 / WinServer2016 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: v2.10, 2017-11-09
+# Version: development
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -87,6 +87,7 @@ $tweaks = @(
 	"HidePicturesFromThisPC",       # "ShowPicturesInThisPC",
 	"HideVideosFromThisPC",         # "ShowVideosInThisPC",
 	"Hide3DObjectsFromThisPC",      # "Show3DObjectsInThisPC",
+	# "SetControlPanelViewIcons",   # "SetControlPanelViewCategories",
 	"SetVisualFXPerformance",       # "SetVisualFXAppearance",
 	# "DisableThumbnails",          # "EnableThumbnails",
 	"DisableThumbsDB",              # "EnableThumbsDB",
@@ -1265,6 +1266,18 @@ Function Show3DObjectsInThisPC {
 	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}")) {
 		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" | Out-Null
 	}
+}
+
+# Set Control Panel view to icons (Classic) - Note: May trigger antimalware
+Function SetControlPanelViewIcons {
+	Write-Host "Setting Control Panel view to icons..."
+	Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -Type DWord -Value 1
+}
+
+# Set Control Panel view to categories
+Function SetControlPanelViewCategories {
+	Write-Host "Setting Control Panel view to categories..."
+	Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -ErrorAction SilentlyContinue
 }
 
 # Adjusts visual effects for performance - Disables animations, transparency etc. but leaves font smoothing and miniatures enabled

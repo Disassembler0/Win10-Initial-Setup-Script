@@ -76,6 +76,7 @@ HideMusicFromThisPC
 HidePicturesFromThisPC
 HideVideosFromThisPC
 Hide3DObjectsFromThisPC
+SetControlPanelViewIcons
 SetVisualFXPerformance
 DisableThumbnails
 DisableThumbsDB
