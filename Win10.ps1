@@ -57,6 +57,7 @@ $tweaks = @(
 	# "SetBIOSTimeUTC",             # "SetBIOSTimeLocal",
 	# "EnableHibernation",          # "DisableHibernation",
 	# "DisableSleepButton",         # "EnableSleepButton",
+	# "DisableSleepTimeout",        # "EnableSleepTimeout",
 	# "DisableFastStartup",         # "EnableFastStartup",
 
 	### UI Tweaks ###
@@ -847,6 +848,24 @@ Function EnableSleepButton {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowSleepOption" -Type Dword -Value 1
 	powercfg /SETACVALUEINDEX SCHEME_CURRENT SUB_BUTTONS SBUTTONACTION 1
 	powercfg /SETDCVALUEINDEX SCHEME_CURRENT SUB_BUTTONS SBUTTONACTION 1
+}
+
+# Disable display and sleep mode timeouts
+Function DisableSleepTimeout {
+	Write-Host "Disabling display and sleep mode timeouts..."
+	powercfg /X monitor-timeout-ac 0
+	powercfg /X monitor-timeout-dc 0
+	powercfg /X standby-timeout-ac 0
+	powercfg /X standby-timeout-dc 0
+}
+
+# Enable display and sleep mode timeouts
+Function EnableSleepTimeout {
+	Write-Host "Enabling display and sleep mode timeouts..."
+	powercfg /X monitor-timeout-ac 10
+	powercfg /X monitor-timeout-dc 5
+	powercfg /X standby-timeout-ac 30
+	powercfg /X standby-timeout-dc 15
 }
 
 # Disable Fast Startup
