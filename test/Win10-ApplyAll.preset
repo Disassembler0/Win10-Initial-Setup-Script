@@ -46,6 +46,7 @@ DisableSuperfetch
 DisableIndexing
 SetBIOSTimeUTC
 EnableHibernation
+DisableSleepButton
 DisableFastStartup
 
 DisableActionCenter

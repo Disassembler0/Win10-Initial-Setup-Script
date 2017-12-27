@@ -46,6 +46,7 @@ EnableSuperfetch
 EnableIndexing
 SetBIOSTimeLocal
 DisableHibernation
+EnableSleepButton
 EnableFastStartup
 
 EnableActionCenter

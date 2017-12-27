@@ -46,6 +46,7 @@ EnableDefragmentation
 EnableIndexing
 SetBIOSTimeLocal
 DisableHibernation
+EnableSleepButton
 EnableFastStartup
 
 EnableActionCenter

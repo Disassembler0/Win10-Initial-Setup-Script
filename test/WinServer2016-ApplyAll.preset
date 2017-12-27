@@ -46,6 +46,7 @@ DisableDefragmentation
 DisableIndexing
 SetBIOSTimeUTC
 EnableHibernation
+DisableSleepButton
 DisableFastStartup
 
 DisableActionCenter
