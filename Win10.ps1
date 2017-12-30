@@ -37,7 +37,7 @@ $tweaks = @(
 	"SetCurrentNetworkPrivate",     # "SetCurrentNetworkPublic",
 	# "SetUnknownNetworksPrivate",  # "SetUnknownNetworksPublic",
 	# "DisableNetDevicesAutoInst",  # "EnableNetDevicesAutoInst",
-	"EnableCtrldFolderAccess",      # "DisableCtrldFolderAccess",
+	# "EnableCtrldFolderAccess",    # "DisableCtrldFolderAccess",
 	# "DisableFirewall",            # "EnableFirewall",
 	# "DisableDefender",            # "EnableDefender",
 	# "DisableDefenderCloud",       # "EnableDefenderCloud",
@@ -273,7 +273,7 @@ Function EnableBackgroundApps {
 	}
 }
 
-# Disable Lock screen Spotlight - New backgrounds, tips, adveradvertisements etc.
+# Disable Lock screen Spotlight - New backgrounds, tips, advertisements etc.
 Function DisableLockScreenSpotlight {
 	Write-Host "Disabling Lock screen spotlight..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "RotatingLockScreenEnabled" -Type DWord -Value 0
