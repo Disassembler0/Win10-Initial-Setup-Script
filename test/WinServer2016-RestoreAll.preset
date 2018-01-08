@@ -110,6 +110,7 @@ EnableSearchAppInStore
 EnableNewAppPrompt
 DisableF8BootMenu
 SetDEPOptIn
+DisableMeltdownCompatFlag
 
 ShowServerManagerOnLogin
 EnableShutdownTracker
