@@ -123,6 +123,9 @@ $tweaks = @(
 	"EnableF8BootMenu",             # "DisableF8BootMenu",
 	"SetDEPOptOut",                 # "SetDEPOptIn",
 
+	### 3rd Party Softare ###
+	# "InstallChocolatey",            # "UninstallChocolatey",
+
 	### Server Specific Tweaks ###
 	# "HideServerManagerOnLogin",   # "ShowServerManagerOnLogin",
 	# "DisableShutdownTracker",     # "EnableShutdownTracker",
@@ -1971,6 +1974,25 @@ Function SetDEPOptOut {
 Function SetDEPOptIn {
 	Write-Host "Setting Data Execution Prevention (DEP) policy to OptIn..."
 	bcdedit /set `{current`} nx OptIn | Out-Null
+}
+
+
+
+##########
+# 3rd Party Software
+##########
+
+# Install Chocolatey from remote
+Function InstallChocolatey {
+    Write-Host "Downloading and running Chocolatey installation script"
+    # ExecutionPolicy should already be Bypass
+    iex ((New-Object System.Net.WebClient).DownloadString("https://chocolatey.org/install.ps1"))
+}
+
+# Remove Chocolatey from local machine
+Function UninstallChocolatey {
+    Write-Host "Removing Chocolatey directory"
+    Remove-Item "c:\ProgramData\Chocolatey" -Recurse -Force
 }
 
 
