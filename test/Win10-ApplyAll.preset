@@ -118,5 +118,8 @@ EnableMeltdownCompatFlag
 # DisableCtrlAltDelLogin
 # DisableIEEnhancedSecurity
 
+UnpinStartMenuTiles
+UnpinTaskbarIcons
+
 WaitForKey
 Restart

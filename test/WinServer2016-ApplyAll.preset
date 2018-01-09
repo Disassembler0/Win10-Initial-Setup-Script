@@ -118,5 +118,8 @@ DisablePasswordPolicy
 DisableCtrlAltDelLogin
 DisableIEEnhancedSecurity
 
+# UnpinStartMenuTiles
+UnpinTaskbarIcons
+
 WaitForKey
 Restart
