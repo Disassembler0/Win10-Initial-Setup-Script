@@ -801,13 +801,13 @@ Function DisableStorageSense {
 # Disable scheduled defragmentation task
 Function DisableDefragmentation {
 	Write-Host "Disabling scheduled defragmentation..."
-	Disable-ScheduledTask -TaskName "\Microsoft\Windows\Defrag\ScheduledDefrag" | Out-Null
+	Disable-ScheduledTask -TaskName "Microsoft\Windows\Defrag\ScheduledDefrag" | Out-Null
 }
 
 # Enable scheduled defragmentation task
 Function EnableDefragmentation {
 	Write-Host "Enabling scheduled defragmentation..."
-	Enable-ScheduledTask -TaskName "\Microsoft\Windows\Defrag\ScheduledDefrag" | Out-Null
+	Enable-ScheduledTask -TaskName "Microsoft\Windows\Defrag\ScheduledDefrag" | Out-Null
 }
 
 # Stop and disable Superfetch service - Not applicable to Server
@@ -2123,7 +2123,7 @@ Function EnableIEEnhancedSecurity {
 
 # Unpin all Start Menu tiles - Not applicable to Server - Note: This function has no counterpart. You have to pin the tiles back manually.
 Function UnpinStartMenuTiles {
-	Write-Host "Unpinning all Start Menu tiles"
+	Write-Host "Unpinning all Start Menu tiles..."
 	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount" -Include "*.group" -Recurse | ForEach-Object {
 		$data = (Get-ItemProperty -Path "$($_.PsPath)\Current" -Name "Data").Data -Join ","
 		$data = $data.Substring(0, $data.IndexOf(",0,202,30") + 9) + ",0,202,80,0,0"
@@ -2133,7 +2133,7 @@ Function UnpinStartMenuTiles {
 
 # Unpin all Taskbar icons - Note: This function has no counterpart. You have to pin the icons back manually.
 Function UnpinTaskbarIcons {
-	Write-Host "Unpinning all Taskbar icons"
+	Write-Host "Unpinning all Taskbar icons..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "Favorites" -Type Binary -Value ([byte[]](0xFF))
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "FavoritesResolve" -ErrorAction SilentlyContinue
 }
