@@ -103,6 +103,7 @@ $tweaks = @(
 	"DisableThumbsDB",              # "EnableThumbsDB",
 	# "AddENKeyboard",              # "RemoveENKeyboard",
 	# "EnableNumlock",              # "DisableNumlock",
+	# "RemoveDefaultPrinters",
 
 	### Application Tweaks ###
 	"DisableOneDrive",              # "EnableOneDrive",
@@ -1588,7 +1589,12 @@ Function DisableNumlock {
 	}
 }
 
-
+# Remove default printers
+Function RemoveDefaultPrinters {
+    Remove-Printer –Name "Microsoft XPS Document Writer"
+    Remove-Printer –Name "Microsoft Print to PDF"
+    Remove-Printer –Name "Fax"
+}
 
 ##########
 # Application Tweaks
