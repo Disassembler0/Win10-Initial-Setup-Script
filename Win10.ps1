@@ -43,6 +43,7 @@ $tweaks = @(
 	# "DisableDefenderCloud",       # "EnableDefenderCloud",
 	"EnableF8BootMenu",             # "DisableF8BootMenu",
 	"SetDEPOptOut",                 # "SetDEPOptIn",
+	"DisableScriptHost",            # "EnableScriptHost",
 	# "EnableMeltdownCompatFlag"    # "DisableMeltdownCompatFlag",
 
 	### Service Tweaks ###
@@ -677,6 +678,18 @@ Function SetDEPOptOut {
 Function SetDEPOptIn {
 	Write-Output "Setting Data Execution Prevention (DEP) policy to OptIn..."
 	bcdedit /set `{current`} nx OptIn | Out-Null
+}
+
+# Disable Windows Script Host (execution of *.vbs scripts and alike)
+Function DisableScriptHost {
+	Write-Output "Disabling Windows Script Host..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
+}
+
+# Enable Windows Script Host
+Function EnableScriptHost {
+	Write-Output "Enabling Windows Script Host..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -ErrorAction SilentlyContinue
 }
 
 # Enable Meltdown (CVE-2017-5754) compatibility flag - Required for January 2018 and all subsequent Windows updates

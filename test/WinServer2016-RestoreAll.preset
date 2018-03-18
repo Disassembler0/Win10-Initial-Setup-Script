@@ -33,6 +33,7 @@ EnableDefender
 EnableDefenderCloud
 DisableF8BootMenu
 SetDEPOptIn
+EnableScriptHost
 DisableMeltdownCompatFlag
 
 EnableUpdateMSRT
