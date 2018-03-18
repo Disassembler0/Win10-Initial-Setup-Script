@@ -114,6 +114,9 @@ UninstallMediaPlayer
 InstallHyperV
 SetPhotoViewerAssociation
 AddPhotoViewerOpenWith
+UninstallPDFPrinter
+UninstallXPSPrinter
+RemoveFaxPrinter
 
 HideServerManagerOnLogin
 DisableShutdownTracker

@@ -114,6 +114,9 @@ UninstallLinuxSubsystem
 UninstallHyperV
 UnsetPhotoViewerAssociation
 RemovePhotoViewerOpenWith
+InstallPDFPrinter
+InstallXPSPrinter
+AddFaxPrinter
 
 # ShowServerManagerOnLogin
 # EnableShutdownTracker

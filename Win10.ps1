@@ -128,6 +128,9 @@ $tweaks = @(
 	# "InstallHyperV",              # "UninstallHyperV",
 	"SetPhotoViewerAssociation",    # "UnsetPhotoViewerAssociation",
 	"AddPhotoViewerOpenWith",       # "RemovePhotoViewerOpenWith",
+	# "UninstallPDFPrinter",        # "InstallPDFPrinter",
+	"UninstallXPSPrinter",          # "InstallXPSPrinter",
+	"RemoveFaxPrinter",             # "AddFaxPrinter",
 
 	### Server Specific Tweaks ###
 	# "HideServerManagerOnLogin",   # "ShowServerManagerOnLogin",
@@ -2069,6 +2072,42 @@ Function RemovePhotoViewerOpenWith {
 		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 	}
 	Remove-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open" -Recurse -ErrorAction SilentlyContinue
+}
+
+# Uninstall Microsoft Print to PDF
+Function UninstallPDFPrinter {
+	Write-Output "Uninstalling Microsoft Print to PDF..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "Printing-PrintToPDFServices-Features" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Install Microsoft Print to PDF
+Function InstallPDFPrinter {
+	Write-Output "Installing Microsoft Print to PDF..."
+	Enable-WindowsOptionalFeature -Online -FeatureName "Printing-PrintToPDFServices-Features" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Uninstall Microsoft XPS Document Writer
+Function UninstallXPSPrinter {
+	Write-Output "Uninstalling Microsoft XPS Document Writer..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "Printing-XPSServices-Features" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Install Microsoft XPS Document Writer
+Function InstallXPSPrinter {
+	Write-Output "Installing Microsoft XPS Document Writer..."
+	Enable-WindowsOptionalFeature -Online -FeatureName "Printing-XPSServices-Features" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Remove Default Fax Printer
+Function RemoveFaxPrinter {
+	Write-Output "Removing Default Fax Printer..."
+	Remove-Printer -Name "Fax" -ErrorAction SilentlyContinue
+}
+
+# Add Default Fax Printer
+Function AddFaxPrinter {
+	Write-Output "Adding Default Fax Printer..."
+	Add-Printer -Name "Fax" -DriverName "Microsoft Shared Fax Driver" -PortName "SHRFAX:" -ErrorAction SilentlyContinue
 }
 
 
