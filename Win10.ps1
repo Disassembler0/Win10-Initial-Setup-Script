@@ -1,7 +1,7 @@
 ##########
 # Win10 / WinServer2016 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: v2.12, 2018-01-09
+# Version: development
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -147,6 +147,9 @@ $tweaks = @(
 ##########
 
 # Disable Telemetry
+# Note: This tweak may cause Enterprise edition to stop receiving Windows updates.
+# Windows Update control panel will then show message "Your device is at risk because it's out of date and missing important security and quality updates. Let's get you back on track so Windows can run more securely. Select this button to get going".
+# In such case, enable telemetry, run Windows update and then disable telemetry again. See also https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/57
 Function DisableTelemetry {
 	Write-Host "Disabling Telemetry..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
