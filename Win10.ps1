@@ -10,7 +10,7 @@ $tweaks = @(
 	### Require administrator privileges ###
 	"RequireAdmin",
 
-	### Privacy Settings ###
+	### Privacy Tweaks ###
 	"DisableTelemetry",             # "EnableTelemetry",
 	"DisableWiFiSense",             # "EnableWiFiSense",
 	# "DisableSmartScreen",         # "EnableSmartScreen",
@@ -29,7 +29,7 @@ $tweaks = @(
 	"DisableDiagTrack",             # "EnableDiagTrack",
 	"DisableWAPPush",               # "EnableWAPPush",
 
-	### Service Tweaks ###
+	### Security Tweaks ###
 	# "SetUACLow",                  # "SetUACHigh",
 	# "EnableSharingMappedDrives",  # "DisableSharingMappedDrives",
 	"DisableAdminShares",           # "EnableAdminShares",
@@ -41,6 +41,11 @@ $tweaks = @(
 	# "DisableFirewall",            # "EnableFirewall",
 	# "DisableDefender",            # "EnableDefender",
 	# "DisableDefenderCloud",       # "EnableDefenderCloud",
+	"EnableF8BootMenu",             # "DisableF8BootMenu",
+	"SetDEPOptOut",                 # "SetDEPOptIn",
+	# "EnableMeltdownCompatFlag"    # "DisableMeltdownCompatFlag",
+
+	### Service Tweaks ###
 	# "DisableUpdateMSRT",          # "EnableUpdateMSRT",
 	# "DisableUpdateDriver",        # "EnableUpdateDriver",
 	"DisableUpdateRestart",         # "EnableUpdateRestart",
@@ -76,6 +81,14 @@ $tweaks = @(
 	"ShowTaskbarTitles",            # "HideTaskbarTitles",
 	"HideTaskbarPeopleIcon",        # "ShowTaskbarPeopleIcon",
 	"ShowTrayIcons",                # "HideTrayIcons",
+	"DisableSearchAppInStore",      # "EnableSearchAppInStore",
+	"DisableNewAppPrompt",          # "EnableNewAppPrompt",
+	# "SetControlPanelViewIcons",   # "SetControlPanelViewCategories",
+	"SetVisualFXPerformance",       # "SetVisualFXAppearance",
+	# "AddENKeyboard",              # "RemoveENKeyboard",
+	# "EnableNumlock",              # "DisableNumlock",
+
+	### Explorer UI Tweaks ###
 	"ShowKnownExtensions",          # "HideKnownExtensions",
 	"ShowHiddenFiles",              # "HideHiddenFiles",
 	"HideSyncNotifications"         # "ShowSyncNotifications",
@@ -97,12 +110,8 @@ $tweaks = @(
 	# "HideVideosFromExplorer",     # "ShowVideosInExplorer",
 	"Hide3DObjectsFromThisPC",      # "Show3DObjectsInThisPC",
 	# "Hide3DObjectsFromExplorer",  # "Show3DObjectsInExplorer",
-	# "SetControlPanelViewIcons",   # "SetControlPanelViewCategories",
-	"SetVisualFXPerformance",       # "SetVisualFXAppearance",
 	# "DisableThumbnails",          # "EnableThumbnails",
 	"DisableThumbsDB",              # "EnableThumbsDB",
-	# "AddENKeyboard",              # "RemoveENKeyboard",
-	# "EnableNumlock",              # "DisableNumlock",
 
 	### Application Tweaks ###
 	"DisableOneDrive",              # "EnableOneDrive",
@@ -118,11 +127,6 @@ $tweaks = @(
 	# "InstallHyperV",              # "UninstallHyperV",
 	"SetPhotoViewerAssociation",    # "UnsetPhotoViewerAssociation",
 	"AddPhotoViewerOpenWith",       # "RemovePhotoViewerOpenWith",
-	"DisableSearchAppInStore",      # "EnableSearchAppInStore",
-	"DisableNewAppPrompt",          # "EnableNewAppPrompt",
-	"EnableF8BootMenu",             # "DisableF8BootMenu",
-	"SetDEPOptOut",                 # "SetDEPOptIn",
-	# "EnableMeltdownCompatFlag"    # "DisableMeltdownCompatFlag",
 
 	### Server Specific Tweaks ###
 	# "HideServerManagerOnLogin",   # "ShowServerManagerOnLogin",
@@ -143,7 +147,7 @@ $tweaks = @(
 
 
 ##########
-# Privacy Settings
+# Privacy Tweaks
 ##########
 
 # Disable Telemetry
@@ -495,7 +499,7 @@ Function EnableWAPPush {
 
 
 ##########
-# Service Tweaks
+# Security Tweaks
 ##########
 
 # Lower UAC level (disabling it completely would break apps)
@@ -650,6 +654,54 @@ Function EnableDefenderCloud {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" -Name "SpynetReporting" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" -Name "SubmitSamplesConsent" -ErrorAction SilentlyContinue
 }
+
+# Enable F8 boot menu options
+Function EnableF8BootMenu {
+	Write-Output "Enabling F8 boot menu options..."
+	bcdedit /set `{current`} bootmenupolicy Legacy | Out-Null
+}
+
+# Disable F8 boot menu options
+Function DisableF8BootMenu {
+	Write-Output "Disabling F8 boot menu options..."
+	bcdedit /set `{current`} bootmenupolicy Standard | Out-Null
+}
+
+# Set Data Execution Prevention (DEP) policy to OptOut
+Function SetDEPOptOut {
+	Write-Output "Setting Data Execution Prevention (DEP) policy to OptOut..."
+	bcdedit /set `{current`} nx OptOut | Out-Null
+}
+
+# Set Data Execution Prevention (DEP) policy to OptIn
+Function SetDEPOptIn {
+	Write-Output "Setting Data Execution Prevention (DEP) policy to OptIn..."
+	bcdedit /set `{current`} nx OptIn | Out-Null
+}
+
+# Enable Meltdown (CVE-2017-5754) compatibility flag - Required for January 2018 and all subsequent Windows updates
+# This flag is normally automatically enabled by compatible antivirus software (such as Windows Defender).
+# Use the tweak only if you have confirmed that your AV is compatible but unable to set the flag automatically or if you don't use any AV at all.
+# See https://support.microsoft.com/en-us/help/4072699/january-3-2018-windows-security-updates-and-antivirus-software for details.
+Function EnableMeltdownCompatFlag {
+	Write-Output "Enabling Meltdown (CVE-2017-5754) compatibility flag..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 0
+}
+
+# Disable Meltdown (CVE-2017-5754) compatibility flag
+Function DisableMeltdownCompatFlag {
+	Write-Output "Disabling Meltdown (CVE-2017-5754) compatibility flag..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -ErrorAction SilentlyContinue
+}
+
+
+
+##########
+# Service Tweaks
+##########
 
 # Disable offering of Malicious Software Removal Tool through Windows Update
 Function DisableUpdateMSRT {
@@ -1156,6 +1208,127 @@ Function HideTrayIcons {
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -ErrorAction SilentlyContinue
 }
 
+# Disable search for app in store for unknown extensions
+Function DisableSearchAppInStore {
+	Write-Output "Disabling search for app in store for unknown extensions..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
+}
+
+# Enable search for app in store for unknown extensions
+Function EnableSearchAppInStore {
+	Write-Output "Enabling search for app in store for unknown extensions..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -ErrorAction SilentlyContinue
+}
+
+# Disable 'How do you want to open this file?' prompt
+Function DisableNewAppPrompt {
+	Write-Output "Disabling 'How do you want to open this file?' prompt..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -Type DWord -Value 1
+}
+
+# Enable 'How do you want to open this file?' prompt
+Function EnableNewAppPrompt {
+	Write-Output "Enabling 'How do you want to open this file?' prompt..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -ErrorAction SilentlyContinue
+}
+
+# Set Control Panel view to icons (Classic) - Note: May trigger antimalware
+Function SetControlPanelViewIcons {
+	Write-Output "Setting Control Panel view to icons..."
+	Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -Type DWord -Value 1
+}
+
+# Set Control Panel view to categories
+Function SetControlPanelViewCategories {
+	Write-Output "Setting Control Panel view to categories..."
+	Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -ErrorAction SilentlyContinue
+}
+
+# Adjusts visual effects for performance - Disables animations, transparency etc. but leaves font smoothing and miniatures enabled
+Function SetVisualFXPerformance {
+	Write-Output "Adjusting visual effects for performance..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "DragFullWindows" -Type String -Value 0
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 0
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "UserPreferencesMask" -Type Binary -Value ([byte[]](0x90,0x12,0x03,0x80,0x10,0x00,0x00,0x00))
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop\WindowMetrics" -Name "MinAnimate" -Type String -Value 0
+	Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewAlphaSelect" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewShadow" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAnimations" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type DWord -Value 3
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 0
+}
+
+# Adjusts visual effects for appearance
+Function SetVisualFXAppearance {
+	Write-Output "Adjusting visual effects for appearance..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "DragFullWindows" -Type String -Value 1
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 400
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "UserPreferencesMask" -Type Binary -Value ([byte[]](0x9E,0x1E,0x07,0x80,0x12,0x00,0x00,0x00))
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop\WindowMetrics" -Name "MinAnimate" -Type String -Value 1
+	Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewAlphaSelect" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewShadow" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAnimations" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type DWord -Value 3
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 1
+}
+
+# Add secondary en-US keyboard
+Function AddENKeyboard {
+	Write-Output "Adding secondary en-US keyboard..."
+	$langs = Get-WinUserLanguageList
+	$langs.Add("en-US")
+	Set-WinUserLanguageList $langs -Force
+}
+
+# Remove secondary en-US keyboard
+Function RemoveENKeyboard {
+	Write-Output "Removing secondary en-US keyboard..."
+	$langs = Get-WinUserLanguageList
+	Set-WinUserLanguageList ($langs | ? {$_.LanguageTag -ne "en-US"}) -Force
+}
+
+# Enable NumLock after startup
+Function EnableNumlock {
+	Write-Output "Enabling NumLock after startup..."
+	If (!(Test-Path "HKU:")) {
+		New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
+	}
+	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 2147483650
+	Add-Type -AssemblyName System.Windows.Forms
+	If (!([System.Windows.Forms.Control]::IsKeyLocked('NumLock'))) {
+		$wsh = New-Object -ComObject WScript.Shell
+		$wsh.SendKeys('{NUMLOCK}')
+	}
+}
+
+# Disable NumLock after startup
+Function DisableNumlock {
+	Write-Output "Disabling NumLock after startup..."
+	If (!(Test-Path "HKU:")) {
+		New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
+	}
+	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 2147483648
+	Add-Type -AssemblyName System.Windows.Forms
+	If ([System.Windows.Forms.Control]::IsKeyLocked('NumLock')) {
+		$wsh = New-Object -ComObject WScript.Shell
+		$wsh.SendKeys('{NUMLOCK}')
+	}
+}
+
+
+
+##########
+# Explorer UI Tweaks
+##########
+
 # Show known file extensions
 Function ShowKnownExtensions {
 	Write-Output "Showing known file extensions..."
@@ -1480,48 +1653,6 @@ Function Show3DObjectsInExplorer {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" -Name "ThisPCPolicy" -ErrorAction SilentlyContinue
 }
 
-# Set Control Panel view to icons (Classic) - Note: May trigger antimalware
-Function SetControlPanelViewIcons {
-	Write-Output "Setting Control Panel view to icons..."
-	Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -Type DWord -Value 1
-}
-
-# Set Control Panel view to categories
-Function SetControlPanelViewCategories {
-	Write-Output "Setting Control Panel view to categories..."
-	Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -ErrorAction SilentlyContinue
-}
-
-# Adjusts visual effects for performance - Disables animations, transparency etc. but leaves font smoothing and miniatures enabled
-Function SetVisualFXPerformance {
-	Write-Output "Adjusting visual effects for performance..."
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "DragFullWindows" -Type String -Value 0
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 0
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "UserPreferencesMask" -Type Binary -Value ([byte[]](0x90,0x12,0x03,0x80,0x10,0x00,0x00,0x00))
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop\WindowMetrics" -Name "MinAnimate" -Type String -Value 0
-	Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 0
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewAlphaSelect" -Type DWord -Value 0
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewShadow" -Type DWord -Value 0
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAnimations" -Type DWord -Value 0
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type DWord -Value 3
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 0
-}
-
-# Adjusts visual effects for appearance
-Function SetVisualFXAppearance {
-	Write-Output "Adjusting visual effects for appearance..."
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "DragFullWindows" -Type String -Value 1
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 400
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "UserPreferencesMask" -Type Binary -Value ([byte[]](0x9E,0x1E,0x07,0x80,0x12,0x00,0x00,0x00))
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop\WindowMetrics" -Name "MinAnimate" -Type String -Value 1
-	Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewAlphaSelect" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewShadow" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAnimations" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type DWord -Value 3
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 1
-}
-
 # Disable thumbnails, show only file extension icons
 Function DisableThumbnails {
 	Write-Output "Disabling thumbnails..."
@@ -1546,49 +1677,6 @@ Function EnableThumbsDB {
 	Write-Output "Enable creation of Thumbs.db..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbnailCache" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -ErrorAction SilentlyContinue
-}
-
-# Add secondary en-US keyboard
-Function AddENKeyboard {
-	Write-Output "Adding secondary en-US keyboard..."
-	$langs = Get-WinUserLanguageList
-	$langs.Add("en-US")
-	Set-WinUserLanguageList $langs -Force
-}
-
-# Remove secondary en-US keyboard
-Function RemoveENKeyboard {
-	Write-Output "Removing secondary en-US keyboard..."
-	$langs = Get-WinUserLanguageList
-	Set-WinUserLanguageList ($langs | ? {$_.LanguageTag -ne "en-US"}) -Force
-}
-
-# Enable NumLock after startup
-Function EnableNumlock {
-	Write-Output "Enabling NumLock after startup..."
-	If (!(Test-Path "HKU:")) {
-		New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
-	}
-	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 2147483650
-	Add-Type -AssemblyName System.Windows.Forms
-	If (!([System.Windows.Forms.Control]::IsKeyLocked('NumLock'))) {
-		$wsh = New-Object -ComObject WScript.Shell
-		$wsh.SendKeys('{NUMLOCK}')
-	}
-}
-
-# Disable NumLock after startup
-Function DisableNumlock {
-	Write-Output "Disabling NumLock after startup..."
-	If (!(Test-Path "HKU:")) {
-		New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
-	}
-	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 2147483648
-	Add-Type -AssemblyName System.Windows.Forms
-	If ([System.Windows.Forms.Control]::IsKeyLocked('NumLock')) {
-		$wsh = New-Object -ComObject WScript.Shell
-		$wsh.SendKeys('{NUMLOCK}')
-	}
 }
 
 
@@ -1964,78 +2052,6 @@ Function RemovePhotoViewerOpenWith {
 		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 	}
 	Remove-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open" -Recurse -ErrorAction SilentlyContinue
-}
-
-# Disable search for app in store for unknown extensions
-Function DisableSearchAppInStore {
-	Write-Output "Disabling search for app in store for unknown extensions..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
-		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
-	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
-}
-
-# Enable search for app in store for unknown extensions
-Function EnableSearchAppInStore {
-	Write-Output "Enabling search for app in store for unknown extensions..."
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -ErrorAction SilentlyContinue
-}
-
-# Disable 'How do you want to open this file?' prompt
-Function DisableNewAppPrompt {
-	Write-Output "Disabling 'How do you want to open this file?' prompt..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
-		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
-	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -Type DWord -Value 1
-}
-
-# Enable 'How do you want to open this file?' prompt
-Function EnableNewAppPrompt {
-	Write-Output "Enabling 'How do you want to open this file?' prompt..."
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -ErrorAction SilentlyContinue
-}
-
-# Enable F8 boot menu options
-Function EnableF8BootMenu {
-	Write-Output "Enabling F8 boot menu options..."
-	bcdedit /set `{current`} bootmenupolicy Legacy | Out-Null
-}
-
-# Disable F8 boot menu options
-Function DisableF8BootMenu {
-	Write-Output "Disabling F8 boot menu options..."
-	bcdedit /set `{current`} bootmenupolicy Standard | Out-Null
-}
-
-# Set Data Execution Prevention (DEP) policy to OptOut
-Function SetDEPOptOut {
-	Write-Output "Setting Data Execution Prevention (DEP) policy to OptOut..."
-	bcdedit /set `{current`} nx OptOut | Out-Null
-}
-
-# Set Data Execution Prevention (DEP) policy to OptIn
-Function SetDEPOptIn {
-	Write-Output "Setting Data Execution Prevention (DEP) policy to OptIn..."
-	bcdedit /set `{current`} nx OptIn | Out-Null
-}
-
-# Enable Meltdown (CVE-2017-5754) compatibility flag - Required for January 2018 and all subsequent Windows updates
-# This flag is normally automatically enabled by compatible antivirus software (such as Windows Defender).
-# Use the tweak only if you have confirmed that your AV is compatible but unable to set the flag automatically or if you don't use any AV at all.
-# See https://support.microsoft.com/en-us/help/4072699/january-3-2018-windows-security-updates-and-antivirus-software for details.
-Function EnableMeltdownCompatFlag {
-	Write-Output "Enabling Meltdown (CVE-2017-5754) compatibility flag..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat")) {
-		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" | Out-Null
-	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 0
-}
-
-# Disable Meltdown (CVE-2017-5754) compatibility flag
-Function DisableMeltdownCompatFlag {
-	Write-Output "Disabling Meltdown (CVE-2017-5754) compatibility flag..."
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -ErrorAction SilentlyContinue
 }
 
 
