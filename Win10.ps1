@@ -123,6 +123,7 @@ $tweaks = @(
 	"DisableXboxFeatures",          # "EnableXboxFeatures",
 	"DisableAdobeFlash",            # "EnableAdobeFlash",
 	# "UninstallMediaPlayer",       # "InstallMediaPlayer",
+	# "UninstallInternetExplorer",  # "InstallInternetExplorer",
 	# "UninstallWorkFolders",       # "InstallWorkFolders",
 	# "InstallLinuxSubsystem",      # "UninstallLinuxSubsystem",
 	# "InstallHyperV",              # "UninstallHyperV",
@@ -1973,6 +1974,18 @@ Function UninstallMediaPlayer {
 Function InstallMediaPlayer {
 	Write-Output "Installing Windows Media Player..."
 	Enable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Uninstall Internet Explorer
+Function UninstallInternetExplorer {
+	Write-Output "Uninstalling Internet Explorer..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "Internet-Explorer-Optional-amd64" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Install Internet Explorer
+Function InstallInternetExplorer {
+	Write-Output "Installing Internet Explorer..."
+	Enable-WindowsOptionalFeature -Online -FeatureName "Internet-Explorer-Optional-amd64" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Uninstall Work Folders Client - Not applicable to Server
