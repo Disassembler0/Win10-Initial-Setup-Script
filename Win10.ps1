@@ -718,14 +718,18 @@ Function DisableMeltdownCompatFlag {
 # https://stackoverflow.com/questions/36265534/invoke-webrequest-ssl-fails
 function EnableDotNetStrongCrypto {
     Write-output "Enabling .NET strong cryptography"
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319' -Name 'SchUseStrongCrypto' -Value '1' -Type DWord -ErrorAction SilentlyContinue
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319' -Name 'SchUseStrongCrypto' -Value '1' -Type DWord -ErrorAction SilentlyContinue
+    If (Test-Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319") {
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Value "1" -Type DWord -ErrorAction SilentlyContinue
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Value "1" -Type DWord -ErrorAction SilentlyContinue
 }
 # Disable strong cryptography for .Net Framework (version 4 and above)
 function DisableDotNetStrongCrypto {
     Write-output "Disabling .NET strong cryptography"
-    Remove-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319' -Name 'SchUseStrongCrypto' -ErrorAction SilentlyContinue
-    Remove-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319' -Name 'SchUseStrongCrypto' -ErrorAction SilentlyContinue
+    If (Test-Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319") {
+        Remove-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319" -Name "SchUseStrongCrypto" -ErrorAction SilentlyContinue
+    }
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319" -Name "SchUseStrongCrypto" -ErrorAction SilentlyContinue
 }
 
 
