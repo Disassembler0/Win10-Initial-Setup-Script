@@ -34,6 +34,7 @@ $tweaks = @(
 	# "EnableSharingMappedDrives",  # "DisableSharingMappedDrives",
 	"DisableAdminShares",           # "EnableAdminShares",
 	# "DisableSMB1",                # "EnableSMB1",
+	"DisableSMB2",			# "EnableSMB2",
 	"SetCurrentNetworkPrivate",     # "SetCurrentNetworkPublic",
 	# "SetUnknownNetworksPrivate",  # "SetUnknownNetworksPublic",
 	# "DisableNetDevicesAutoInst",  # "EnableNetDevicesAutoInst",
@@ -554,6 +555,18 @@ Function DisableSMB1 {
 Function EnableSMB1 {
 	Write-Output "Enabling SMB 1.0 protocol..."
 	Set-SmbServerConfiguration -EnableSMB1Protocol $true -Force
+}
+
+# Disable the SMB 2.0 protocol - Recommended if your network consists of all Win 8/2012+ systems
+Function DisableSMB2 {
+	Write-Output "Disabling SMB 2.0 protocol..."
+	Set-SmbServerConfiguration -EnableSMB2Protocol $false -Force
+}
+
+# Enable the SMB 2.0 protocol - Should only be used if you absolutely need it for compatability with other/older systems
+Function EnableSMB2 {
+	Write-Output "Enabling SMB 2.0 protocol..."
+	Set-SmbServerConfiguration -EnableSMB2Protocol $true -Force
 }
 
 # Set current network profile to private (allow file sharing, device discovery, etc.)
