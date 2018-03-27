@@ -563,7 +563,7 @@ Function DisableSMB2 {
 	Set-SmbServerConfiguration -EnableSMB2Protocol $false -Force
 }
 
-# Enable the SMB 2.0 protocol - Should only be used if you absolutely need it for compatability with other/older systems
+# Enable the SMB 2.0 protocol - Should only be used if you absolutely need it for compatibility with other/older systems
 Function EnableSMB2 {
 	Write-Output "Enabling SMB 2.0 protocol..."
 	Set-SmbServerConfiguration -EnableSMB2Protocol $true -Force
