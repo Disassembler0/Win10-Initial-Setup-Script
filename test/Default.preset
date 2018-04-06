@@ -34,6 +34,7 @@ SetCurrentNetworkPrivate
 EnableF8BootMenu
 SetDEPOptOut
 DisableScriptHost
+EnableDotNetStrongCrypto
 # EnableMeltdownCompatFlag
 
 # DisableUpdateMSRT

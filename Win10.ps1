@@ -44,6 +44,7 @@ $tweaks = @(
 	"EnableF8BootMenu",             # "DisableF8BootMenu",
 	"SetDEPOptOut",                 # "SetDEPOptIn",
 	"DisableScriptHost",            # "EnableScriptHost",
+	"EnableDotNetStrongCrypto",     # "DisableDotNetStrongCrypto",
 	# "EnableMeltdownCompatFlag"    # "DisableMeltdownCompatFlag",
 
 	### Service Tweaks ###
@@ -694,6 +695,21 @@ Function DisableScriptHost {
 Function EnableScriptHost {
 	Write-Output "Enabling Windows Script Host..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -ErrorAction SilentlyContinue
+}
+
+# Enable strong cryptography for .NET Framework (version 4 and above)
+# https://stackoverflow.com/questions/36265534/invoke-webrequest-ssl-fails
+Function EnableDotNetStrongCrypto {
+	Write-output "Enabling .NET strong cryptography..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
+}
+
+# Disable strong cryptography for .NET Framework (version 4 and above)
+Function DisableDotNetStrongCrypto {
+	Write-output "Disabling .NET strong cryptography..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -ErrorAction SilentlyContinue
 }
 
 # Enable Meltdown (CVE-2017-5754) compatibility flag - Required for January 2018 and all subsequent Windows updates

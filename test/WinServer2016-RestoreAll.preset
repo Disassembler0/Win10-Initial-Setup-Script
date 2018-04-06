@@ -34,6 +34,7 @@ EnableDefenderCloud
 DisableF8BootMenu
 SetDEPOptIn
 EnableScriptHost
+DisableDotNetStrongCrypto
 DisableMeltdownCompatFlag
 
 EnableUpdateMSRT
