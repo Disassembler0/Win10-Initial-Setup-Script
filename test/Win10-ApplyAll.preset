@@ -109,6 +109,7 @@ UninstallWindowsStore
 DisableXboxFeatures
 DisableAdobeFlash
 UninstallMediaPlayer
+UninstallInternetExplorer
 UninstallWorkFolders
 InstallLinuxSubsystem
 InstallHyperV

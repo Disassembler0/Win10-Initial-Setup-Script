@@ -109,6 +109,7 @@ InstallWindowsStore
 EnableXboxFeatures
 EnableAdobeFlash
 InstallMediaPlayer
+InstallInternetExplorer
 InstallWorkFolders
 UninstallLinuxSubsystem
 UninstallHyperV
