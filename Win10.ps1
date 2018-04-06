@@ -45,6 +45,7 @@ $tweaks = @(
 	"SetDEPOptOut",                 # "SetDEPOptIn",
 	"DisableScriptHost",            # "EnableScriptHost",
 	# "EnableMeltdownCompatFlag"    # "DisableMeltdownCompatFlag",
+	"EnableDotNetStrongCrypto",     # "DisableDotNetStrongCrypto",
 
 	### Service Tweaks ###
 	# "DisableUpdateMSRT",          # "EnableUpdateMSRT",
@@ -714,6 +715,23 @@ Function DisableMeltdownCompatFlag {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -ErrorAction SilentlyContinue
 }
 
+# Enable strong cryptography for .Net Framework (version 4 and above)
+# https://stackoverflow.com/questions/36265534/invoke-webrequest-ssl-fails
+function EnableDotNetStrongCrypto {
+    Write-output "Enabling .NET strong cryptography"
+    If (Test-Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319") {
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Value "1" -Type DWord -ErrorAction SilentlyContinue
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Value "1" -Type DWord -ErrorAction SilentlyContinue
+}
+# Disable strong cryptography for .Net Framework (version 4 and above)
+function DisableDotNetStrongCrypto {
+    Write-output "Disabling .NET strong cryptography"
+    If (Test-Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319") {
+        Remove-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319" -Name "SchUseStrongCrypto" -ErrorAction SilentlyContinue
+    }
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319" -Name "SchUseStrongCrypto" -ErrorAction SilentlyContinue
+}
 
 
 ##########
