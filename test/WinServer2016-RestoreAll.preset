@@ -125,6 +125,7 @@ EnableShutdownTracker
 EnablePasswordPolicy
 EnableCtrlAltDelLogin
 EnableIEEnhancedSecurity
+DisableAudio
 
 WaitForKey
 Restart

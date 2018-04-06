@@ -125,6 +125,7 @@ AddFaxPrinter
 # EnablePasswordPolicy
 # EnableCtrlAltDelLogin
 # EnableIEEnhancedSecurity
+# DisableAudio
 
 WaitForKey
 Restart

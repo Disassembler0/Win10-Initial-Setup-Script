@@ -125,6 +125,7 @@ RemoveFaxPrinter
 # DisablePasswordPolicy
 # DisableCtrlAltDelLogin
 # DisableIEEnhancedSecurity
+# EnableAudio
 
 UnpinStartMenuTiles
 UnpinTaskbarIcons

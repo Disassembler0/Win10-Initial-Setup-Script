@@ -140,6 +140,7 @@ $tweaks = @(
 	# "DisablePasswordPolicy",      # "EnablePasswordPolicy",
 	# "DisableCtrlAltDelLogin",     # "EnableCtrlAltDelLogin",
 	# "DisableIEEnhancedSecurity",  # "EnableIEEnhancedSecurity",
+	# "EnableAudio",                # "DisableAudio",
 
 	### Unpinning ###
 	# "UnpinStartMenuTiles",
@@ -2221,6 +2222,20 @@ Function EnableIEEnhancedSecurity {
 	Write-Output "Enabling Internet Explorer Enhanced Security Configuration (IE ESC)..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}" -Name "IsInstalled" -Type DWord -Value 1
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}" -Name "IsInstalled" -Type DWord -Value 1
+}
+
+# Enable Audio
+Function EnableAudio {
+	Write-Output "Enabling Audio..."
+	Set-Service "Audiosrv" -StartupType Automatic
+	Start-Service "Audiosrv" -WarningAction SilentlyContinue
+}
+
+# Disable Audio
+Function DisableAudio {
+	Write-Output "Disabling Audio..."
+	Stop-Service "Audiosrv" -WarningAction SilentlyContinue
+	Set-Service "Audiosrv" -StartupType Manual
 }
 
 
