@@ -62,7 +62,7 @@ DisableLockScreen
 HideNetworkFromLockScreen
 HideShutdownFromLockScreen
 DisableStickyKeys
-ShowTaskManagerDetails"
+ShowTaskManagerDetails
 ShowFileOperationsDetails
 # EnableFileDeleteConfirm
 HideTaskbarSearchBox
