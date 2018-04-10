@@ -23,7 +23,7 @@ EnableWAPPush
 SetUACHigh
 DisableSharingMappedDrives
 EnableAdminShares
-EnableSMB1
+EnableSMBServer
 SetCurrentNetworkPublic
 SetUnknownNetworksPublic
 EnableNetDevicesAutoInst

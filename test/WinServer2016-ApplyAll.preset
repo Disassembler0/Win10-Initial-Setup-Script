@@ -23,7 +23,7 @@ DisableWAPPush
 SetUACLow
 EnableSharingMappedDrives
 DisableAdminShares
-DisableSMB1
+DisableSMBServer
 SetCurrentNetworkPrivate
 SetUnknownNetworksPrivate
 DisableNetDevicesAutoInst
