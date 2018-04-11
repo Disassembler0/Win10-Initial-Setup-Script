@@ -1929,6 +1929,7 @@ Function UninstallOneDrive {
 	Start-Sleep -s 3
 	Stop-Process -Name explorer -ErrorAction SilentlyContinue
 	Start-Sleep -s 3
+    Get-ChildItem "C:\Users\$env:USERNAME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs" -ErrorAction SilentlyContinue | Where-Object {$_ -like '*OneDrive*'} | Remove-Item -Force -ErrorAction SilentlyContinue
 	Remove-Item -Path "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	Remove-Item -Path "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
