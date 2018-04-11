@@ -6,6 +6,8 @@
 ##########
 
 # Default preset
+
+
 $tweaks = @(
 	### Require administrator privileges ###
 	"RequireAdmin",
@@ -154,7 +156,7 @@ $tweaks = @(
 
 
 ##########
-# Privacy Tweaks
+#region Privacy Tweaks
 ##########
 
 # Disable Telemetry
@@ -291,7 +293,8 @@ Function EnableAppSuggestions {
 # Disable Background application access - ie. if apps can download or update when they aren't used - Cortana is excluded as its inclusion breaks start menu search
 Function DisableBackgroundApps {
 	Write-Output "Disabling Background application access..."
-	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude "Microsoft.Windows.Cortana*" | ForEach {
+	New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type Dword -Value 1 -Force | Out-Null
+    Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude "Microsoft.Windows.Cortana*" | ForEach {
 		Set-ItemProperty -Path $_.PsPath -Name "Disabled" -Type DWord -Value 1
 		Set-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -Type DWord -Value 1
 	}
@@ -300,6 +303,7 @@ Function DisableBackgroundApps {
 # Enable Background application access
 Function EnableBackgroundApps {
 	Write-Output "Enabling Background application access..."
+    	New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type Dword -Value 0 -Force | Out-Null
 	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" | ForEach {
 		Remove-ItemProperty -Path $_.PsPath -Name "Disabled" -ErrorAction SilentlyContinue
 		Remove-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -ErrorAction SilentlyContinue
@@ -450,13 +454,26 @@ Function SetP2PUpdateLocal {
 		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization" | Out-Null
 	}
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization" -Name "SystemSettingsDownloadMode" -Type DWord -Value 3
+    	New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings" -Name "DownloadMode" -Type DWord -Value 2 -Force -ErrorAction SilentlyContinue | Out-Null
 }
 
 # Unrestrict Windows Update P2P
 Function SetP2PUpdateInternet {
 	Write-Output "Unrestricting Windows Update P2P to internet..."
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -ErrorAction SilentlyContinue
+	New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 3 -Force -ErrorAction SilentlyContinue | Out-Null
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization" -Name "SystemSettingsDownloadMode" -ErrorAction SilentlyContinue
+    	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings")) {
+	New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings" | Out-Null
+	}
+    	New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings" -Name "DownloadMode" -Type DWord -Value 3 -Force -ErrorAction SilentlyContinue | Out-Null
+
+}
+
+# Disable Windows Update P2P
+Function DisableP2PUpdate {
+	Write-Host "Disabling Windows Update P2P..."
+	New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 0 -Force -ErrorAction SilentlyContinue | Out-Null
+    New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings" -Name "DownloadMode" -Type DWord -Value 0 -Force -ErrorAction SilentlyContinue | Out-Null
 }
 
 # Remove AutoLogger file and restrict directory
@@ -505,10 +522,11 @@ Function EnableWAPPush {
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\dmwappushservice" -Name "DelayedAutoStart" -Type DWord -Value 1
 }
 
+#endregion Privacy Tweaks
 
 
 ##########
-# Security Tweaks
+#region Security Tweaks
 ##########
 
 # Lower UAC level (disabling it completely would break apps)
@@ -628,7 +646,7 @@ Function DisableFirewall {
 # Enable Firewall
 Function EnableFirewall {
 	Write-Output "Enabling Firewall..."
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" -Name "EnableFirewall" -ErrorAction SilentlyContinue
+	New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" -Name "EnableFirewall" -Type DWord -Value 1 -Force
 }
 
 # Disable Windows Defender
@@ -734,10 +752,52 @@ Function DisableMeltdownCompatFlag {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -ErrorAction SilentlyContinue
 }
 
+# Disable Password Reveal Button
+Function DisablePasswordReveal
+{
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredUI")){
+	New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredUI" -Force | Out-Null
+}
+    New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredUI" -Name 'DisablePasswordReveal' -Type Dword -Value 1 -Force -ErrorAction SilentlyContinue | Out-Null
+}
+# Enable Passwort Reveal Button
+Function EnablePasswordReveal
+{
+    if(Get-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredUI" -Name "DisablePasswordReveal" -ErrorAction SilentlyContinue)
+    {
+    Remove-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredUI" -Name "DisablePasswordReveal" -ErrorAction SilentlyContinue | Out-Null
+    }
+}
 
+# Disable Fast User Switching
+Function DisableFastUserSwitching
+{
+    If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System")){
+	New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Force | Out-Null
+}
+    New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name 'HideFastUserSwitching' -Type Dword -Value 1 -Force -ErrorAction SilentlyContinue | Out-Null
+    If (!(Test-Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System")){
+	New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Force | Out-Null
+}
+    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name 'HideFastUserSwitching' -Type Dword -Value 1 -Force -ErrorAction SilentlyContinue | Out-Null
+}
+
+# Enable Fast User Switching
+Function EnableFastUserSwitching
+{
+    if(Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name 'HideFastUserSwitching' -ErrorAction SilentlyContinue)
+    {
+        Remove-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name 'HideFastUserSwitching' -Force -ErrorAction SilentlyContinue | Out-Null
+    }
+    if(Get-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name 'HideFastUserSwitching' -ErrorAction SilentlyContinue)
+    {
+        Remove-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name 'HideFastUserSwitching' -Force -ErrorAction SilentlyContinue | Out-Null
+    }
+}
+#endregion Security Tweaks
 
 ##########
-# Service Tweaks
+#region Service Tweaks
 ##########
 
 # Disable offering of Malicious Software Removal Tool through Windows Update
@@ -1028,11 +1088,30 @@ Function EnableFastStartup {
 	Write-Output "Enabling Fast Startup..."
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name "HiberbootEnabled" -Type DWord -Value 1
 }
+# Enable Powerplan Saver
+Function SetPowerPlanPowerSaver
+{
+Write-Host "Enabling Power Saver Power Scheme..."
+powercfg /setactive a1841308-3541-4fab-bc81-f71556f20b4a
+}
+# Enable Powerplan Balanced
+Function SetPowerPlanBalanced
+{
+Write-Host "Enabling Balanced Power Scheme..."
+powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e
 
+}
+# Enable Powerplan High Performance
+Function SetPowerPlanHighPerformance
+{
+Write-Host "Enabling High Performance Power Scheme..."
+powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+}
+#endregion Service Tweaks
 
 
 ##########
-# UI Tweaks
+#region UI Tweaks
 ##########
 
 # Disable Action Center
@@ -1043,6 +1122,10 @@ Function DisableActionCenter {
 	}
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
+	if(Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "SecurityHealth" -ErrorAction SilentlyContinue)
+	{
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "SecurityHealth" -ErrorAction SilentlyContinue | Out-Null
+	}
 }
 
 # Enable Action Center
@@ -1050,6 +1133,10 @@ Function EnableActionCenter {
 	Write-Output "Enabling Action Center..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -ErrorAction SilentlyContinue
+	if(!(Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "SecurityHealth" -ErrorAction SilentlyContinue))
+	{
+	New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "SecurityHealth" -Type ExpandString -Value '%ProgramFiles%\Windows Defender\MSASCuiL.exe' -ErrorAction SilentlyContinue | Out-Null
+	}
 }
 
 # Disable Lock screen
@@ -1115,14 +1202,26 @@ Function ShowShutdownOnLockScreen {
 
 # Disable Sticky keys prompt
 Function DisableStickyKeys {
-	Write-Output "Disabling Sticky keys prompt..."
+	New-PSDrive -PSProvider Registry -Name HKU -Root HKEY_USERS | Out-Null
+   	Write-Output "Disabling Sticky keys prompt..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "506"
+    	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" -Name "Flags" -Type String -Value "122"
+    	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\ToggleKeys" -Name "Flags" -Type String -Value "58"
+    	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "506"
+    	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Accessibility\Keyboard Response" -Name "Flags" -Type String -Value "122"
+    	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Accessibility\ToggleKeys" -Name "Flags" -Type String -Value "58"
 }
 
 # Enable Sticky keys prompt
 Function EnableStickyKeys {
+    	New-PSDrive -PSProvider Registry -Name HKU -Root HKEY_USERS | Out-Null
 	Write-Output "Enabling Sticky keys prompt..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "510"
+	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" -Name "Flags" -Type String -Value "126"
+	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\ToggleKeys" -Name "Flags" -Type String -Value "62"
+	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "510"
+	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Accessibility\Keyboard Response" -Name "Flags" -Type String -Value "126"
+	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Accessibility\ToggleKeys" -Name "Flags" -Type String -Value "62"
 }
 
 # Show Task Manager details
@@ -1288,11 +1387,22 @@ Function EnableNewAppPrompt {
 	Write-Output "Enabling 'How do you want to open this file?' prompt..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -ErrorAction SilentlyContinue
 }
-
-# Set Control Panel view to icons (Classic) - Note: May trigger antimalware
-Function SetControlPanelViewIcons {
-	Write-Output "Setting Control Panel view to icons..."
+# Set Control Panel view to big icons (Classic) - Note: May trigger antimalware
+Function SetControlPanelViewBigIcons {
+	Write-Output "Setting Control Panel view to Big icons..."
 	Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -Type DWord -Value 1
+    New-ItemProperty -Path "HKCU:Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "AllItemsIconView" -Type Dword -Value 0 -Force -ErrorAction SilentlyContinue | Out-Null
+}
+
+# Set Control Panel view to small icons (Classic) - Note: May trigger antimalware
+
+Function SetControlPanelViewSmallIcons {
+	Write-Output "Setting Control Panel view to small icons..."
+	Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -Type DWord -Value 1
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Force | Out-Null
+	}
+    	New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "AllItemsIconView" -Type Dword -Value 1 -Force -ErrorAction SilentlyContinue | Out-Null
 }
 
 # Set Control Panel view to categories
@@ -1300,37 +1410,26 @@ Function SetControlPanelViewCategories {
 	Write-Output "Setting Control Panel view to categories..."
 	Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ForceClassicControlPanel" -ErrorAction SilentlyContinue
 }
-
 # Adjusts visual effects for performance - Disables animations, transparency etc. but leaves font smoothing and miniatures enabled
 Function SetVisualFXPerformance {
 	Write-Output "Adjusting visual effects for performance..."
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "DragFullWindows" -Type String -Value 0
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 0
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "UserPreferencesMask" -Type Binary -Value ([byte[]](0x90,0x12,0x03,0x80,0x10,0x00,0x00,0x00))
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop\WindowMetrics" -Name "MinAnimate" -Type String -Value 0
-	Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 0
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewAlphaSelect" -Type DWord -Value 0
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewShadow" -Type DWord -Value 0
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAnimations" -Type DWord -Value 0
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type DWord -Value 3
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 0
+	New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type Dword -Value 2 -Force -ErrorAction SilentlyContinue | Out-Null
+	
 }
 
 # Adjusts visual effects for appearance
 Function SetVisualFXAppearance {
 	Write-Output "Adjusting visual effects for appearance..."
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "DragFullWindows" -Type String -Value 1
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 400
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "UserPreferencesMask" -Type Binary -Value ([byte[]](0x9E,0x1E,0x07,0x80,0x12,0x00,0x00,0x00))
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop\WindowMetrics" -Name "MinAnimate" -Type String -Value 1
-	Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewAlphaSelect" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ListviewShadow" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAnimations" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type DWord -Value 3
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 1
+	New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type Dword -Value 1 -Force -ErrorAction SilentlyContinue | Out-Null
+
 }
 
+# Adjusts visual effects for appearance
+Function SetVisualFXAuto {
+	Write-Output "Adjusting visual effects to Auto..."
+    	New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type Dword -Value 0 -Force -ErrorAction SilentlyContinue | Out-Null
+
+}
 # Add secondary en-US keyboard
 Function AddENKeyboard {
 	Write-Output "Adding secondary en-US keyboard..."
@@ -1374,10 +1473,70 @@ Function DisableNumlock {
 	}
 }
 
+# Enable the Dark Settings Theme
+Function EnableDarkSettingsTheme
+{
+Write-Output "Enabling Dark Settings Theme..."
+	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize")) {
+		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Force | Out-Null
+	}
+    New-ItemProperty 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name 'AppsUseLightTheme' -Value 0 -PropertyType 'DWord' -Force  -ErrorAction SilentlyContinue | Out-Null
+}
+
+# Disable the Dark Settings Theme
+Function DisableDarkSettingsTheme
+{
+Write-Output 'Disabling Dark Settings Theme...'
+	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize")) {
+		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Force | Out-Null
+	}
+    New-ItemProperty 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name 'AppsUseLightTheme' -Value 1 -PropertyType 'DWord' -Force  -ErrorAction SilentlyContinue | Out-Null
+}
+
+# Enable Forced Ribbon in Explorer
+Function EnableExplorerRibbonForce
+{
+Write-Output "Enabling Explorer Ribbon..."
+	If (!(Test-Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer")) {
+		New-Item -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Force | Out-Null
+	}
+    New-ItemProperty 'HKCU:\Software\Policies\Microsoft\Windows\Explorer' -Name 'ExplorerRibbonStartsMinimized' -Value 2 -PropertyType 'DWord' -Force  -ErrorAction SilentlyContinue | Out-Null
+}
+# Disable Forced Ribbon in Explorer
+
+Function DisableExplorerRibbonForce
+{
+Write-Output "Disabling Explorer Ribbon..."
+if(Get-ItemPropertyValue "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Name 'ExplorerRibbonStartsMinimized')
+{
+Remove-ItemProperty "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Name 'ExplorerRibbonStartsMinimized'
+}
+}
+
+# Enable SharingWizard in Explorer
+Function DisableSharingWizard
+{
+    Write-Output "Disabling Sharing Wizard..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")){
+	New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Force | Out-Null
+}
+    New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name 'SharingWizardOn' -Type Dword -Value 0 -Force -ErrorAction SilentlyContinue | Out-Null
+}
+# Disable SharingWizard in Explorer
+Function EnableSharingWizard
+{
+    Write-Output "Enabling Sharing Wizard..."
+ if(Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name 'SharingWizardOn')
+ {
+ Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name 'SharingWizardOn' -Force
+ }
+}
+
+#endregion UI Tweaks
 
 
 ##########
-# Explorer UI Tweaks
+#region Explorer UI Tweaks
 ##########
 
 # Show known file extensions
@@ -1728,12 +1887,18 @@ Function EnableThumbsDB {
 	Write-Output "Enable creation of Thumbs.db..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbnailCache" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -ErrorAction SilentlyContinue
+
+
+
+
+
 }
 
+#endregion Explorer UI Tweaks
 
 
 ##########
-# Application Tweaks
+#region Application Tweaks
 ##########
 
 # Disable OneDrive
@@ -2156,11 +2321,11 @@ Function AddFaxPrinter {
 	Write-Output "Adding Default Fax Printer..."
 	Add-Printer -Name "Fax" -DriverName "Microsoft Shared Fax Driver" -PortName "SHRFAX:" -ErrorAction SilentlyContinue
 }
-
+#endregion Application Tweaks
 
 
 ##########
-# Server specific Tweaks
+#region Server specific Tweaks
 ##########
 
 # Hide Server Manager after login
@@ -2252,11 +2417,10 @@ Function DisableAudio {
 	Stop-Service "Audiosrv" -WarningAction SilentlyContinue
 	Set-Service "Audiosrv" -StartupType Manual
 }
-
-
+#endregion Server specific Tweaks
 
 ##########
-# Unpinning
+#region Un/-pinning
 ##########
 
 # Unpin all Start Menu tiles - Not applicable to Server - Note: This function has no counterpart. You have to pin the tiles back manually.
@@ -2269,6 +2433,13 @@ Function UnpinStartMenuTiles {
 	}
 }
 
+# Unpin all Start Menu tiles - Not applicable to Server - Note: This function has no counterpart. You have to pin the tiles back manually.
+Function UnpinStartMenuTilesRS4 {
+	Write-Output "Unpinning all Start Menu tiles..."
+	$key = Get-ChildItem 'HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\' -recurse | Where-Object {$_ -like  '*$start.tilegrid$windows.data.curatedtilecollection.tilecollection\Current*'}
+    Set-ItemProperty -Path $key.pspath -Name Data -Value ([byte[]](0x02,0x00,0x00,0x00,0xcb,0x14,0x19,0x2d,0xa7,0xd0,0xd3,0x01,0x00,0x00,0x00,0x00,0x43,0x42,0x01,0x00,0x0a,0x0a,0x00,0xd0,0x14,0x0c,0xca,0x32,0x00,0xcc,0x8d,0x12,0x06,0x26,0x7b,0x00,0x34,0x00,0x34,0x00,0x41,0x00,0x36,0x00,0x43,0x00,0x37,0x00,0x33,0x00,0x44,0x00,0x2d,0x00,0x39,0x00,0x39,0x00,0x30,0x00,0x30,0x00,0x2d,0x00,0x34,0x00,0x43,0x00,0x30,0x00,0x31,0x00,0x2d,0x00,0x42,0x00,0x42,0x00,0x30,0x00,0x35,0x00,0x2d,0x00,0x33,0x00,0x32,0x00,0x41,0x00,0x36,0x00,0x33,0x00,0x42,0x00,0x33,0x00,0x31,0x00,0x45,0x00,0x46,0x00,0x43,0x00,0x36,0x00,0x7d,0x00,0x26,0x7b,0x00,0x36,0x00,0x34,0x00,0x38,0x00,0x38,0x00,0x42,0x00,0x43,0x00,0x39,0x00,0x35,0x00,0x2d,0x00,0x34,0x00,0x36,0x00,0x36,0x00,0x33,0x00,0x2d,0x00,0x34,0x00,0x35,0x00,0x39,0x00,0x33,0x00,0x2d,0x00,0x42,0x00,0x44,0x00,0x32,0x00,0x33,0x00,0x2d,0x00,0x43,0x00,0x34,0x00,0x45,0x00,0x34,0x00,0x39,0x00,0x38,0x00,0x41,0x00,0x34,0x00,0x41,0x00,0x30,0x00,0x32,0x00,0x32,0x00,0x7d,0x00,0x26,0x7b,0x00,0x37,0x00,0x30,0x00,0x43,0x00,0x39,0x00,0x31,0x00,0x42,0x00,0x34,0x00,0x32,0x00,0x2d,0x00,0x39,0x00,0x38,0x00,0x37,0x00,0x46,0x00,0x2d,0x00,0x34,0x00,0x41,0x00,0x30,0x00,0x34,0x00,0x2d,0x00,0x39,0x00,0x41,0x00,0x33,0x00,0x37,0x00,0x2d,0x00,0x33,0x00,0x35,0x00,0x45,0x00,0x31,0x00,0x44,0x00,0x45,0x00,0x42,0x00,0x36,0x00,0x46,0x00,0x33,0x00,0x34,0x00,0x43,0x00,0x7d,0x00,0x26,0x7b,0x00,0x41,0x00,0x45,0x00,0x34,0x00,0x36,0x00,0x46,0x00,0x31,0x00,0x33,0x00,0x43,0x00,0x2d,0x00,0x36,0x00,0x42,0x00,0x33,0x00,0x31,0x00,0x2d,0x00,0x34,0x00,0x42,0x00,0x37,0x00,0x38,0x00,0x2d,0x00,0x39,0x00,0x33,0x00,0x46,0x00,0x44,0x00,0x2d,0x00,0x43,0x00,0x39,0x00,0x46,0x00,0x38,0x00,0x30,0x00,0x37,0x00,0x32,0x00,0x45,0x00,0x36,0x00,0x39,0x00,0x32,0x00,0x36,0x00,0x7d,0x00,0x26,0x7b,0x00,0x42,0x00,0x38,0x00,0x35,0x00,0x33,0x00,0x39,0x00,0x33,0x00,0x46,0x00,0x42,0x00,0x2d,0x00,0x30,0x00,0x45,0x00,0x35,0x00,0x44,0x00,0x2d,0x00,0x34,0x00,0x32,0x00,0x41,0x00,0x42,0x00,0x2d,0x00,0x41,0x00,0x38,0x00,0x46,0x00,0x31,0x00,0x2d,0x00,0x36,0x00,0x30,0x00,0x41,0x00,0x44,0x00,0x36,0x00,0x30,0x00,0x31,0x00,0x33,0x00,0x42,0x00,0x33,0x00,0x35,0x00,0x35,0x00,0x7d,0x00,0x26,0x7b,0x00,0x43,0x00,0x38,0x00,0x36,0x00,0x32,0x00,0x33,0x00,0x31,0x00,0x36,0x00,0x33,0x00,0x2d,0x00,0x32,0x00,0x35,0x00,0x45,0x00,0x39,0x00,0x2d,0x00,0x34,0x00,0x43,0x00,0x33,0x00,0x44,0x00,0x2d,0x00,0x39,0x00,0x44,0x00,0x34,0x00,0x42,0x00,0x2d,0x00,0x37,0x00,0x36,0x00,0x39,0x00,0x31,0x00,0x31,0x00,0x35,0x00,0x41,0x00,0x44,0x00,0x30,0x00,0x44,0x00,0x32,0x00,0x44,0x00,0x7d,0x00,0xe2,0x2c,0x01,0x01,0x00,0x00)) -Force | Out-Null
+	}
+
 # Unpin all Taskbar icons - Note: This function has no counterpart. You have to pin the icons back manually.
 Function UnpinTaskbarIcons {
 	Write-Output "Unpinning all Taskbar icons..."
@@ -2276,10 +2447,37 @@ Function UnpinTaskbarIcons {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "FavoritesResolve" -ErrorAction SilentlyContinue
 }
 
+# Pin Apps to Starmenu (pinable Apps are located here: win+r: shell:::{4234d49b-0245-4df3-b780-3893943456e1})
+function Pin-App {
+    param(
+        [parameter(mandatory=$true)][ValidateNotNullOrEmpty()][string[]]$appname,
+        [switch]$unpin
+    )
+    $actionstring = @{$true='Von "Start" lösen|Unpin from Start';$false='An "Start" anheften|Pin to Start'}[$unpin.IsPresent]
+    $action = @{$true='unpinned from';$false='pinned to'}[$unpin.IsPresent]
+    $apps = (New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -in $appname}
+    
+    if($apps){
+        $notfound = compare $appname $apps.Name -PassThru
+        if ($notfound){write-error "These App(s) were not found: $($notfound -join ",")"}
+
+        foreach ($app in $apps){
+            $appaction = $app.Verbs() | ?{$_.Name.replace('&','') -match $actionstring}
+            if ($appaction){
+                $appaction | %{$_.DoIt(); return "App '$($app.Name)' $action Start"}
+            }else{
+                write-error "App '$($app.Name)' is already pinned to start or action not supported."
+            }
+        }
+    }else{
+        write-error "App(s) not found: $($appname -join ",")"
+    }
+}
+#endregion Un/-pinning
 
 
 ##########
-# Auxiliary Functions
+#region Auxiliary Functions
 ##########
 
 # Relaunch the script with administrator privileges
@@ -2301,7 +2499,7 @@ Function Restart {
 	Write-Output "Restarting..."
 	Restart-Computer
 }
-
+#endregion Auxiliary Functions
 
 
 ##########
