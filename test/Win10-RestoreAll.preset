@@ -58,7 +58,6 @@ EnableFastStartup
 
 EnableActionCenter
 EnableLockScreen
-EnableLockScreenRS1
 ShowNetworkOnLockScreen
 ShowShutdownOnLockScreen
 EnableStickyKeys

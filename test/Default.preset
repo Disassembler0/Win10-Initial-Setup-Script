@@ -58,7 +58,6 @@ DisableAutorun
 
 DisableActionCenter
 DisableLockScreen
-# DisableLockScreenRS1
 HideNetworkFromLockScreen
 HideShutdownFromLockScreen
 DisableStickyKeys
