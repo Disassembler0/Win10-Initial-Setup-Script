@@ -819,13 +819,15 @@ Function EnableHomeGroups {
 # Disable Shared Experiences - Not applicable to Server
 Function DisableSharedExperiences {
 	Write-Output "Disabling Shared Experiences..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CDP" -Name "RomeSdkChannelUserAuthzPolicy" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableCdp" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableMmx" -Type DWord -Value 0
 }
 
 # Enable Shared Experiences - Not applicable to Server
 Function EnableSharedExperiences {
 	Write-Output "Enabling Shared Experiences..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CDP" -Name "RomeSdkChannelUserAuthzPolicy" -Type DWord -Value 1
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableCdp" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableMmx" -ErrorAction SilentlyContinue
 }
 
 # Disable Remote Assistance - Not applicable to Server (unless Remote Assistance is explicitly installed)
