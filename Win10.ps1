@@ -88,6 +88,7 @@ $tweaks = @(
 	# "SetControlPanelViewIcons",   # "SetControlPanelViewCategories",
 	"SetVisualFXPerformance",       # "SetVisualFXAppearance",
 	# "AddENKeyboard",              # "RemoveENKeyboard",
+	# "AddESKeyboard",              # "RemoveESKeyboard",
 	# "EnableNumlock",              # "DisableNumlock",
 
 	### Explorer UI Tweaks ###
@@ -1316,19 +1317,34 @@ Function SetVisualFXAppearance {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 1
 }
 
-# Add secondary en-US keyboard
+# Add en-US keyboard
 Function AddENKeyboard {
-	Write-Output "Adding secondary en-US keyboard..."
+	Write-Host "Adding en-US keyboard..."
 	$langs = Get-WinUserLanguageList
 	$langs.Add("en-US")
 	Set-WinUserLanguageList $langs -Force
 }
 
-# Remove secondary en-US keyboard
+# Remove en-US keyboard
 Function RemoveENKeyboard {
-	Write-Output "Removing secondary en-US keyboard..."
+	Write-Host "Removing en-US keyboard..."
 	$langs = Get-WinUserLanguageList
 	Set-WinUserLanguageList ($langs | ? {$_.LanguageTag -ne "en-US"}) -Force
+}
+
+# Add es-ES keyboard
+Function AddESKeyboard {
+	Write-Host "Adding es-ES keyboard..."
+	$langs = Get-WinUserLanguageList
+	$langs.Add("es-ES")
+	Set-WinUserLanguageList $langs -Force
+}
+
+# Remove es-ES keyboard
+Function RemoveESKeyboard {
+	Write-Host "Removing es-ES keyboard..."
+	$langs = Get-WinUserLanguageList
+	Set-WinUserLanguageList ($langs | ? {$_.LanguageTag -ne "es-ES"}) -Force
 }
 
 # Enable NumLock after startup
