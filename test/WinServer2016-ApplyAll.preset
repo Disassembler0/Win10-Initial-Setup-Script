@@ -76,6 +76,7 @@ DisableNewAppPrompt
 SetControlPanelViewIcons
 SetVisualFXPerformance
 AddENKeyboard
+AddESKeyboard
 EnableNumlock
 
 ShowKnownExtensions

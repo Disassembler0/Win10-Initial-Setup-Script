@@ -76,6 +76,7 @@ EnableNewAppPrompt
 SetControlPanelViewCategories
 SetVisualFXAppearance
 RemoveENKeyboard
+RemoveESKeyboard	
 DisableNumlock
 
 HideKnownExtensions
