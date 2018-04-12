@@ -190,11 +190,11 @@ $msftApps = @(
 	"Microsoft.Print3D",
 	"Microsoft.GetHelp",
 	"Microsoft.Wallet",
-	"Microsoft.Messaging",
-	"Microsoft.BingFoodAndDrink",
-	"Microsoft.BingTravel",
-	"Microsoft.BingHealthAndFitness",
-	"Microsoft.WindowsReadingList"
+    "Microsoft.Messaging",
+    "Microsoft.BingFoodAndDrink",
+    "Microsoft.BingTravel",
+    "Microsoft.BingHealthAndFitness",
+    "Microsoft.WindowsReadingList"
 )
 
 # Third parrty apps to install or remove when calling InstallMsftBloat or UninstallMsftBloat
@@ -223,18 +223,18 @@ $thirdPartyApps = @(
 	"64885BlueEdge.OneCalendar",
 	"41038Axilesoft.ACGMediaPlayer",
 	"DolbyLaboratories.DolbyAccess",
-	"king.com.*",
-	"ShazamEntertainmentLtd.Shazam",
-	"Flipboard.Flipboard",
-	"2FE3CB00.PicsArt-PhotoStudio",
-	"6Wunderkinder.Wunderlist",
-	"ClearChannelRadioDigital.iHeartRadio",
-	"TuneIn.TuneInRadio",
-	"TheNewYorkTimes.NYTCrossword",
-	"DB6EA5DB.CyberLinkMediaSuiteEssentials",
-	"Playtika.CaesarsSlotsFreeCasino",
-	"ThumbmunkeysLtd.PhototasticCollage",
-	"XINGAG.XING"
+    "king.com.*",
+    "ShazamEntertainmentLtd.Shazam",
+    "Flipboard.Flipboard",
+    "2FE3CB00.PicsArt-PhotoStudio",
+    "6Wunderkinder.Wunderlist",
+    "ClearChannelRadioDigital.iHeartRadio",
+    "TuneIn.TuneInRadio",
+    "TheNewYorkTimes.NYTCrossword",
+    "DB6EA5DB.CyberLinkMediaSuiteEssentials",
+    "Playtika.CaesarsSlotsFreeCasino",
+    "ThumbmunkeysLtd.PhototasticCollage",
+    "XINGAG.XING"
 )
 
 
@@ -1859,13 +1859,13 @@ Function InstallOneDrive {
 # Uninstall default Microsoft applications
 Function UninstallMsftBloat {
 	Write-Host "Uninstalling default Microsoft applications..."
-	$msftApps | ForEach { Get-AppxPackage $_ | Remove-AppxPackage }
+    $msftApps | ForEach { Get-AppxPackage $_ | Remove-AppxPackage }
 }
 
 # Install default Microsoft applications
 Function InstallMsftBloat {
 	Write-Host "Installing default Microsoft applications..."
-	$msftApps | ForEach { Get-AppxPackage -AllUsers $_ | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"} }
+    $msftApps | ForEach { Get-AppxPackage -AllUsers $_ | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"} }
 }
 # In case you have removed them for good, you can try to restore the files using installation medium as follows
 # New-Item C:\Mnt -Type Directory | Out-Null
@@ -1877,7 +1877,7 @@ Function InstallMsftBloat {
 # Uninstall default third party applications
 function UninstallThirdPartyBloat {
 	Write-Host "Uninstalling default third party applications..."
-	$thirdPartyApps | ForEach { Get-AppxPackage $_ | Remove-AppxPackage }
+    $thirdPartyApps | ForEach { Get-AppxPackage $_ | Remove-AppxPackage }
 }
 
 # Install default third party applications
