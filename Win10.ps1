@@ -189,13 +189,17 @@ $msftApps = @(
 	"Microsoft.RemoteDesktop",
 	"Microsoft.Print3D",
 	"Microsoft.GetHelp",
-	"Microsoft.Wallet"
+	"Microsoft.Wallet",
+    "Microsoft.Messaging",
+    "Microsoft.BingFoodAndDrink",
+    "Microsoft.BingTravel",
+    "Microsoft.BingHealthAndFitness",
+    "Microsoft.WindowsReadingList"
 )
 
 # Third parrty apps to install or remove when calling InstallMsftBloat or UninstallMsftBloat
 $thirdPartyApps = @(
 	"9E2F88E3.Twitter",
-	"king.com.CandyCrushSodaSaga",
 	"4DF9E0F8.Netflix",
 	"Drawboard.DrawboardPDF",
 	"D52A8D61.FarmVille2CountryEscape",
@@ -208,7 +212,6 @@ $thirdPartyApps = @(
 	"46928bounde.EclipseManager",
 	"A278AB0D.MarchofEmpires",
 	"KeeperSecurityInc.Keeper",
-	"king.com.BubbleWitch3Saga",
 	"89006A2E.AutodeskSketchBook",
 	"CAF9E577.Plex",
 	"A278AB0D.DisneyMagicKingdoms",
@@ -219,7 +222,19 @@ $thirdPartyApps = @(
 	"2414FC7A.Viber",
 	"64885BlueEdge.OneCalendar",
 	"41038Axilesoft.ACGMediaPlayer",
-	"DolbyLaboratories.DolbyAccess"
+	"DolbyLaboratories.DolbyAccess",
+    "king.com.*",
+    "ShazamEntertainmentLtd.Shazam",
+    "Flipboard.Flipboard",
+    "2FE3CB00.PicsArt-PhotoStudio",
+    "6Wunderkinder.Wunderlist",
+    "ClearChannelRadioDigital.iHeartRadio",
+    "TuneIn.TuneInRadio",
+    "TheNewYorkTimes.NYTCrossword",
+    "DB6EA5DB.CyberLinkMediaSuiteEssentials",
+    "Playtika.CaesarsSlotsFreeCasino",
+    "ThumbmunkeysLtd.PhototasticCollage",
+    "XINGAG.XING"
 )
 
 
