@@ -1107,7 +1107,7 @@ Function EnableLockScreen {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoLockScreen" -ErrorAction SilentlyContinue
 }
 
-# Disable Lock screen (Anniversary Update workaround) - Applicable to 1607 or newer
+# Disable Lock screen (Anniversary Update workaround) - Applicable to 1607 - 1803 (The GPO used in DisableLockScreen has been fixed again in 1803)
 Function DisableLockScreenRS1 {
 	Write-Output "Disabling Lock screen using scheduler workaround..."
 	$service = New-Object -com Schedule.Service
@@ -1123,7 +1123,7 @@ Function DisableLockScreenRS1 {
 	$service.GetFolder("\").RegisterTaskDefinition("Disable LockScreen", $task, 6, "NT AUTHORITY\SYSTEM", $null, 4) | Out-Null
 }
 
-# Enable Lock screen (Anniversary Update workaround) - Applicable to 1607 or newer
+# Enable Lock screen (Anniversary Update workaround) - Applicable to 1607 - 1803
 Function EnableLockScreenRS1 {
 	Write-Output "Enabling Lock screen (removing scheduler workaround)..."
 	Unregister-ScheduledTask -TaskName "Disable LockScreen" -Confirm:$false -ErrorAction SilentlyContinue
