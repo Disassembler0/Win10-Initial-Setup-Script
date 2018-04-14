@@ -624,13 +624,13 @@ Function EnableNetDevicesAutoInst {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" -Name "AutoSetup" -ErrorAction SilentlyContinue
 }
 
-# Enable Controlled Folder Access (Defender Exploit Guard feature) - Not applicable to Server
+# Enable Controlled Folder Access (Defender Exploit Guard feature) - Applicable to 1709 or newer, requires Windows Defender to be enabled
 Function EnableCtrldFolderAccess {
 	Write-Output "Enabling Controlled Folder Access..."
 	Set-MpPreference -EnableControlledFolderAccess Enabled
 }
 
-# Disable Controlled Folder Access (Defender Exploit Guard feature) - Not applicable to Server
+# Disable Controlled Folder Access (Defender Exploit Guard feature) - Applicable to 1709 or newer, requires Windows Defender to be enabled
 Function DisableCtrldFolderAccess {
 	Write-Output "Disabling Controlled Folder Access..."
 	Set-MpPreference -EnableControlledFolderAccess Disabled
@@ -2317,7 +2317,7 @@ Function DisableAudio {
 # Unpin all Start Menu tiles - Note: This function has no counterpart. You have to pin the tiles back manually.
 Function UnpinStartMenuTiles {
 	Write-Output "Unpinning all Start Menu tiles..."
-	If ([System.Environment]::OSVersion.Version.Build -eq 16299) {
+	If ([System.Environment]::OSVersion.Version.Build -ge 15063 -And [System.Environment]::OSVersion.Version.Build -le 16299) {
 		Get-ChildItem -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount" -Include "*.group" -Recurse | ForEach-Object {
 			$data = (Get-ItemProperty -Path "$($_.PsPath)\Current" -Name "Data").Data -Join ","
 			$data = $data.Substring(0, $data.IndexOf(",0,202,30") + 9) + ",0,202,80,0,0"
