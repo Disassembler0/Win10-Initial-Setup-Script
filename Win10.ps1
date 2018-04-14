@@ -33,6 +33,7 @@ $tweaks = @(
 	# "EnableSharingMappedDrives",  # "DisableSharingMappedDrives",
 	"DisableAdminShares",           # "EnableAdminShares",
 	# "DisableSMB1",                # "EnableSMB1",
+	# "DisableSMBServer",           # "EnableSMBServer",
 	"SetCurrentNetworkPrivate",     # "SetCurrentNetworkPublic",
 	# "SetUnknownNetworksPrivate",  # "SetUnknownNetworksPublic",
 	# "DisableNetDevicesAutoInst",  # "EnableNetDevicesAutoInst",
@@ -539,6 +540,19 @@ Function DisableSMB1 {
 Function EnableSMB1 {
 	Write-Output "Enabling SMB 1.0 protocol..."
 	Set-SmbServerConfiguration -EnableSMB1Protocol $true -Force
+}
+
+# Disable SMB Server - Completely disables file and printer sharing, but leaves the system able to connect to another SMB server as a client
+Function DisableSMBServer {
+	Write-Output "Disabling SMB Server..."
+	Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
+	Set-SmbServerConfiguration -EnableSMB2Protocol $false -Force
+}
+
+# Enable SMB Server
+Function EnableSMBServer {
+	Write-Output "Enabling SMB Server..."
+	Set-SmbServerConfiguration -EnableSMB2Protocol $true -Force
 }
 
 # Set current network profile to private (allow file sharing, device discovery, etc.)
