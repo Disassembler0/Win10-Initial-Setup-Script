@@ -12,6 +12,7 @@ DisableBackgroundApps
 DisableLocationTracking
 DisableMapUpdates
 DisableFeedback
+DisableTailoredExperiences
 DisableAdvertisingID
 DisableCortana
 DisableErrorReporting
