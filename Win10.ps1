@@ -25,7 +25,6 @@ $tweaks = @(
 	"DisableCortana",               # "EnableCortana",
 	"DisableErrorReporting",        # "EnableErrorReporting",
 	# "SetP2PUpdateLocal",          # "SetP2PUpdateInternet",
-	"DisableAutoLogger",            # "EnableAutoLogger",
 	"DisableDiagTrack",             # "EnableDiagTrack",
 	"DisableWAPPush",               # "EnableWAPPush",
 
@@ -455,23 +454,6 @@ Function SetP2PUpdateLocal {
 Function SetP2PUpdateInternet {
 	Write-Output "Unrestricting Windows Update P2P to internet..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -ErrorAction SilentlyContinue
-}
-
-# Remove AutoLogger file and restrict directory
-Function DisableAutoLogger {
-	Write-Output "Removing AutoLogger file and restricting directory..."
-	$autoLoggerDir = "$env:PROGRAMDATA\Microsoft\Diagnosis\ETLLogs\AutoLogger"
-	If (Test-Path "$autoLoggerDir\AutoLogger-Diagtrack-Listener.etl") {
-		Remove-Item -Path "$autoLoggerDir\AutoLogger-Diagtrack-Listener.etl"
-	}
-	icacls $autoLoggerDir /deny SYSTEM:`(OI`)`(CI`)F | Out-Null
-}
-
-# Unrestrict AutoLogger directory
-Function EnableAutoLogger {
-	Write-Output "Unrestricting AutoLogger directory..."
-	$autoLoggerDir = "$env:PROGRAMDATA\Microsoft\Diagnosis\ETLLogs\AutoLogger"
-	icacls $autoLoggerDir /grant:r SYSTEM:`(OI`)`(CI`)F | Out-Null
 }
 
 # Stop and disable Diagnostics Tracking Service
