@@ -15,7 +15,7 @@ DisableFeedback
 DisableAdvertisingID
 DisableCortana
 DisableErrorReporting
-SetP2PUpdateLocal
+# SetP2PUpdateLocal
 DisableAutoLogger
 DisableDiagTrack
 DisableWAPPush
