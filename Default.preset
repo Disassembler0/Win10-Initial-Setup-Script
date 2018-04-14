@@ -25,6 +25,7 @@ DisableWAPPush
 DisableAdminShares
 # DisableSMB1
 # DisableSMBServer
+# DisableLLMNR
 SetCurrentNetworkPrivate
 # SetUnknownNetworksPrivate
 # DisableNetDevicesAutoInst

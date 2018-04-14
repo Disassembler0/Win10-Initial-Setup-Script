@@ -35,6 +35,7 @@ $tweaks = @(
 	"DisableAdminShares",           # "EnableAdminShares",
 	# "DisableSMB1",                # "EnableSMB1",
 	# "DisableSMBServer",           # "EnableSMBServer",
+	# "DisableLLMNR",               # "EnableLLMNR",
 	"SetCurrentNetworkPrivate",     # "SetCurrentNetworkPublic",
 	# "SetUnknownNetworksPrivate",  # "SetUnknownNetworksPublic",
 	# "DisableNetDevicesAutoInst",  # "EnableNetDevicesAutoInst",
@@ -563,6 +564,21 @@ Function DisableSMBServer {
 Function EnableSMBServer {
 	Write-Output "Enabling SMB Server..."
 	Set-SmbServerConfiguration -EnableSMB2Protocol $true -Force
+}
+
+# Disable Link-Local Multicast Name Resolution (LLMNR) protocol
+Function DisableLLMNR {
+	Write-Output "Disabling LLMNR..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Name "EnableMulticast" -Type DWord -Value 0
+}
+
+# Enable Link-Local Multicast Name Resolution (LLMNR) protocol
+Function EnableLLMNR {
+	Write-Output "Enabling LLMNR..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Name "EnableMulticast" -ErrorAction SilentlyContinue
 }
 
 # Set current network profile to private (allow file sharing, device discovery, etc.)
