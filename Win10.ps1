@@ -1173,21 +1173,15 @@ Function EnableStickyKeys {
 	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "510"
 }
 
-# Show Task Manager details
+# Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
 Function ShowTaskManagerDetails {
 	Write-Output "Showing task manager details..."
-	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager")) {
-		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Force | Out-Null
-	}
-	$preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
-	If (!($preferences)) {
-		$taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
-		While (!($preferences)) {
-			Start-Sleep -m 250
-			$preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
-		}
-		Stop-Process $taskmgr
-	}
+	$taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
+	Do {
+		Start-Sleep -Milliseconds 100
+		$preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
+	} Until ($preferences)
+	Stop-Process $taskmgr
 	$preferences.Preferences[28] = 0
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
 }
