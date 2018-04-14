@@ -1794,16 +1794,16 @@ Function EnableOneDrive {
 # Uninstall OneDrive - Not applicable to Server
 Function UninstallOneDrive {
 	Write-Output "Uninstalling OneDrive..."
-	Stop-Process -Name OneDrive -ErrorAction SilentlyContinue
-	Start-Sleep -s 3
+	Stop-Process -Name "OneDrive" -ErrorAction SilentlyContinue
+	Start-Sleep -s 2
 	$onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
 	If (!(Test-Path $onedrive)) {
 		$onedrive = "$env:SYSTEMROOT\System32\OneDriveSetup.exe"
 	}
 	Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
-	Start-Sleep -s 3
-	Stop-Process -Name explorer -ErrorAction SilentlyContinue
-	Start-Sleep -s 3
+	Start-Sleep -s 2
+	Stop-Process -Name "explorer" -ErrorAction SilentlyContinue
+	Start-Sleep -s 2
 	Remove-Item -Path "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	Remove-Item -Path "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
