@@ -76,7 +76,7 @@ HideTaskbarPeopleIcon
 ShowTrayIcons
 DisableSearchAppInStore
 DisableNewAppPrompt
-# SetControlPanelViewIcons
+# SetControlPanelSmallIcons
 SetVisualFXPerformance
 # AddENKeyboard
 # EnableNumlock
