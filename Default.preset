@@ -68,7 +68,7 @@ DisableStickyKeys
 ShowTaskManagerDetails
 ShowFileOperationsDetails
 # EnableFileDeleteConfirm
-HideTaskbarSearchBox
+HideTaskbarSearch
 HideTaskView
 ShowSmallTaskbarIcons
 ShowTaskbarTitles

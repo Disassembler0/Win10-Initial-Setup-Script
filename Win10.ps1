@@ -80,7 +80,7 @@ $tweaks = @(
 	"ShowTaskManagerDetails"        # "HideTaskManagerDetails",
 	"ShowFileOperationsDetails",    # "HideFileOperationsDetails",
 	# "EnableFileDeleteConfirm",    # "DisableFileDeleteConfirm",
-	"HideTaskbarSearchBox",         # "ShowTaskbarSearchBox",
+	"HideTaskbarSearch",            # "ShowTaskbarSearchIcon",      # "ShowTaskbarSearchBox",
 	"HideTaskView",                 # "ShowTaskView",
 	"ShowSmallTaskbarIcons",        # "ShowLargeTaskbarIcons",
 	"ShowTaskbarTitles",            # "HideTaskbarTitles",
@@ -1226,16 +1226,22 @@ Function DisableFileDeleteConfirm {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ConfirmFileDelete" -ErrorAction SilentlyContinue
 }
 
-# Hide Taskbar Search button / box
-Function HideTaskbarSearchBox {
-	Write-Output "Hiding Taskbar Search box / button..."
+# Hide Taskbar Search icon / box
+Function HideTaskbarSearch {
+	Write-Output "Hiding Taskbar Search icon / box..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
 }
 
-# Show Taskbar Search button / box
+# Show Taskbar Search icon
+Function ShowTaskbarSearchIcon {
+	Write-Output "Showing Taskbar Search icon..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 1
+}
+
+# Show Taskbar Search box
 Function ShowTaskbarSearchBox {
-	Write-Output "Showing Taskbar Search box / button..."
-	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -ErrorAction SilentlyContinue
+	Write-Output "Showing Taskbar Search box..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 2
 }
 
 # Hide Task View button
