@@ -71,7 +71,7 @@ ShowFileOperationsDetails
 HideTaskbarSearch
 HideTaskView
 ShowSmallTaskbarIcons
-ShowTaskbarTitles
+SetTaskbarCombineWhenFull
 HideTaskbarPeopleIcon
 ShowTrayIcons
 DisableSearchAppInStore
