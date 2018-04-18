@@ -1834,7 +1834,7 @@ Function UninstallOneDrive {
 	}
 	Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
 	Start-Sleep -s 2
-	Stop-Process -Name "explorer" -ErrorAction SilentlyContinue
+	Stop-Process -Name "explorer" -Force -ErrorAction SilentlyContinue
 	Start-Sleep -s 2
 	Remove-Item -Path "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
