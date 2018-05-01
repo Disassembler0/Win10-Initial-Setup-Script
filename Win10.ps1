@@ -191,6 +191,42 @@ Function EnableTelemetry {
 	Enable-ScheduledTask -TaskName "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" | Out-Null
 }
 
+# Disable privacy setting "Let websites provide locally relevant content by accessing my language list"
+Function DisableOne {
+	Write-Output "Disabling One..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 1
+}
+
+# Enable privacy setting "Let websites provide locally relevant content by accessing my language list"
+Function EnableOne {
+	Write-Output "Enabling One..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 0
+}
+
+# Disable privacy setting "Let Windows track app launches to improve Start and search"
+Function DisableTwo {
+	Write-Output "Disabling Two..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackProgs" -Type DWord -Value 0
+}
+
+# Enable privacy setting "Let Windows track app launches to improve Start and search"
+Function EnableTwo {
+	Write-Output "Enabling Two..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackProgs" -Type DWord -Value 1
+}
+
+# Disable privacy setting "Show me suggested content in the Settings app"
+Function DisableThree {
+	Write-Output "Disabling Three..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338393Enabled" -Type DWord -Value 0
+}
+
+# Enable privacy setting "Show me suggested content in the Settings app"
+Function EnableThree {
+	Write-Output "Enabling Three..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338393Enabled" -Type DWord -Value 1
+}
+
 # Disable Wi-Fi Sense
 Function DisableWiFiSense {
 	Write-Output "Disabling Wi-Fi Sense..."
