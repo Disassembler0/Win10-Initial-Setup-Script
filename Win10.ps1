@@ -191,42 +191,6 @@ Function EnableTelemetry {
 	Enable-ScheduledTask -TaskName "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" | Out-Null
 }
 
-# Disable privacy setting "Let websites provide locally relevant content by accessing my language list"
-Function DisableOne {
-	Write-Output "Disabling One..."
-	Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 1
-}
-
-# Enable privacy setting "Let websites provide locally relevant content by accessing my language list"
-Function EnableOne {
-	Write-Output "Enabling One..."
-	Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 0
-}
-
-# Disable privacy setting "Let Windows track app launches to improve Start and search"
-Function DisableTwo {
-	Write-Output "Disabling Two..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackProgs" -Type DWord -Value 0
-}
-
-# Enable privacy setting "Let Windows track app launches to improve Start and search"
-Function EnableTwo {
-	Write-Output "Enabling Two..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackProgs" -Type DWord -Value 1
-}
-
-# Disable privacy setting "Show me suggested content in the Settings app"
-Function DisableThree {
-	Write-Output "Disabling Three..."
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338393Enabled" -Type DWord -Value 0
-}
-
-# Enable privacy setting "Show me suggested content in the Settings app"
-Function EnableThree {
-	Write-Output "Enabling Three..."
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338393Enabled" -Type DWord -Value 1
-}
-
 # Disable Wi-Fi Sense
 Function DisableWiFiSense {
 	Write-Output "Disabling Wi-Fi Sense..."
@@ -307,6 +271,8 @@ Function DisableAppSuggestions {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackProgs" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338393Enabled" -Type DWord -Value 0
 }
 
 # Enable Application suggestions and automatic installation
@@ -323,6 +289,8 @@ Function EnableAppSuggestions {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353698Enabled" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -ErrorAction SilentlyContinue
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackProgs" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338393Enabled" -Type DWord -Value 1
 }
 
 # Disable Activity History feed in Task View - Note: The checkbox "Let Windows collect my activities from this PC" remains checked even when the function is disabled
@@ -442,6 +410,18 @@ Function DisableAdvertisingID {
 Function EnableAdvertisingID {
 	Write-Output "Enabling Advertising ID..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" -Name "DisabledByGroupPolicy" -ErrorAction SilentlyContinue
+}
+
+# Disable setting "Let websites provide locally relevant content by accessing my language list"
+Function DisableWebLangList {
+	Write-Output "Disabling Website Access to Language List..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 1
+}
+
+# Enable setting "Let websites provide locally relevant content by accessing my language list"
+Function EnableWebLangList {
+	Write-Output "Enabling Website Access to Language List..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 0
 }
 
 # Disable Cortana
