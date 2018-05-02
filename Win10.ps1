@@ -2425,10 +2425,13 @@ Function Restart {
 # Cleanup all resources
 Function CleanUp {
 	Write-Output "Cleaning up ..."
-	[gc]::collect()
-	reg unload HKEY_USERS\DefaultUser
-	if (test-path -path "USERHIVE:"){
-		Remove-PSDrive -Name "USERHIVE"
+	[gc]::collect()	
+	if (test-path -path "HKU\DefaultUser"){
+		reg unload HKU\DefaultUser
+	}	
+
+	if (test-path -path "USERHIVE:"){		
+		Remove-PSDrive -Name "USERHIVE"		
 	}	
 }
 
