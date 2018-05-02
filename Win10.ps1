@@ -2461,7 +2461,7 @@ If ($args) {
 ##########
 if ($useDefaultUser){	
 	RequireAdmin	
-	reg load HKEY_USERS\DefaultUser "$env:systemDrive\users\Default\NTUSER.DAT" 
+	reg load HKEY_USERS\DefaultUser "$env:systemDrive\users\Default\NTUSER.DAT" | Out-Null
     New-PSDrive -Name "USERHIVE" -PSProvider Registry -Root "HKEY_USERS\DefaultUser" | Out-Null
 } else {	
 	$currentUserSid = (Get-WmiObject win32_useraccount -Filter "Name='$env:USERNAME'").sid	
