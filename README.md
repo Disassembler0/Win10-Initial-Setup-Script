@@ -100,7 +100,7 @@ For even more advanced usage, refer to section [Maintaining own forks](#maintain
 |  1607   | Redstone 1 (RS1)        | Anniversary Update     | 14393 |
 |  1703   | Redstone 2 (RS2)        | Creators Update        | 15063 |
 |  1709   | Redstone 3 (RS3)        | Fall Creators Update   | 16299 |
-|  1803   | Redstone 4 (RS4)        | Spring Creators Update | 17133 |
+|  1803   | Redstone 4 (RS4)        | April 2018 Update      | 17134 |
 
 &nbsp;
 
