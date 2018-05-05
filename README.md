@@ -17,7 +17,7 @@ This is a PowerShell script for automation of routine tasks done after fresh ins
 ## Usage
 If you just want to run the script with default preset, simply right click on the *Win10.ps1* file, choose *Run with PowerShell*, and confirm execution policy change. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
 
-Alternatively copy also *Default.cmd* and *Default.preset* along with the *Win10.ps1* file, place all three of them into the same folder and then doubleclick on *Default.cmd* to run the script.
+Alternatively copy also *Default.cmd* and *Default.preset* along with the *Win10.ps1* file, place all three of them into the same folder and then double-click on *Default.cmd* to run the script.
 
 ### Advanced usage
 The script consists of separate functions, each of which contains one tweak. The functions can be grouped to *presets*. Preset is simply a list of function names which should be called. If you don't supply any specific preset, the default preset defined by `$tweaks` array in the beginning of the script will be applied. Any function which is not present or is commented in a preset will not be called, thus the corresponding tweak will not be applied.
@@ -70,6 +70,9 @@ For even more advanced usage, refer to section [Maintaining own forks](#maintain
 
 **Q**: I've run the script and it did xxx, how can I undo it?  
 **A:** For every tweak, there is also a corresponding function which restores the default settings. The default is considered freshly installed Windows 10 or Windows Server 2016 with no adjustments made during or after the installation. Use the tweaks to create and run new preset. Alternatively, since some functions are just automation for actions which can be done using GUI, find appropriate control and modify it manually.
+
+**Q:** I've run the script and some controls are now greyed out and display message "*Some settings are hidden or managed by your organization*", why?  
+**A:** To ensure that system-wide tweaks are applied smoothly and reliably, some of them make use of *Group Policy Objects* (*GPO*). The same mechanism is employed also in companies managing their computers in large scale, so the users without administrative privileges can't change the settings. If you wish to change a setting locked by GPO, apply the appropriate restore tweak and the control will become available again.
 
 **Q:** I've run the script and it broke my computer / killed neighbor's dog / caused world war 3.  
 **A:** I don't care. Also, that's not a question.
