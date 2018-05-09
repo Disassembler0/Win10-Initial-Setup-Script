@@ -1,7 +1,7 @@
 ##########
 # Win10 / WinServer2016 Initial Setup Script
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: v2.20, 2018-04-15
+# Version: development
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -72,6 +72,7 @@ $tweaks = @(
 
 	### UI Tweaks ###
 	"DisableActionCenter",          # "EnableActionCenter",
+	"HideAccountProtectionWarn",    # "ShowAccountProtectionWarn",
 	"DisableLockScreen",            # "EnableLockScreen",
 	# "DisableLockScreenRS1",       # "EnableLockScreenRS1",
 	"HideNetworkFromLockScreen",    # "ShowNetworkOnLockScreen",
@@ -1107,6 +1108,21 @@ Function EnableActionCenter {
 	Write-Output "Enabling Action Center..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -ErrorAction SilentlyContinue
+}
+
+# Hide Account Protection warning in Defender about not using a Microsoft account
+Function HideAccountProtectionWarn {
+	Write-Output "Hiding Account Protection warning..."
+	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State")) {
+		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Force | Out-Null
+	}
+	Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Name "AccountProtection_MicrosoftAccount_Disconnected" -Type DWord -Value 1
+}
+
+# Show Account Protection warning in Defender
+Function ShowAccountProtectionWarn {
+	Write-Output "Showing Account Protection warning..."
+	Remove-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Name "AccountProtection_MicrosoftAccount_Disconnected" -ErrorAction SilentlyContinue
 }
 
 # Disable Lock screen

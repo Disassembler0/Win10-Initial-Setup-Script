@@ -60,6 +60,7 @@ DisableAutorun
 # DisableFastStartup
 
 DisableActionCenter
+HideAccountProtectionWarn
 DisableLockScreen
 # DisableLockScreenRS1
 HideNetworkFromLockScreen
