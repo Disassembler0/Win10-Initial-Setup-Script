@@ -115,6 +115,7 @@ UninstallThirdPartyBloat
 # UninstallWindowsStore
 DisableXboxFeatures
 DisableAdobeFlash
+DisableEdgeShortcutCreation
 # UninstallMediaPlayer
 # UninstallInternetExplorer
 # UninstallWorkFolders
