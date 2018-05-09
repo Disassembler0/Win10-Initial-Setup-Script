@@ -104,7 +104,8 @@ HideVideosFromThisPC
 Hide3DObjectsFromThisPC
 # Hide3DObjectsFromExplorer
 # DisableThumbnails
-DisableThumbsDB
+DisableThumbnailCache
+DisableThumbsDBOnNetwork
 
 DisableOneDrive
 UninstallOneDrive
