@@ -14,6 +14,7 @@ DisableMapUpdates
 DisableFeedback
 DisableTailoredExperiences
 DisableAdvertisingID
+DisableWebLangList
 DisableCortana
 DisableErrorReporting
 # SetP2PUpdateLocal
