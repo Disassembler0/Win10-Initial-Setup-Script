@@ -789,10 +789,11 @@ Function DisableDotNetStrongCrypto {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -ErrorAction SilentlyContinue
 }
 
-# Enable Meltdown (CVE-2017-5754) compatibility flag - Required for January 2018 and all subsequent Windows updates
+# Enable Meltdown (CVE-2017-5754) compatibility flag - Required for January and February 2018 Windows updates
 # This flag is normally automatically enabled by compatible antivirus software (such as Windows Defender).
 # Use the tweak only if you have confirmed that your AV is compatible but unable to set the flag automatically or if you don't use any AV at all.
-# See https://support.microsoft.com/en-us/help/4072699/january-3-2018-windows-security-updates-and-antivirus-software for details.
+# As of March 2018, the compatibility check has been lifted for security updates.
+# See https://support.microsoft.com/en-us/help/4072699/windows-security-updates-and-antivirus-software for details
 Function EnableMeltdownCompatFlag {
 	Write-Output "Enabling Meltdown (CVE-2017-5754) compatibility flag..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat")) {
