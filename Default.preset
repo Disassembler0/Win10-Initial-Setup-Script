@@ -85,6 +85,7 @@ SetVisualFXPerformance
 
 ShowKnownExtensions
 ShowHiddenFiles
+HideSelectCheckboxes
 HideSyncNotifications
 HideRecentShortcuts
 SetExplorerThisPC
