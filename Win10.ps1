@@ -98,6 +98,7 @@ $tweaks = @(
 	### Explorer UI Tweaks ###
 	"ShowKnownExtensions",          # "HideKnownExtensions",
 	"ShowHiddenFiles",              # "HideHiddenFiles",
+	# "HideSelectCheckboxes",       # "ShowSelectCheckboxes",
 	"HideSyncNotifications"         # "ShowSyncNotifications",
 	"HideRecentShortcuts",          # "ShowRecentShortcuts",
 	"SetExplorerThisPC",            # "SetExplorerQuickAccess",
@@ -1518,6 +1519,18 @@ Function ShowHiddenFiles {
 Function HideHiddenFiles {
 	Write-Output "Hiding hidden files..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Type DWord -Value 2
+}
+
+# Hide item selection checkboxes
+Function HideSelectCheckboxes {
+	Write-Output "Hiding item selection checkboxes..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 0
+}
+
+# Show item selection checkboxes
+Function ShowSelectCheckboxes {
+	Write-Output "Showing item selection checkboxes..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 1
 }
 
 # Hide sync provider notifications
