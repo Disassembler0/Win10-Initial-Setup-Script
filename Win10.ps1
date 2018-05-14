@@ -82,6 +82,7 @@ $tweaks = @(
 	"ShowTaskManagerDetails"        # "HideTaskManagerDetails",
 	"ShowFileOperationsDetails",    # "HideFileOperationsDetails",
 	# "EnableFileDeleteConfirm",    # "DisableFileDeleteConfirm",
+	"DisableSelectCheckboxes",		# "EnableSelectCheckboxes",
 	"HideTaskbarSearch",            # "ShowTaskbarSearchIcon",      # "ShowTaskbarSearchBox",
 	"HideTaskView",                 # "ShowTaskView",
 	"ShowSmallTaskbarIcons",        # "ShowLargeTaskbarIcons",
@@ -1253,6 +1254,18 @@ Function ShowFileOperationsDetails {
 Function HideFileOperationsDetails {
 	Write-Output "Hiding file operations details..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" -Name "EnthusiastMode" -ErrorAction SilentlyContinue
+}
+
+# Disable item selection using checkboxex in explorer
+Function DisableSelectCheckboxes {
+	Write-Output "Disabling checkboxes for item selections"
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 0
+}
+
+# Enable item selection using checkboxex in explorer
+Function EnableSelectCheckboxes {
+	Write-Output "Enabling checkboxes for item selections"
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 1
 }
 
 # Enable file delete confirmation dialog
