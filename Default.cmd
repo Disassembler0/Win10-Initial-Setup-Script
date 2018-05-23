@@ -1,3 +1,3 @@
 @ECHO OFF
 
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "Win10.ps1" -preset "Default.preset"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Win10.ps1" -preset "%~dpn0.preset"
