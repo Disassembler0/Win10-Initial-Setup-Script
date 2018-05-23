@@ -127,6 +127,7 @@ AddPhotoViewerOpenWith
 # UninstallPDFPrinter
 UninstallXPSPrinter
 RemoveFaxPrinter
+# UninstallFaxAndScanServices
 
 # HideServerManagerOnLogin
 # DisableShutdownTracker

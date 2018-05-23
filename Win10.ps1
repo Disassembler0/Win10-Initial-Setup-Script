@@ -141,6 +141,7 @@ $tweaks = @(
 	# "UninstallPDFPrinter",        # "InstallPDFPrinter",
 	"UninstallXPSPrinter",          # "InstallXPSPrinter",
 	"RemoveFaxPrinter",             # "AddFaxPrinter",
+	# "UninstallFaxAndScanServices",# "InstallFaxAndScanServices",
 
 	### Server Specific Tweaks ###
 	# "HideServerManagerOnLogin",   # "ShowServerManagerOnLogin",
@@ -2326,6 +2327,18 @@ Function RemoveFaxPrinter {
 Function AddFaxPrinter {
 	Write-Output "Adding Default Fax Printer..."
 	Add-Printer -Name "Fax" -DriverName "Microsoft Shared Fax Driver" -PortName "SHRFAX:" -ErrorAction SilentlyContinue
+}
+
+# Uninstall Windows Fax and Scan Services
+Function UninstallFaxAndScanServices {
+	Write-Output "Uninstalling Windows Fax and Scan Services..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Install Windows Fax and Scan Services
+Function InstallFaxAndScanServices {
+	Write-Output "Installing Windows Fax and Scan Services..."
+	Enable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 
