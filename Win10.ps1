@@ -141,7 +141,7 @@ $tweaks = @(
 	# "UninstallPDFPrinter",        # "InstallPDFPrinter",
 	"UninstallXPSPrinter",          # "InstallXPSPrinter",
 	"RemoveFaxPrinter",             # "AddFaxPrinter",
-	# "UninstallFaxAndScanServices",# "InstallFaxAndScanServices",
+	# "UninstallFaxAndScan",        # "InstallFaxAndScan",
 
 	### Server Specific Tweaks ###
 	# "HideServerManagerOnLogin",   # "ShowServerManagerOnLogin",
@@ -2330,13 +2330,13 @@ Function AddFaxPrinter {
 }
 
 # Uninstall Windows Fax and Scan Services
-Function UninstallFaxAndScanServices {
+Function UninstallFaxAndScan {
 	Write-Output "Uninstalling Windows Fax and Scan Services..."
 	Disable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Install Windows Fax and Scan Services
-Function InstallFaxAndScanServices {
+Function InstallFaxAndScan {
 	Write-Output "Installing Windows Fax and Scan Services..."
 	Enable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
