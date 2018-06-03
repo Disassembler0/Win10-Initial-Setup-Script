@@ -82,6 +82,9 @@ DisableNewAppPrompt
 SetVisualFXPerformance
 # AddENKeyboard
 # EnableNumlock
+# SetSoundSchemeNone
+# DisableStartupSound
+# DisableChangingSoundScheme
 
 ShowKnownExtensions
 ShowHiddenFiles
