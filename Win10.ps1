@@ -1496,6 +1496,7 @@ Function DisableNumlock {
 	}
 }
 
+# Set sound scheme to No Sounds
 Function SetSoundSchemeNone {
 	Write-Output "Setting sound scheme to No Sounds..."
 	$SoundScheme = ".None"
