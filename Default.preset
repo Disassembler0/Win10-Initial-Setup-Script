@@ -14,6 +14,7 @@ DisableMapUpdates
 DisableFeedback
 DisableTailoredExperiences
 DisableAdvertisingID
+DisableWebLangList
 DisableCortana
 DisableErrorReporting
 # SetP2PUpdateLocal
@@ -60,6 +61,7 @@ DisableAutorun
 # DisableFastStartup
 
 DisableActionCenter
+HideAccountProtectionWarn
 DisableLockScreen
 # DisableLockScreenRS1
 HideNetworkFromLockScreen
@@ -83,6 +85,7 @@ SetVisualFXPerformance
 
 ShowKnownExtensions
 ShowHiddenFiles
+HideSelectCheckboxes
 HideSyncNotifications
 HideRecentShortcuts
 SetExplorerThisPC
@@ -113,6 +116,7 @@ UninstallThirdPartyBloat
 # UninstallWindowsStore
 DisableXboxFeatures
 DisableAdobeFlash
+DisableEdgeShortcutCreation
 # UninstallMediaPlayer
 # UninstallInternetExplorer
 # UninstallWorkFolders
@@ -123,6 +127,7 @@ AddPhotoViewerOpenWith
 # UninstallPDFPrinter
 UninstallXPSPrinter
 RemoveFaxPrinter
+# UninstallFaxAndScan
 
 # HideServerManagerOnLogin
 # DisableShutdownTracker
