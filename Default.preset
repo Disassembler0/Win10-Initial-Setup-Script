@@ -21,7 +21,7 @@ DisableErrorReporting
 DisableDiagTrack
 DisableWAPPush
 
-# SetUACLow
+SetUACLow
 # EnableSharingMappedDrives
 DisableAdminShares
 # DisableSMB1
@@ -51,8 +51,8 @@ EnableRemoteDesktop
 DisableAutoplay
 DisableAutorun
 # EnableStorageSense
-# DisableDefragmentation
-# DisableSuperfetch
+DisableDefragmentation
+DisableSuperfetch
 # DisableIndexing
 # SetBIOSTimeUTC
 # EnableHibernation
@@ -127,7 +127,7 @@ AddPhotoViewerOpenWith
 # UninstallPDFPrinter
 UninstallXPSPrinter
 RemoveFaxPrinter
-# UninstallFaxAndScan
+UninstallFaxAndScan
 
 # HideServerManagerOnLogin
 # DisableShutdownTracker
