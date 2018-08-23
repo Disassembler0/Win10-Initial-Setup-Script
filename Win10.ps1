@@ -26,7 +26,7 @@ $tweaks = @(
 	"DisableWebLangList",           # "EnableWebLangList",
 	"DisableCortana",               # "EnableCortana",
 	"DisableErrorReporting",        # "EnableErrorReporting",
-	# "SetP2PUpdateLocal",          # "SetP2PUpdateInternet",
+	# "SetP2PUpdateLocal",          # "SetP2PUpdateInternet",       # "SetP2PUpdateDisable",
 	"DisableDiagTrack",             # "EnableDiagTrack",
 	"DisableWAPPush",               # "EnableWAPPush",
 
@@ -493,19 +493,58 @@ Function EnableErrorReporting {
 	Enable-ScheduledTask -TaskName "Microsoft\Windows\Windows Error Reporting\QueueReporting" | Out-Null
 }
 
-# Restrict Windows Update P2P only to local network - Needed only for 1507 as local P2P is the default since 1511
+# Restrict Windows Update P2P delivery optimization to computers in local network - Default since 1703
 Function SetP2PUpdateLocal {
-	Write-Output "Restricting Windows Update P2P only to local network..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config")) {
-		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" | Out-Null
+	Write-Output "Restricting Windows Update P2P optimization to local network..."
+	If ([System.Environment]::OSVersion.Version.Build -lt 16299) {
+		# Method used in 1507 - 1703
+		If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config")) {
+			New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" | Out-Null
+		}
+		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
+	} Else {
+		# Method used since 1709
+		If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings")) {
+			New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings" | Out-Null
+		}
+		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings" -Name "DownloadMode" -Type DWord -Value 1
 	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
 }
 
-# Unrestrict Windows Update P2P
+# Unrestrict Windows Update P2P delivery optimization to both local networks and internet - Default in 1507 - 1607
 Function SetP2PUpdateInternet {
-	Write-Output "Unrestricting Windows Update P2P to internet..."
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -ErrorAction SilentlyContinue
+	Write-Output "Unrestricting Windows Update P2P optimization to internet..."
+	If ([System.Environment]::OSVersion.Version.Build -lt 16299) {
+		# Method used in 1507 - 1703
+		If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config")) {
+			New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" | Out-Null
+		}
+		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 3
+	} Else {
+		# Method used since 1709
+		If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings")) {
+			New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings" | Out-Null
+		}
+		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings" -Name "DownloadMode" -Type DWord -Value 3
+	}
+}
+
+# Disable Windows Update P2P delivery optimization completely
+Function SetP2PUpdateDisable {
+	Write-Output "Disabling Windows Update P2P optimization..."
+	If ([System.Environment]::OSVersion.Version.Build -lt 16299) {
+		# Method used in 1507 - 1703
+		If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config")) {
+			New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" | Out-Null
+		}
+		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 0
+	} Else {
+		# Method used since 1709
+		If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings")) {
+			New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings" | Out-Null
+		}
+		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Settings" -Name "DownloadMode" -Type DWord -Value 0
+	}
 }
 
 # Stop and disable Diagnostics Tracking Service
