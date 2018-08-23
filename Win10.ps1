@@ -94,6 +94,9 @@ $tweaks = @(
 	"SetVisualFXPerformance",       # "SetVisualFXAppearance",
 	# "AddENKeyboard",              # "RemoveENKeyboard",
 	# "EnableNumlock",              # "DisableNumlock",
+	# "SetSoundSchemeNone",         # "SetSoundSchemeDefault",
+	# "DisableStartupSound",        # "EnableStartupSound",
+	# "DisableChangingSoundScheme", # "EnableChangingSoundScheme",
 
 	### Explorer UI Tweaks ###
 	"ShowKnownExtensions",          # "HideKnownExtensions",
@@ -1499,7 +1502,76 @@ Function DisableNumlock {
 	}
 }
 
+# Set sound scheme to No Sounds
+Function SetSoundSchemeNone {
+	Write-Output "Setting sound scheme to No Sounds..."
+	$SoundScheme = ".None"
+	Get-ChildItem -Path "HKCU:\AppEvents\Schemes\Apps\*\*" | ForEach {
+		# If scheme keys do not exist in an event, create empty ones (similar behavior to Sound control panel).
+		If (!(Test-Path "$($_.PsPath)\$($SoundScheme)")) {
+			New-Item -Path "$($_.PsPath)\$($SoundScheme)" | Out-Null
+		}
+		If (!(Test-Path "$($_.PsPath)\.Current")) {
+			New-Item -Path "$($_.PsPath)\.Current" | Out-Null
+		}
+		# Get a regular string from any possible kind of value, i.e. resolve REG_EXPAND_SZ, copy REG_SZ or empty from non-existing.
+		$Data = (Get-ItemProperty -Path "$($_.PsPath)\$($SoundScheme)" -Name "(Default)" -ErrorAction SilentlyContinue)."(Default)"
+		# Replace any kind of value with a regular string (similar behavior to Sound control panel).
+		Set-ItemProperty -Path "$($_.PsPath)\$($SoundScheme)" -Name "(Default)" -Type String -Value $Data
+		# Copy data from source scheme to current.
+		Set-ItemProperty -Path "$($_.PsPath)\.Current" -Name "(Default)" -Type String -Value $Data
+	}
+	Set-ItemProperty -Path "HKCU:\AppEvents\Schemes" -Name "(Default)" -Type String -Value $SoundScheme
+}
 
+# Set sound scheme to Windows Default
+Function SetSoundSchemeDefault {
+	Write-Output "Setting sound scheme to Windows Default..."
+	$SoundScheme = ".Default"
+	Get-ChildItem -Path "HKCU:\AppEvents\Schemes\Apps\*\*" | ForEach {
+		# If scheme keys do not exist in an event, create empty ones (similar behavior to Sound control panel).
+		If (!(Test-Path "$($_.PsPath)\$($SoundScheme)")) {
+			New-Item -Path "$($_.PsPath)\$($SoundScheme)" | Out-Null
+		}
+		If (!(Test-Path "$($_.PsPath)\.Current")) {
+			New-Item -Path "$($_.PsPath)\.Current" | Out-Null
+		}
+		# Get a regular string from any possible kind of value, i.e. resolve REG_EXPAND_SZ, copy REG_SZ or empty from non-existing.
+		$Data = (Get-ItemProperty -Path "$($_.PsPath)\$($SoundScheme)" -Name "(Default)" -ErrorAction SilentlyContinue)."(Default)"
+		# Replace any kind of value with a regular string (similar behavior to Sound control panel).
+		Set-ItemProperty -Path "$($_.PsPath)\$($SoundScheme)" -Name "(Default)" -Type String -Value $Data
+		# Copy data from source scheme to current.
+		Set-ItemProperty -Path "$($_.PsPath)\.Current" -Name "(Default)" -Type String -Value $Data
+	}
+	Set-ItemProperty -Path "HKCU:\AppEvents\Schemes" -Name "(Default)" -Type String -Value $SoundScheme
+}
+
+# Disable playing Windows Startup sound
+Function DisableStartupSound {
+	Write-Output "Disabling Windows Startup sound..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" -Name "DisableStartupSound" -Type DWord -Value 1
+}
+
+# Enable playing Windows Startup sound
+Function EnableStartupSound {
+	Write-Output "Enabling Windows Startup sound..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" -Name "DisableStartupSound" -Type DWord -Value 0
+}
+
+# Disable changing sound scheme
+Function DisableChangingSoundScheme {
+	Write-Output "Disabling changing sound scheme..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoChangingSoundScheme" -Type DWord -Value 1
+}
+
+# Enable changing sound scheme
+Function EnableChangingSoundScheme {
+	Write-Output "Enabling changing sound scheme..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoChangingSoundScheme" -ErrorAction SilentlyContinue
+}
 
 ##########
 # Explorer UI Tweaks
