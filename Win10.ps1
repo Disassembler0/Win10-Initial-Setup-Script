@@ -105,6 +105,7 @@ $tweaks = @(
 	"HideSyncNotifications"         # "ShowSyncNotifications",
 	"HideRecentShortcuts",          # "ShowRecentShortcuts",
 	"SetExplorerThisPC",            # "SetExplorerQuickAccess",
+	"HideQuickAccess",              # "ShowQuickAccess",
 	"ShowThisPCOnDesktop",          # "HideThisPCFromDesktop",
 	# "ShowUserFolderOnDesktop",    # "HideUserFolderFromDesktop",
 	"HideDesktopFromThisPC",        # "ShowDesktopInThisPC",
@@ -1647,6 +1648,18 @@ Function SetExplorerThisPC {
 Function SetExplorerQuickAccess {
 	Write-Output "Changing default Explorer view to Quick Access..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -ErrorAction SilentlyContinue
+}
+
+# Hide Quick Access from Explorer navigation pane
+Function HideQuickAccess {
+	Write-Output "Hiding Quick Access from Explorer navigation pane..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "HubMode" -Type DWord -Value 1
+}
+
+# Show Quick Access in Explorer navigation pane
+Function ShowQuickAccess {
+	Write-Output "Showing Quick Access in Explorer navigation pane..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "HubMode" -ErrorAction SilentlyContinue
 }
 
 # Show This PC shortcut on desktop
