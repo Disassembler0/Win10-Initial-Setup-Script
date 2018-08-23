@@ -37,6 +37,7 @@ $tweaks = @(
 	# "DisableSMB1",                # "EnableSMB1",
 	# "DisableSMBServer",           # "EnableSMBServer",
 	# "DisableLLMNR",               # "EnableLLMNR",
+	# "DisableNCSIProbe",           # "EnableNCSIProbe",
 	"SetCurrentNetworkPrivate",     # "SetCurrentNetworkPublic",
 	# "SetUnknownNetworksPrivate",  # "SetUnknownNetworksPublic",
 	# "DisableNetDevicesAutoInst",  # "EnableNetDevicesAutoInst",
@@ -660,6 +661,20 @@ Function DisableLLMNR {
 Function EnableLLMNR {
 	Write-Output "Enabling LLMNR..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Name "EnableMulticast" -ErrorAction SilentlyContinue
+}
+
+# Disable Network Connectivity Status Indicator active test
+# Note: This may reduce the ability of OS and other components to determine internet access, however protects against a specific type of zero-click attack.
+# See https://github.com/Disassembler0/Win10-Initial-Setup-Script/pull/111 for details
+Function DisableNCSIProbe {
+	Write-Output "Disabling NCSI active test..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" -Name "NoActiveProbe" -Type DWord -Value 1
+}
+
+# Enable Network Connectivity Status Indicator active test
+Function EnableNCSIProbe {
+	Write-Output "Enabling NCSI active test..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" -Name "NoActiveProbe" -ErrorAction SilentlyContinue
 }
 
 # Set current network profile to private (allow file sharing, device discovery, etc.)

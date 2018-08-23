@@ -27,6 +27,7 @@ DisableAdminShares
 # DisableSMB1
 # DisableSMBServer
 # DisableLLMNR
+# DisableNCSIProbe
 SetCurrentNetworkPrivate
 # SetUnknownNetworksPrivate
 # DisableNetDevicesAutoInst
