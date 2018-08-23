@@ -29,6 +29,8 @@ $tweaks = @(
 	# "SetP2PUpdateLocal",          # "SetP2PUpdateInternet",       # "SetP2PUpdateDisable",
 	"DisableDiagTrack",             # "EnableDiagTrack",
 	"DisableWAPPush",               # "EnableWAPPush",
+	"DisableNetConnectionTest",     # "EnablenNetConnectionTest",
+	# "SetMozillaForNetConnTest",  	# "SetMicrosoftForNetConnTest",
 
 	### Security Tweaks ###
 	# "SetUACLow",                  # "SetUACHigh",
@@ -577,6 +579,37 @@ Function EnableWAPPush {
 	Start-Service "dmwappushservice" -WarningAction SilentlyContinue
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\dmwappushservice" -Name "DelayedAutoStart" -Type DWord -Value 1
 }
+
+# Disable Network Connection test (www.msftconnecttest.com)
+Function DisableNetConnectionTest {
+	Write-Output "Disabling Network Connection test..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" -Name "EnableActiveProbing" -Type DWord -Value 0
+}
+
+# Enable Network Connection test
+Function EnableNetConnectionTest {
+	Write-Output "Enabling Network Connection test..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" -Name "EnableActiveProbing" -Type DWord -Value 1
+}
+
+# Use Mozilla's servers instead of Microsoft's ones for Network Connection test (if it is enabled)
+Function SetMozillaForNetConnTest {
+	Write-Output "Setting Mozilla servers for Network Connection test..."
+	# TODO: add IPV6
+	# TODO: add DNS
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" -Name "ActiveWebProbeHost" -Type ExpandString -Value "detectportal.firefox.com"
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" -Name "ActiveWebProbePath" -Type ExpandString -Value "success.txt"
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" -Name "ActiveWebProbeContent" -Type ExpandString -Value "success"
+}
+
+# Use Microsoft's servers for Network Connection test (if it is enabled)
+Function SetMicrosoftForNetConnTest {
+	Write-Output "Setting Mozilla servers for Network Connection test..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" -Name "ActiveWebProbeHost" -Type ExpandString -Value "www.msftconnecttest.com"
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" -Name "ActiveWebProbePath" -Type ExpandString -Value "connecttest.txt"
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" -Name "ActiveWebProbeContent" -Type ExpandString -Value "Microsoft Connect Test"
+}
+
 
 
 

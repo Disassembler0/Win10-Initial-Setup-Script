@@ -20,6 +20,8 @@ DisableErrorReporting
 # SetP2PUpdateLocal
 DisableDiagTrack
 DisableWAPPush
+DisableNetConnectionTest
+# SetMozillaForNetConnTest
 
 # SetUACLow
 # EnableSharingMappedDrives
