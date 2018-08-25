@@ -2483,13 +2483,13 @@ Function AddFaxPrinter {
 	Add-Printer -Name "Fax" -DriverName "Microsoft Shared Fax Driver" -PortName "SHRFAX:" -ErrorAction SilentlyContinue
 }
 
-# Uninstall Windows Fax and Scan Services
+# Uninstall Windows Fax and Scan Services - Not applicable to Server
 Function UninstallFaxAndScan {
 	Write-Output "Uninstalling Windows Fax and Scan Services..."
 	Disable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
-# Install Windows Fax and Scan Services
+# Install Windows Fax and Scan Services - Not applicable to Server
 Function InstallFaxAndScan {
 	Write-Output "Installing Windows Fax and Scan Services..."
 	Enable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
