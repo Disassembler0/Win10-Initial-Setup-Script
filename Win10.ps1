@@ -102,6 +102,9 @@ $tweaks = @(
 	### Explorer UI Tweaks ###
 	"ShowKnownExtensions",          # "HideKnownExtensions",
 	"ShowHiddenFiles",              # "HideHiddenFiles",
+	# "EnableFolderSeparateProcess" # "DisableFolderSeparateProcess",
+	# "EnableRestoreFolderWindows"  # "DisableRestoreFolderWindows",
+	# "DisableSharingWizard",       # "EnableSharingWizard",
 	# "HideSelectCheckboxes",       # "ShowSelectCheckboxes",
 	"HideSyncNotifications"         # "ShowSyncNotifications",
 	"HideRecentShortcuts",          # "ShowRecentShortcuts",
@@ -1657,6 +1660,42 @@ Function ShowHiddenFiles {
 Function HideHiddenFiles {
 	Write-Output "Hiding hidden files..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Type DWord -Value 2
+}
+
+# Enable launching folder windows in a separate process
+Function EnableFolderSeparateProcess {
+	Write-Output "Enabling launching folder windows in a separate process..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SeparateProcess" -Type DWord -Value 1
+}
+
+# Disable launching folder windows in a separate process
+Function DisableFolderSeparateProcess {
+	Write-Output "Disabling launching folder windows in a separate process..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SeparateProcess" -Type DWord -Value 0
+}
+
+# Enable restoring previous folder windows at logon
+Function EnableRestoreFolderWindows {
+	Write-Output "Enabling restoring previous folder windows at logon..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -Type DWord -Value 1
+}
+
+# Disable restoring previous folder windows at logon
+Function DisableRestoreFolderWindows {
+	Write-Output "Disabling restoring previous folder windows at logon..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -Type DWord -Value 0
+}
+
+# Disable Sharing Wizard
+Function DisableSharingWizard {
+	Write-Output "Disabling Sharing Wizard..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SharingWizardOn" -Type DWord -Value 0
+}
+
+# Enable Sharing Wizard
+Function EnableSharingWizard {
+	Write-Output "Enabling Sharing Wizard..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SharingWizardOn" -Type DWord -Value 1
 }
 
 # Hide item selection checkboxes

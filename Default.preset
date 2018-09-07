@@ -89,6 +89,9 @@ SetVisualFXPerformance
 
 ShowKnownExtensions
 ShowHiddenFiles
+# EnableFolderSeparateProcess
+# EnableRestoreFolderWindows
+# DisableSharingWizard
 HideSelectCheckboxes
 HideSyncNotifications
 HideRecentShortcuts
