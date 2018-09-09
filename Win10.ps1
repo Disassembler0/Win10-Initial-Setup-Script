@@ -29,6 +29,8 @@ $tweaks = @(
 	# "SetP2PUpdateLocal",          # "SetP2PUpdateInternet",       # "SetP2PUpdateDisable",
 	"DisableDiagTrack",             # "EnableDiagTrack",
 	"DisableWAPPush",               # "EnableWAPPush",
+	"HideRecentlyAddedApps",        # "ShowRecentlyAddedApps",
+	"HideRecentJumplists",          # "ShowRecentJumplists",
 
 	### Security Tweaks ###
 	# "SetUACLow",                  # "SetUACHigh",
@@ -580,6 +582,33 @@ Function EnableWAPPush {
 	Set-Service "dmwappushservice" -StartupType Automatic
 	Start-Service "dmwappushservice" -WarningAction SilentlyContinue
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\dmwappushservice" -Name "DelayedAutoStart" -Type DWord -Value 1
+}
+
+# Hide "Recently added" list from Start Menu
+Function HideRecentlyAddedApps {
+	Write-Output "Hiding 'Recently added' list from Start Menu..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -Type DWord -Value 1
+}
+
+# Show "Recently added" list in Start Menu
+Function ShowRecentlyAddedApps {
+	Write-Output "Showing 'Recently added' list in Start Menu..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -ErrorAction SilentlyContinue
+}
+
+# Hide recently opened items in Jump Lists on Start or the taskbar
+Function HideRecentJumplists {
+	Write-Output "Hiding recently opened items in Jump Lists..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -Type DWord -Value 0
+}
+
+# Show recently opened items in Jump Lists on Start or the taskbar
+Function ShowRecentJumplists {
+	Write-Output "Showing recently opened items in Jump Lists..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -Type DWord -Value 1
 }
 
 

@@ -20,6 +20,8 @@ DisableErrorReporting
 # SetP2PUpdateLocal
 DisableDiagTrack
 DisableWAPPush
+# HideRecentlyAddedApps
+# HideRecentJumplists
 
 # SetUACLow
 # EnableSharingMappedDrives
