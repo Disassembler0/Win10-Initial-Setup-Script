@@ -29,6 +29,7 @@ $tweaks = @(
 	# "SetP2PUpdateLocal",          # "SetP2PUpdateInternet",       # "SetP2PUpdateDisable",
 	"DisableDiagTrack",             # "EnableDiagTrack",
 	"DisableWAPPush",               # "EnableWAPPush",
+	# "HideRecentJumplists",        # "ShowRecentJumplists",
 
 	### Security Tweaks ###
 	# "SetUACLow",                  # "SetUACHigh",
@@ -50,7 +51,7 @@ $tweaks = @(
 	# "EnableCIMemoryIntegrity",    # "DisableCIMemoryIntegrity",
 	"DisableScriptHost",            # "EnableScriptHost",
 	"EnableDotNetStrongCrypto",     # "DisableDotNetStrongCrypto",
-	# "EnableMeltdownCompatFlag"    # "DisableMeltdownCompatFlag",
+	# "EnableMeltdownCompatFlag",   # "DisableMeltdownCompatFlag",
 
 	### Service Tweaks ###
 	# "DisableUpdateMSRT",          # "EnableUpdateMSRT",
@@ -80,7 +81,7 @@ $tweaks = @(
 	"HideNetworkFromLockScreen",    # "ShowNetworkOnLockScreen",
 	"HideShutdownFromLockScreen",   # "ShowShutdownOnLockScreen",
 	"DisableStickyKeys",            # "EnableStickyKeys",
-	"ShowTaskManagerDetails"        # "HideTaskManagerDetails",
+	"ShowTaskManagerDetails",       # "HideTaskManagerDetails",
 	"ShowFileOperationsDetails",    # "HideFileOperationsDetails",
 	# "EnableFileDeleteConfirm",    # "DisableFileDeleteConfirm",
 	"HideTaskbarSearch",            # "ShowTaskbarSearchIcon",      # "ShowTaskbarSearchBox",
@@ -91,6 +92,7 @@ $tweaks = @(
 	"ShowTrayIcons",                # "HideTrayIcons",
 	"DisableSearchAppInStore",      # "EnableSearchAppInStore",
 	"DisableNewAppPrompt",          # "EnableNewAppPrompt",
+	# "HideRecentlyAddedApps",      # "ShowRecentlyAddedApps",
 	# "SetControlPanelSmallIcons",  # "SetControlPanelLargeIcons",  # "SetControlPanelCategories",
 	"SetVisualFXPerformance",       # "SetVisualFXAppearance",
 	# "AddENKeyboard",              # "RemoveENKeyboard",
@@ -102,6 +104,9 @@ $tweaks = @(
 	### Explorer UI Tweaks ###
 	"ShowKnownExtensions",          # "HideKnownExtensions",
 	"ShowHiddenFiles",              # "HideHiddenFiles",
+	# "EnableFldrSeparateProcess",  # "DisableFldrSeparateProcess",
+	# "EnableRestoreFldrWindows",   # "DisableRestoreFldrWindows",
+	# "DisableSharingWizard",       # "EnableSharingWizard",
 	# "HideSelectCheckboxes",       # "ShowSelectCheckboxes",
 	"HideSyncNotifications"         # "ShowSyncNotifications",
 	"HideRecentShortcuts",          # "ShowRecentShortcuts",
@@ -577,6 +582,18 @@ Function EnableWAPPush {
 	Set-Service "dmwappushservice" -StartupType Automatic
 	Start-Service "dmwappushservice" -WarningAction SilentlyContinue
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\dmwappushservice" -Name "DelayedAutoStart" -Type DWord -Value 1
+}
+
+# Hide recently opened items in Jump Lists on Start or the taskbar
+Function HideRecentJumplists {
+	Write-Output "Hiding recently opened items in Jump Lists..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -Type DWord -Value 0
+}
+
+# Show recently opened items in Jump Lists on Start or the taskbar
+Function ShowRecentJumplists {
+	Write-Output "Showing recently opened items in Jump Lists..."
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -ErrorAction SilentlyContinue
 }
 
 
@@ -1460,6 +1477,21 @@ Function EnableNewAppPrompt {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -ErrorAction SilentlyContinue
 }
 
+# Hide "Recently added" list from Start Menu
+Function HideRecentlyAddedApps {
+	Write-Output "Hiding 'Recently added' list from Start Menu..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -Type DWord -Value 1
+}
+
+# Show "Recently added" list in Start Menu
+Function ShowRecentlyAddedApps {
+	Write-Output "Showing 'Recently added' list in Start Menu..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -ErrorAction SilentlyContinue
+}
+
 # Set Control Panel view to Small icons (Classic)
 Function SetControlPanelSmallIcons {
 	Write-Output "Setting Control Panel view to small icons..."
@@ -1631,6 +1663,8 @@ Function EnableChangingSoundScheme {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoChangingSoundScheme" -ErrorAction SilentlyContinue
 }
 
+
+
 ##########
 # Explorer UI Tweaks
 ##########
@@ -1657,6 +1691,42 @@ Function ShowHiddenFiles {
 Function HideHiddenFiles {
 	Write-Output "Hiding hidden files..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Type DWord -Value 2
+}
+
+# Enable launching folder windows in a separate process
+Function EnableFldrSeparateProcess {
+	Write-Output "Enabling launching folder windows in a separate process..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SeparateProcess" -Type DWord -Value 1
+}
+
+# Disable launching folder windows in a separate process
+Function DisableFldrSeparateProcess {
+	Write-Output "Disabling launching folder windows in a separate process..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SeparateProcess" -Type DWord -Value 0
+}
+
+# Enable restoring previous folder windows at logon
+Function EnableRestoreFldrWindows {
+	Write-Output "Enabling restoring previous folder windows at logon..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -Type DWord -Value 1
+}
+
+# Disable restoring previous folder windows at logon
+Function DisableRestoreFldrWindows {
+	Write-Output "Disabling restoring previous folder windows at logon..."
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -ErrorAction SilentlyContinue
+}
+
+# Disable Sharing Wizard
+Function DisableSharingWizard {
+	Write-Output "Disabling Sharing Wizard..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SharingWizardOn" -Type DWord -Value 0
+}
+
+# Enable Sharing Wizard
+Function EnableSharingWizard {
+	Write-Output "Enabling Sharing Wizard..."
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -ErrorAction SilentlyContinue
 }
 
 # Hide item selection checkboxes
