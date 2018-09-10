@@ -52,7 +52,7 @@ $tweaks = @(
 	# "EnableCIMemoryIntegrity",    # "DisableCIMemoryIntegrity",
 	"DisableScriptHost",            # "EnableScriptHost",
 	"EnableDotNetStrongCrypto",     # "DisableDotNetStrongCrypto",
-	# "EnableMeltdownCompatFlag"    # "DisableMeltdownCompatFlag",
+	# "EnableMeltdownCompatFlag",   # "DisableMeltdownCompatFlag",
 
 	### Service Tweaks ###
 	# "DisableUpdateMSRT",          # "EnableUpdateMSRT",
@@ -82,7 +82,7 @@ $tweaks = @(
 	"HideNetworkFromLockScreen",    # "ShowNetworkOnLockScreen",
 	"HideShutdownFromLockScreen",   # "ShowShutdownOnLockScreen",
 	"DisableStickyKeys",            # "EnableStickyKeys",
-	"ShowTaskManagerDetails"        # "HideTaskManagerDetails",
+	"ShowTaskManagerDetails",       # "HideTaskManagerDetails",
 	"ShowFileOperationsDetails",    # "HideFileOperationsDetails",
 	# "EnableFileDeleteConfirm",    # "DisableFileDeleteConfirm",
 	"HideTaskbarSearch",            # "ShowTaskbarSearchIcon",      # "ShowTaskbarSearchBox",
@@ -104,8 +104,8 @@ $tweaks = @(
 	### Explorer UI Tweaks ###
 	"ShowKnownExtensions",          # "HideKnownExtensions",
 	"ShowHiddenFiles",              # "HideHiddenFiles",
-	# "EnableFolderSeparateProcess" # "DisableFolderSeparateProcess",
-	# "EnableRestoreFolderWindows"  # "DisableRestoreFolderWindows",
+	# "EnableFldrSeparateProcess",  # "DisableFldrSeparateProcess",
+	# "EnableRestoreFldrWindows",   # "DisableRestoreFldrWindows",
 	# "DisableSharingWizard",       # "EnableSharingWizard",
 	# "HideSelectCheckboxes",       # "ShowSelectCheckboxes",
 	"HideSyncNotifications"         # "ShowSyncNotifications",
@@ -1662,6 +1662,8 @@ Function EnableChangingSoundScheme {
 	Write-Output "Enabling changing sound scheme..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoChangingSoundScheme" -ErrorAction SilentlyContinue
 }
+
+
 
 ##########
 # Explorer UI Tweaks
