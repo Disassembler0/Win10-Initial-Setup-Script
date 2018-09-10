@@ -29,8 +29,7 @@ $tweaks = @(
 	# "SetP2PUpdateLocal",          # "SetP2PUpdateInternet",       # "SetP2PUpdateDisable",
 	"DisableDiagTrack",             # "EnableDiagTrack",
 	"DisableWAPPush",               # "EnableWAPPush",
-	"HideRecentlyAddedApps",        # "ShowRecentlyAddedApps",
-	"HideRecentJumplists",          # "ShowRecentJumplists",
+	# "HideRecentJumplists",        # "ShowRecentJumplists",
 
 	### Security Tweaks ###
 	# "SetUACLow",                  # "SetUACHigh",
@@ -93,6 +92,7 @@ $tweaks = @(
 	"ShowTrayIcons",                # "HideTrayIcons",
 	"DisableSearchAppInStore",      # "EnableSearchAppInStore",
 	"DisableNewAppPrompt",          # "EnableNewAppPrompt",
+	# "HideRecentlyAddedApps",      # "ShowRecentlyAddedApps",
 	# "SetControlPanelSmallIcons",  # "SetControlPanelLargeIcons",  # "SetControlPanelCategories",
 	"SetVisualFXPerformance",       # "SetVisualFXAppearance",
 	# "AddENKeyboard",              # "RemoveENKeyboard",
@@ -584,21 +584,6 @@ Function EnableWAPPush {
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\dmwappushservice" -Name "DelayedAutoStart" -Type DWord -Value 1
 }
 
-# Hide "Recently added" list from Start Menu
-Function HideRecentlyAddedApps {
-	Write-Output "Hiding 'Recently added' list from Start Menu..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
-		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
-	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -Type DWord -Value 1
-}
-
-# Show "Recently added" list in Start Menu
-Function ShowRecentlyAddedApps {
-	Write-Output "Showing 'Recently added' list in Start Menu..."
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -ErrorAction SilentlyContinue
-}
-
 # Hide recently opened items in Jump Lists on Start or the taskbar
 Function HideRecentJumplists {
 	Write-Output "Hiding recently opened items in Jump Lists..."
@@ -608,7 +593,7 @@ Function HideRecentJumplists {
 # Show recently opened items in Jump Lists on Start or the taskbar
 Function ShowRecentJumplists {
 	Write-Output "Showing recently opened items in Jump Lists..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -Type DWord -Value 1
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -ErrorAction SilentlyContinue
 }
 
 
@@ -1492,6 +1477,21 @@ Function EnableNewAppPrompt {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -ErrorAction SilentlyContinue
 }
 
+# Hide "Recently added" list from Start Menu
+Function HideRecentlyAddedApps {
+	Write-Output "Hiding 'Recently added' list from Start Menu..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -Type DWord -Value 1
+}
+
+# Show "Recently added" list in Start Menu
+Function ShowRecentlyAddedApps {
+	Write-Output "Showing 'Recently added' list in Start Menu..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -ErrorAction SilentlyContinue
+}
+
 # Set Control Panel view to Small icons (Classic)
 Function SetControlPanelSmallIcons {
 	Write-Output "Setting Control Panel view to small icons..."
@@ -1694,27 +1694,27 @@ Function HideHiddenFiles {
 }
 
 # Enable launching folder windows in a separate process
-Function EnableFolderSeparateProcess {
+Function EnableFldrSeparateProcess {
 	Write-Output "Enabling launching folder windows in a separate process..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SeparateProcess" -Type DWord -Value 1
 }
 
 # Disable launching folder windows in a separate process
-Function DisableFolderSeparateProcess {
+Function DisableFldrSeparateProcess {
 	Write-Output "Disabling launching folder windows in a separate process..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SeparateProcess" -Type DWord -Value 0
 }
 
 # Enable restoring previous folder windows at logon
-Function EnableRestoreFolderWindows {
+Function EnableRestoreFldrWindows {
 	Write-Output "Enabling restoring previous folder windows at logon..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -Type DWord -Value 1
 }
 
 # Disable restoring previous folder windows at logon
-Function DisableRestoreFolderWindows {
+Function DisableRestoreFldrWindows {
 	Write-Output "Disabling restoring previous folder windows at logon..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -Type DWord -Value 0
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -ErrorAction SilentlyContinue
 }
 
 # Disable Sharing Wizard
@@ -1726,7 +1726,7 @@ Function DisableSharingWizard {
 # Enable Sharing Wizard
 Function EnableSharingWizard {
 	Write-Output "Enabling Sharing Wizard..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SharingWizardOn" -Type DWord -Value 1
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -ErrorAction SilentlyContinue
 }
 
 # Hide item selection checkboxes

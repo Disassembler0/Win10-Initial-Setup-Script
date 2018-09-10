@@ -20,7 +20,6 @@ DisableErrorReporting
 # SetP2PUpdateLocal
 DisableDiagTrack
 DisableWAPPush
-# HideRecentlyAddedApps
 # HideRecentJumplists
 
 # SetUACLow
@@ -81,6 +80,7 @@ HideTaskbarPeopleIcon
 ShowTrayIcons
 DisableSearchAppInStore
 DisableNewAppPrompt
+# HideRecentlyAddedApps
 # SetControlPanelSmallIcons
 SetVisualFXPerformance
 # AddENKeyboard
@@ -91,8 +91,8 @@ SetVisualFXPerformance
 
 ShowKnownExtensions
 ShowHiddenFiles
-# EnableFolderSeparateProcess
-# EnableRestoreFolderWindows
+# EnableFldrSeparateProcess
+# EnableRestoreFldrWindows
 # DisableSharingWizard
 HideSelectCheckboxes
 HideSyncNotifications
