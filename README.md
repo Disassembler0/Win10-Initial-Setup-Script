@@ -3,6 +3,7 @@
  - [Usage](#usage)
  - [FAQ](#faq)
  - [Windows builds overview](#windows-builds-overview)
+ - [Advanced usage](#advanced-usage)
  - [Maintaining own forks](#maintaining-own-forks)
  - [Contribution guidelines](#contribution-guidelines)
 
@@ -15,33 +16,9 @@ This is a PowerShell script for automation of routine tasks done after fresh ins
 &nbsp;
 
 ## Usage
-If you just want to run the script with default preset, simply right click on the *Win10.ps1* file, choose *Run with PowerShell*, and confirm execution policy change. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
+If you just want to run the script with the default preset, download and unpack the [latest release](https://github.com/Disassembler0/Win10-Initial-Setup-Script/releases) and then simply double-click on the *Default.cmd* file and confirm *User Account Control* prompt. Make sure your account is a member of *Administrators* group as the script attempts to run with elevated privileges.
 
-Alternatively copy also *Default.cmd* and *Default.preset* along with the *Win10.ps1* file, place all three of them into the same folder and then double-click on *Default.cmd* to run the script.
-
-### Advanced usage
-The script consists of separate functions, each of which contains one tweak. The functions can be grouped to *presets*. Preset is simply a list of function names which should be called. If you don't supply any specific preset, the default preset defined by `$tweaks` array in the beginning of the script will be applied. Any function which is not present or is commented in a preset will not be called, thus the corresponding tweak will not be applied.
-
-To supply a customized preset, you can either pass the function names directly as parameters.
-
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 EnableFirewall EnableDefender
-
-Or you can create a file where you write the function names (one function name per line, no commas, whitespaces allowed, comments on separate lines starting with `#`) and then pass the filename using *-preset* parameter.  
-Example of a preset file `mypreset.txt`:
-
-    # Security tweaks
-    EnableFirewall
-    EnableDefender
-
-    # UI tweaks
-    ShowKnownExtensions
-    ShowHiddenFiles
-
-Command using the preset file above:
-
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 -preset mypreset.txt
-
-For even more advanced usage, refer to section [Maintaining own forks](#maintaining-own-forks).
+The script supports command line options and parameters which can help you customize the tweak selection or even add your own custom tweaks, however these features require some basic knowledge of command line usage and PowerShell scripting. Refer to [Advanced usage](#advanced-usage) section for more details.
 
 &nbsp;
 
@@ -68,7 +45,7 @@ For even more advanced usage, refer to section [Maintaining own forks](#maintain
 **Q:** Did you test the script?  
 **A:** Yes. I'm testing new additions on up-to-date 64bit Home and Enterprise editions in VMs. I'm also regularly using it for all my home installations after all bigger updates.
 
-**Q**: I've run the script and it did xxx, how can I undo it?  
+**Q**: I've run the script and it did something I don't like, how can I undo it?  
 **A:** For every tweak, there is also a corresponding function which restores the default settings. The default is considered freshly installed Windows 10 or Windows Server 2016 with no adjustments made during or after the installation. Use the tweaks to create and run new preset. Alternatively, since some functions are just automation for actions which can be done using GUI, find appropriate control and modify it manually.
 
 **Q:** I've run the script and some controls are now greyed out and display message "*Some settings are hidden or managed by your organization*", why?  
@@ -107,11 +84,79 @@ For even more advanced usage, refer to section [Maintaining own forks](#maintain
 
 &nbsp;
 
+## Advanced usage
+
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 [-include filename] [-preset filename] [tweakname]
+
+    -include filename       load module with user-defined tweaks
+    -preset filename        load preset with tweak names to apply
+    tweakname               apply tweak with this particular name
+
+### Presets
+
+The tweak library consists of separate idempotent functions, containing one tweak each. The functions can be grouped to *presets*. Preset is simply a list of function names which should be called. Any function which is not present or is commented in a preset will not be called, thus the corresponding tweak will not be applied. In order for the script to do something, you need to supply at least one tweak library via `-include` and at least one tweak name, either via `-preset` or directly as command line argument.
+
+To supply a customized preset, you can either pass the function names directly as arguments.
+
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 -include Win10.psm1 EnableFirewall EnableDefender
+
+Or you can create a file where you write the function names (one function name per line, no commas or quotes, whitespaces allowed, comments starting with `#`) and then pass the filename using `-preset` parameter.  
+Example of a preset file `mypreset.txt`:
+
+    # Security tweaks
+    EnableFirewall
+    EnableDefender
+
+    # UI tweaks
+    ShowKnownExtensions
+    ShowHiddenFiles # Only hidden, not system
+
+Command using the preset file above:
+
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 -include Win10.psm1 -preset mypreset.txt
+
+### Includes
+
+The script also supports inclusion of custom tweaks from user-supplied modules passed via `-include` parameter. The content of the user-supplied module is completely up to the user, however it is strongly recommended to have the tweaks separated in respective functions as the main tweak library has. The user-supplied scripts are loaded into the main script via `Import-Module`, so the library should ideally be a `.psm1` PowerShell module. 
+Example of a user-supplied tweak library `mytweaks.psm1`:
+
+```powershell
+Function MyTweak1 {
+    Write-Output "Running MyTweak1..."
+    # Do something
+}
+
+Function MyTweak2 {
+    Write-Output "Running MyTweak2..."
+    # Do something else
+}
+```
+
+Command using the script above:
+
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 -include mytweaks.psm1 MyTweak1 MyTweak2
+
+### Combination
+
+All features described above can be combined. You can have a preset which includes both tweaks from the original script and your personal ones. Both `-include` and `-preset` options can be used more than once, so you can split your tweaks into groups and then combine them based on your current needs. The `-include` modules are always imported before the first tweak is applied, so the order of the command line parameters doesn't matter and neither does the order of the tweaks (except for `RequireAdmin`, which should always be called first and `Restart`, which should be always called last). It can happen that some tweaks are applied more than once during a singe run because you have them in multiple presets. That shouldn't cause any problems as the tweaks are idempotent.  
+Example of a preset file `otherpreset.txt`:
+
+    InstallLinuxSubsystem
+    MyTweak1
+    MyTweak2
+    WaitForKey
+
+Command using all three examples combined:
+
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 -include Win10.psm1 -include mytweaks.psm1 -preset mypreset.txt -preset otherpreset.txt Restart
+
+&nbsp;
+
 ## Maintaining own forks
 
-The easiest way how to customize the script settings it is to create your own preset file. For easy start, you can base it on the *Default.cmd* and *Default.preset* and maintain just that. If you choose to fork the script anyway and adjust the defaults directly in the script instead, then all you have to modify is the `$tweaks` array in the beginning of the script. You don't need to comment or remove the actual functions, because if they are not called, they are not used.
+The easiest way to customize the script settings it is to create your own preset and, if needed, your own tweak scripts as described above. For easy start, you can base the modifications on the *Default.cmd* and *Default.preset* and maintain just that. If you choose to fork the script anyway, you don't need to comment or remove the actual functions in *Win10.psm1*, because if they are not called, they are not used.
 
-If you wish to make more elaborate modifications and incorporate some personal tweaks or adjustments, the I suggest doing it in a following way:
+If you wish to make more elaborate modifications of the basic script and incorporate some personal tweaks or adjustments, then I suggest doing it in a following way:
 
 1. Fork the repository on GitHub (obviously).
 2. Clone your fork on your computer.
@@ -121,14 +166,14 @@ If you wish to make more elaborate modifications and incorporate some personal t
     cd Win10-Initial-Setup-Script
     ```
 
-3. Add the original repository as a remote.
+3. Add the original repository as a remote (*upstream*).
 
     ```
     git remote add upstream https://github.com/Disassembler0/Win10-Initial-Setup-Script
     ```
 
 4. Commit your modifications as you see fit.
-5. Once there are new additions in the upstream commited by me, create a temporary branch, fetch the changes and reset the branch to be identical with my repository.
+5. Once there are new additions in the upstream, create a temporary branch, fetch the changes and reset the branch to be identical with this repository.
 
     ```
     git branch upstream
@@ -172,13 +217,13 @@ Check if there isn't already a function with similar purpose as the one you're t
 Try to group functions thematically. There are already several major groups (privacy, security, services etc.), but even within these, some tweaks may be related to each other. In such case, add a new tweak below the existing one and not to the end of the whole group.
 
 ### Default preset
-Always add a reference to the tweak and its revert function in the `$tweaks` array containing the default set of tweaks. Add references to both functions on the same line (mind the quotes and commas) and always comment out the revert function. Whether to comment out also the tweak in the default preset is a matter of personal preference. The rule of thumb is that if the tweak makes the system faster, smoother, more secure and less obtrusive, it should be enabled by default. Usability has preference over performance (that's why e.g. indexing is kept enabled). Also don't forget to add the function references to the *Default.preset* file.
+Always add a reference to the tweak and its revert function in the *Default.preset*. Add references to both functions on the same line (mind the spaces) and always comment out the revert function. Whether to comment out also the tweak in the default preset is a matter of personal preference. The rule of thumb is that if the tweak makes the system faster, smoother, more secure and less obtrusive, it should be enabled by default. Usability has preference over performance (that's why e.g. indexing is kept enabled).
 
 ### Repeatability
 Unless applied on unsupported system, all functions have to be applicable repeatedly without any errors. When you're creating a registry key, always check first if the key doesn't happen to already exist. When you're deleting registry value, always append `-ErrorAction SilentlyContinue` to prevent errors while deleting already deleted values.
 
 ### Input / output hiding
-Suppress all output generated by commands and cmdlets using `| Out-Null` or `-ErrorAction SilentlyContinue` where applicable. Whenever an input is needed, use appropriate parameters to suppress the prompt and programmatically provide values for the command to run (e.g. using `-Confirm:$false`). The only acceptable output is from the `Write-Output` cmdlets in the beginning of each function and from non-suppressible cmdlets like `Remove-AppxPackage`.
+Suppress all output generated by commands and cmdlets using `| Out-Null` or `-ErrorAction SilentlyContinue` where applicable. Whenever an input is needed, use appropriate arguments to suppress the prompt and programmatically provide values for the command to run (e.g. using `-Confirm:$false`). The only acceptable output is from the `Write-Output` cmdlets in the beginning of each function and from non-suppressible cmdlets like `Remove-AppxPackage`.
 
 ### Registry
 Create the registry keys only if they don't exist on fresh installation if Windows 10 or Windows Server 2016. When deleting registry, delete only registry values, not the whole keys. When you're setting registry values, always use `Set-ItemProperty` instead of `New-ItemProperty`. When you're removing registry values, choose either `Set-ItemProperty` or `Remove-ItemProperty` to reinstate the same situation as it was on the clean installation. Again, if you don't know what the original state was, let me know in PR description and I will fill in the gaps. When you need to use `HKEY_USERS` registry hive, always add following snippet before the registry modification to ensure portability.
@@ -190,7 +235,7 @@ If (!(Test-Path "HKU:")) {
 ```
 
 ### Force usage
-Star Wars jokes aside, don't use `-Force` parameter unless absolutely necessary. The only permitted case is when you're creating a new registry key (not a value) and you need to ensure that all parent keys will be created as well. In such case always check first if the key doesn't already exist, otherwise you will delete all its existing values.
+Star Wars jokes aside, don't use `-Force` option unless absolutely necessary. The only permitted case is when you're creating a new registry key (not a value) and you need to ensure that all parent keys will be created as well. In such case always check first if the key doesn't already exist, otherwise you will delete all its existing values.
 
 ### Comments
 Always add a simple comment above the function briefly describing what the function does, especially if it has an ambiguous name or if there is some logic hidden under the hood. If you know that the tweak doesn't work on some editions of Windows 10 or on Windows Server, state it in the comment too. Add a `Write-Output` cmdlet with the short description of action also to the first line of the function body, so the user can see what is being executed and which function is the problematic one whenever an error occurs. The comment is written in present simple tense, the `Write-Output` in present continuous with ellipsis (resp. three dots) at the end.
