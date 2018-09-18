@@ -796,10 +796,14 @@ Function EnableUpdateRestart {
 # Stop and disable Home Groups services - Not applicable to 1803 and newer or Server
 Function DisableHomeGroups {
 	Write-Output "Stopping and disabling Home Groups services..."
-	Stop-Service "HomeGroupListener" -WarningAction SilentlyContinue
-	Set-Service "HomeGroupListener" -StartupType Disabled
-	Stop-Service "HomeGroupProvider" -WarningAction SilentlyContinue
-	Set-Service "HomeGroupProvider" -StartupType Disabled
+	If (Get-Service "HomeGroupListener" -ErrorAction SilentlyContinue) {
+		Stop-Service "HomeGroupListener" -WarningAction SilentlyContinue
+		Set-Service "HomeGroupListener" -StartupType Disabled
+	}
+	If (Get-Service "HomeGroupProvider" -ErrorAction SilentlyContinue) {
+		Stop-Service "HomeGroupProvider" -WarningAction SilentlyContinue
+		Set-Service "HomeGroupProvider" -StartupType Disabled
+	}
 }
 
 # Enable and start Home Groups services - Not applicable to 1803 and newer or Server
