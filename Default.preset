@@ -49,6 +49,8 @@ DisableScriptHost            # EnableScriptHost
 EnableDotNetStrongCrypto     # DisableDotNetStrongCrypto
 # EnableMeltdownCompatFlag   # DisableMeltdownCompatFlag
 EnableF8BootMenu             # DisableF8BootMenu
+# DisableBootRecovery        # EnableBootRecovery
+# DisableRecoveryAndReset    # EnableRecoveryAndReset
 SetDEPOptOut                 # SetDEPOptIn
 
 ### Service Tweaks ###

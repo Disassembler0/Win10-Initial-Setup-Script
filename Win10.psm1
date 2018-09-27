@@ -702,13 +702,41 @@ Function DisableMeltdownCompatFlag {
 # Enable F8 boot menu options
 Function EnableF8BootMenu {
 	Write-Output "Enabling F8 boot menu options..."
-	bcdedit /set `{current`} bootmenupolicy Legacy | Out-Null
+	bcdedit /set `{current`} BootMenuPolicy Legacy | Out-Null
 }
 
 # Disable F8 boot menu options
 Function DisableF8BootMenu {
 	Write-Output "Disabling F8 boot menu options..."
-	bcdedit /set `{current`} bootmenupolicy Standard | Out-Null
+	bcdedit /set `{current`} BootMenuPolicy Standard | Out-Null
+}
+
+# Disable automatic recovery mode during boot
+# This causes boot process to always ignore startup errors and attempt to boot normally
+# It is still possible to interrupt the boot and enter recovery mode manually. In order to disable even that, apply also DisableRecoveryAndReset tweak
+Function DisableBootRecovery {
+	Write-Output "Disabling automatic recovery mode during boot..."
+	bcdedit /set `{current`} BootStatusPolicy IgnoreAllFailures | Out-Null
+}
+
+# Enable automatic entering recovery mode during boot
+# This allows the boot process to automatically enter recovery mode when it detects startup errors (default behavior)
+Function EnableBootRecovery {
+	Write-Output "Enabling automatic recovery mode during boot..."
+	bcdedit /deletevalue `{current`} BootStatusPolicy | Out-Null
+}
+
+# Disable System Recovery and Factory reset
+# Warning: This tweak completely removes the option to enter the system recovery during boot and the possibility to perform a factory reset
+Function DisableRecoveryAndReset {
+	Write-Output "Disabling System Recovery and Factory reset..."
+	reagentc /disable 2>&1 | Out-Null
+}
+
+# Enable System Recovery and Factory reset
+Function EnableRecoveryAndReset {
+	Write-Output "Enabling System Recovery and Factory reset..."
+	reagentc /enable 2>&1 | Out-Null
 }
 
 # Set Data Execution Prevention (DEP) policy to OptOut
