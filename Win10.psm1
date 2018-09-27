@@ -569,18 +569,6 @@ Function EnableNetDevicesAutoInst {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" -Name "AutoSetup" -ErrorAction SilentlyContinue
 }
 
-# Enable Controlled Folder Access (Defender Exploit Guard feature) - Applicable to 1709 or newer, requires Windows Defender to be enabled
-Function EnableCtrldFolderAccess {
-	Write-Output "Enabling Controlled Folder Access..."
-	Set-MpPreference -EnableControlledFolderAccess Enabled
-}
-
-# Disable Controlled Folder Access (Defender Exploit Guard feature) - Applicable to 1709 or newer, requires Windows Defender to be enabled
-Function DisableCtrldFolderAccess {
-	Write-Output "Disabling Controlled Folder Access..."
-	Set-MpPreference -EnableControlledFolderAccess Disabled
-}
-
 # Disable Firewall
 Function DisableFirewall {
 	Write-Output "Disabling Firewall..."
@@ -638,28 +626,16 @@ Function EnableDefenderCloud {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" -Name "SubmitSamplesConsent" -ErrorAction SilentlyContinue
 }
 
-# Enable F8 boot menu options
-Function EnableF8BootMenu {
-	Write-Output "Enabling F8 boot menu options..."
-	bcdedit /set `{current`} bootmenupolicy Legacy | Out-Null
+# Enable Controlled Folder Access (Defender Exploit Guard feature) - Applicable to 1709 or newer, requires Windows Defender to be enabled
+Function EnableCtrldFolderAccess {
+	Write-Output "Enabling Controlled Folder Access..."
+	Set-MpPreference -EnableControlledFolderAccess Enabled
 }
 
-# Disable F8 boot menu options
-Function DisableF8BootMenu {
-	Write-Output "Disabling F8 boot menu options..."
-	bcdedit /set `{current`} bootmenupolicy Standard | Out-Null
-}
-
-# Set Data Execution Prevention (DEP) policy to OptOut
-Function SetDEPOptOut {
-	Write-Output "Setting Data Execution Prevention (DEP) policy to OptOut..."
-	bcdedit /set `{current`} nx OptOut | Out-Null
-}
-
-# Set Data Execution Prevention (DEP) policy to OptIn
-Function SetDEPOptIn {
-	Write-Output "Setting Data Execution Prevention (DEP) policy to OptIn..."
-	bcdedit /set `{current`} nx OptIn | Out-Null
+# Disable Controlled Folder Access (Defender Exploit Guard feature) - Applicable to 1709 or newer, requires Windows Defender to be enabled
+Function DisableCtrldFolderAccess {
+	Write-Output "Disabling Controlled Folder Access..."
+	Set-MpPreference -EnableControlledFolderAccess Disabled
 }
 
 # Enable Core Isolation Memory Integrity - Part of Windows Defender System Guard virtualization-based security - Supported from 1803
@@ -721,6 +697,30 @@ Function EnableMeltdownCompatFlag {
 Function DisableMeltdownCompatFlag {
 	Write-Output "Disabling Meltdown (CVE-2017-5754) compatibility flag..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -ErrorAction SilentlyContinue
+}
+
+# Enable F8 boot menu options
+Function EnableF8BootMenu {
+	Write-Output "Enabling F8 boot menu options..."
+	bcdedit /set `{current`} bootmenupolicy Legacy | Out-Null
+}
+
+# Disable F8 boot menu options
+Function DisableF8BootMenu {
+	Write-Output "Disabling F8 boot menu options..."
+	bcdedit /set `{current`} bootmenupolicy Standard | Out-Null
+}
+
+# Set Data Execution Prevention (DEP) policy to OptOut
+Function SetDEPOptOut {
+	Write-Output "Setting Data Execution Prevention (DEP) policy to OptOut..."
+	bcdedit /set `{current`} nx OptOut | Out-Null
+}
+
+# Set Data Execution Prevention (DEP) policy to OptIn
+Function SetDEPOptIn {
+	Write-Output "Setting Data Execution Prevention (DEP) policy to OptIn..."
+	bcdedit /set `{current`} nx OptIn | Out-Null
 }
 
 

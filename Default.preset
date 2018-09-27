@@ -40,16 +40,16 @@ DisableAdminShares           # EnableAdminShares
 SetCurrentNetworkPrivate     # SetCurrentNetworkPublic
 # SetUnknownNetworksPrivate  # SetUnknownNetworksPublic
 # DisableNetDevicesAutoInst  # EnableNetDevicesAutoInst
-# EnableCtrldFolderAccess    # DisableCtrldFolderAccess
 # DisableFirewall            # EnableFirewall
 # DisableDefender            # EnableDefender
 # DisableDefenderCloud       # EnableDefenderCloud
-EnableF8BootMenu             # DisableF8BootMenu
-SetDEPOptOut                 # SetDEPOptIn
+# EnableCtrldFolderAccess    # DisableCtrldFolderAccess
 # EnableCIMemoryIntegrity    # DisableCIMemoryIntegrity
 DisableScriptHost            # EnableScriptHost
 EnableDotNetStrongCrypto     # DisableDotNetStrongCrypto
 # EnableMeltdownCompatFlag   # DisableMeltdownCompatFlag
+EnableF8BootMenu             # DisableF8BootMenu
+SetDEPOptOut                 # SetDEPOptIn
 
 ### Service Tweaks ###
 # DisableUpdateMSRT          # EnableUpdateMSRT
