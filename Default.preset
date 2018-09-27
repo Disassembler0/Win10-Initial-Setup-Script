@@ -61,6 +61,7 @@ DisableRemoteAssistance      # EnableRemoteAssistance
 EnableRemoteDesktop          # DisableRemoteDesktop
 DisableAutoplay              # EnableAutoplay
 DisableAutorun               # EnableAutorun
+# DisableRestorePoints       # EnableRestorePoints
 # EnableStorageSense         # DisableStorageSense
 # DisableDefragmentation     # EnableDefragmentation
 # DisableSuperfetch          # EnableSuperfetch

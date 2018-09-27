@@ -883,6 +883,22 @@ Function EnableAutorun {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -ErrorAction SilentlyContinue
 }
 
+# Disable System Restore for system drive
+# Note: This does not delete already existing restore points as the deletion of restore points is irreversible. In order to do that, run also following command.
+# vssadmin Delete Shadows /For=$env:SYSTEMDRIVE /Quiet
+Function DisableRestorePoints {
+	Write-Output "Disabling System Restore for system drive..."
+	Disable-ComputerRestore -Drive "$env:SYSTEMDRIVE"
+}
+
+# Enable System Restore for system drive
+# Note: Some systems (notably VMs) have maximum size allowed to be used for shadow copies set to zero. In order to increase the size, run following command.
+# vssadmin Resize ShadowStorage /On=$env:SYSTEMDRIVE /For=$env:SYSTEMDRIVE /MaxSize=10GB
+Function EnableRestorePoints {
+	Write-Output "Enabling System Restore for system drive..."
+	Enable-ComputerRestore -Drive "$env:SYSTEMDRIVE"
+}
+
 # Enable Storage Sense - automatic disk cleanup - Not applicable to Server
 Function EnableStorageSense {
 	Write-Output "Enabling Storage Sense..."
