@@ -1563,7 +1563,7 @@ Function DisableSharingWizard {
 # Enable Sharing Wizard
 Function EnableSharingWizard {
 	Write-Output "Enabling Sharing Wizard..."
-	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "SharingWizardOn" -ErrorAction SilentlyContinue
 }
 
 # Hide item selection checkboxes
