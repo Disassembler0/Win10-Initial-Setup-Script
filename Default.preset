@@ -68,6 +68,7 @@ DisableAutorun               # EnableAutorun
 # DisableDefragmentation     # EnableDefragmentation
 # DisableSuperfetch          # EnableSuperfetch
 # DisableIndexing            # EnableIndexing
+# DisableNTFSLastAccess      # EnableNTFSLastAccess
 # SetBIOSTimeUTC             # SetBIOSTimeLocal
 # EnableHibernation          # DisableHibernation
 # DisableSleepButton         # EnableSleepButton
