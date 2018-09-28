@@ -993,6 +993,25 @@ Function EnableIndexing {
 	Start-Service "WSearch" -WarningAction SilentlyContinue
 }
 
+# Disable the updating of the NTFS Last Access Time stamps
+Function DisableLastAccess {
+	Write-Output "Disabling the updating of the Last Access Time stamps..."
+	# User Managed, Last Access Updates Disabled
+	fsutil behavior set DisableLastAccess 1 | Out-Null
+}
+
+# Enable the updating of the NTFS Last Access Time stamps
+Function EnableLastAccess {
+	Write-Output "Enabling the updating of the Last Access Time stamps..."
+	If ([System.Environment]::OSVersion.Version.Build -ge 17134) {
+		# System Managed, Last Access Updates Enabled
+		fsutil behavior set DisableLastAccess 2 | Out-Null
+	} Else {
+		# Last Access Updates Enabled
+		fsutil behavior set DisableLastAccess 0 | Out-Null
+	}
+}
+
 # Set BIOS time to UTC
 Function SetBIOSTimeUTC {
 	Write-Output "Setting BIOS time to UTC..."
