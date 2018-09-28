@@ -994,14 +994,14 @@ Function EnableIndexing {
 }
 
 # Disable the updating of the NTFS Last Access Time stamps
-Function DisableLastAccess {
+Function DisableNTFSLastAccess {
 	Write-Output "Disabling the updating of the Last Access Time stamps..."
 	# User Managed, Last Access Updates Disabled
 	fsutil behavior set DisableLastAccess 1 | Out-Null
 }
 
 # Enable the updating of the NTFS Last Access Time stamps
-Function EnableLastAccess {
+Function EnableNTFSLastAccess {
 	Write-Output "Enabling the updating of the Last Access Time stamps..."
 	If ([System.Environment]::OSVersion.Version.Build -ge 17134) {
 		# System Managed, Last Access Updates Enabled
