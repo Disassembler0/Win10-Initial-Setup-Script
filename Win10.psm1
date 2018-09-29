@@ -1032,6 +1032,7 @@ Function EnableHibernation {
 		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 1
+	powercfg /HIBERNATE ON
 }
 
 # Disable Hibernation
@@ -1042,6 +1043,7 @@ Function DisableHibernation {
 		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 0
+	powercfg /HIBERNATE OFF
 }
 
 # Disable Sleep start menu and keyboard button
@@ -1211,13 +1213,18 @@ Function EnableStickyKeys {
 Function ShowTaskManagerDetails {
 	Write-Output "Showing task manager details..."
 	$taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
+	$timeout = 30000
+	$sleep = 100
 	Do {
-		Start-Sleep -Milliseconds 100
+		Start-Sleep -Milliseconds $sleep
+		$timeout -= $sleep
 		$preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
-	} Until ($preferences)
+	} Until ($preferences -or $timeout -le 0)
 	Stop-Process $taskmgr
-	$preferences.Preferences[28] = 0
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
+	If ($preferences) {
+		$preferences.Preferences[28] = 0
+		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
+	}
 }
 
 # Hide Task Manager details
