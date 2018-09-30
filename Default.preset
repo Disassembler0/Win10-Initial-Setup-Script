@@ -150,6 +150,7 @@ DisableEdgeShortcutCreation  # EnableEdgeShortcutCreation
 # InstallHyperV              # UninstallHyperV
 SetPhotoViewerAssociation    # UnsetPhotoViewerAssociation
 AddPhotoViewerOpenWith       # RemovePhotoViewerOpenWith
+# AddNotepadSendTo           # RemoveNotepadSendTo
 # UninstallPDFPrinter        # InstallPDFPrinter
 UninstallXPSPrinter          # InstallXPSPrinter
 RemoveFaxPrinter             # AddFaxPrinter

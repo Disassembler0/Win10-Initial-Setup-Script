@@ -2434,6 +2434,49 @@ Function RemovePhotoViewerOpenWith {
 	Remove-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open" -Recurse -ErrorAction SilentlyContinue
 }
 
+# Adds ability to quickly open any file with Notepad. Usage: Right-click on a file, select "Send to" item, click on the Notepad shortcut.
+Function AddNotepadSendTo {
+	Write-Output "Adding Notepad shortcut to `"Send to`" folder..."
+	$TargetPath = "$env:SystemRoot\notepad.exe"
+	If (Test-Path $TargetPath) {
+		# Get localized string for shortcut name.
+		$FileName = (Get-Item $TargetPath).VersionInfo.FileDescription
+		If (!($FileName)) {
+			# Use the base file name in case localized string does not exist.
+			$FileName = (Get-Item $TargetPath).BaseName
+		}
+		$ShortcutPath = "$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\SendTo\$FileName.lnk"
+		If (Test-Path $ShortcutPath) {
+			# If the script is run repeatedly, always recreate a clean file.
+			Remove-Item -Path $ShortcutPath -Force
+		}
+		$Shell = New-Object -ComObject ("WScript.Shell")
+		$Shortcut = $Shell.CreateShortcut($ShortcutPath)
+		$Shortcut.IconLocation = "$TargetPath, 0"
+		$Shortcut.TargetPath = $TargetPath
+		$Shortcut.Save()
+	}
+}
+
+# Remove Notepad shortcut from `"Send to`" folder
+Function RemoveNotepadSendTo {
+	Write-Output "Removing Notepad shortcut from `"Send to`" folder..."
+	$TargetPath = "$env:SystemRoot\notepad.exe"
+	If (Test-Path $TargetPath) {
+		# Get localized string for shortcut name.
+		$FileName = (Get-Item $TargetPath).VersionInfo.FileDescription
+		If (!($FileName)) {
+			# Use the base file name in case localized string does not exist.
+			$FileName = (Get-Item $TargetPath).BaseName
+		}
+		$ShortcutPath = "$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\SendTo\$FileName.lnk"
+		If (Test-Path $ShortcutPath) {
+			# Finally remove the shortcut.
+			Remove-Item -Path $ShortcutPath -Force
+		}
+	}
+}
+
 # Uninstall Microsoft Print to PDF
 Function UninstallPDFPrinter {
 	Write-Output "Uninstalling Microsoft Print to PDF..."
