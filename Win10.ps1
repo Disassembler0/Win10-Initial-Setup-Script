@@ -30,7 +30,7 @@ While ($i -lt $args.Length) {
 		$preset = Resolve-Path $args[++$i]
 		$PSCommandArgs += "-preset `"$preset`""
 		# Load tweak names from the preset file
-		$tweaks += Get-Content $preset -ErrorAction Stop | ForEach { $_.Split("#")[0].Trim() } | Where { $_ -ne "" }
+		$tweaks += Get-Content $preset -ErrorAction Stop | ForEach-Object { $_.Split("#")[0].Trim() } | Where-Object { $_ -ne "" }
 	} Else {
 		$PSCommandArgs += $args[$i]
 		# Load tweak names from command line
@@ -40,4 +40,4 @@ While ($i -lt $args.Length) {
 }
 
 # Call the desired tweak functions
-$tweaks | ForEach { Invoke-Expression $_ }
+$tweaks | ForEach-Object { Invoke-Expression $_ }
