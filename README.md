@@ -81,6 +81,7 @@ The script supports command line options and parameters which can help you custo
 |  1703   | Redstone 2 (RS2)        | Creators Update        | 15063 |
 |  1709   | Redstone 3 (RS3)        | Fall Creators Update   | 16299 |
 |  1803   | Redstone 4 (RS4)        | April 2018 Update      | 17134 |
+|  1807   | Redstone 5 (RS5)        | October 2018 Update    | 17763 |
 
 &nbsp;
 
