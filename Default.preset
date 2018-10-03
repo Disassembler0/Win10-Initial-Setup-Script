@@ -147,6 +147,7 @@ DisableEdgeShortcutCreation     # EnableEdgeShortcutCreation
 # UninstallMediaPlayer          # InstallMediaPlayer
 # UninstallInternetExplorer     # InstallInternetExplorer
 # UninstallWorkFolders          # InstallWorkFolders
+# UninstallPowerShellV2         # InstallPowerShellV2
 # InstallLinuxSubsystem         # UninstallLinuxSubsystem
 # InstallHyperV                 # UninstallHyperV
 SetPhotoViewerAssociation       # UnsetPhotoViewerAssociation

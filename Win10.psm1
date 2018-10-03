@@ -2383,6 +2383,20 @@ Function InstallWorkFolders {
 	Enable-WindowsOptionalFeature -Online -FeatureName "WorkFolders-Client" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
+# Uninstall PowerShell 2.0 Environment.
+# PowerShell 2.0 is deprecated since September 2018. This doesn't affect PowerShell 5 or newer which is the default PowerShell environment.
+# May affect Microsoft Diagnostic Tool and possibly other script. See https://blogs.msdn.microsoft.com/powershell/2017/08/24/windows-powershell-2-0-deprecation/
+Function UninstallPowerShellV2 {
+	Write-Output "Uninstalling PowerShell 2.0 Environment..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Install PowerShell 2.0 Environment
+Function InstallPowerShellV2 {
+	Write-Output "Installing PowerShell 2.0 Environment..."
+	Enable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
 # Install Linux Subsystem - Applicable to 1607 or newer
 Function InstallLinuxSubsystem {
 	Write-Output "Installing Linux Subsystem..."
