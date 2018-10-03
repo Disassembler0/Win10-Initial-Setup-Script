@@ -6,7 +6,7 @@
 ##########
 
 ##########
-# Privacy Tweaks
+#region Privacy Tweaks
 ##########
 
 # Disable Telemetry
@@ -435,10 +435,11 @@ Function ShowRecentJumplists {
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -ErrorAction SilentlyContinue
 }
 
+#endregion Privacy Tweaks
 
 
 ##########
-# Security Tweaks
+#region Security Tweaks
 ##########
 
 # Lower UAC level (disabling it completely would break apps)
@@ -758,9 +759,34 @@ Function SetDEPOptIn {
 }
 
 
+# Disable the Powershell 2.0 Scripting Engine - works since 1507 (Powershell 2.0 deprecated)
+Function DisablePowershellV2 {
+	Write-Output "Disabling Powershell 2.0 Scripting Engine..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Enable the Powershell 2.0 Scripting Engine - works since 1507 (Powershell 2.0 deprecated)
+Function EnablePowershellV2 {
+	Write-Output "Enabling Powershell 2.0 Scripting Engine..."
+	Enable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Enable Windows Defender Application Guard - applicable since 1709 Enterprise and 1803 Pro
+Function EnableWDAG {
+	Write-Output "Enabling Windows Defender Application Guard..."
+	Enable-WindowsOptionalFeature -online -FeatureName "Windows-Defender-ApplicationGuard" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Disable Windows Defender Application Guard - applicable since 1709 Enterprise and 1803 Pro
+Function DisableWDAG {
+	Write-Output "Disabling Windows Defender Application Guard..."
+	Disable-WindowsOptionalFeature -online -FeatureName "Windows-Defender-ApplicationGuard" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+#endregion Security Tweaks
 
 ##########
-# Service Tweaks
+#region Service Tweaks
 ##########
 
 # Disable offering of Malicious Software Removal Tool through Windows Update
@@ -1098,10 +1124,10 @@ Function EnableFastStartup {
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name "HiberbootEnabled" -Type DWord -Value 1
 }
 
-
+#endregion Service Tweaks
 
 ##########
-# UI Tweaks
+#region UI Tweaks
 ##########
 
 # Disable Action Center
@@ -1576,10 +1602,10 @@ Function EnableChangingSoundScheme {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoChangingSoundScheme" -ErrorAction SilentlyContinue
 }
 
-
+#endregion UI Tweaks
 
 ##########
-# Explorer UI Tweaks
+#region Explorer UI Tweaks
 ##########
 
 # Show known file extensions
@@ -2002,10 +2028,10 @@ Function EnableThumbsDBOnNetwork {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -ErrorAction SilentlyContinue
 }
 
-
+#endregion Explorer UI Tweaks
 
 ##########
-# Application Tweaks
+#region Application Tweaks
 ##########
 
 # Disable OneDrive
@@ -2099,6 +2125,8 @@ Function UninstallMsftBloat {
 	Get-AppxPackage "Microsoft.ZuneMusic" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.ZuneVideo" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.WebMediaExtensions" | Remove-AppxPackage
+	Get-AppxPackage "Microsoft.YourPhone" | Remove-AppxPackage
+	Get-AppxPackage "Microsoft.ScreenSketch" | Remove-AppxPackage
 }
 
 # Install default Microsoft applications
@@ -2143,6 +2171,8 @@ Function InstallMsftBloat {
 	Get-AppxPackage -AllUsers "Microsoft.ZuneMusic" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "Microsoft.ZuneVideo" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "Microsoft.WebMediaExtensions" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+	Get-AppxPackage -AllUsers "Microsoft.YourPhone" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+	Get-AppxPackage -AllUsers "Microsoft.ScreenSketch" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 }
 # In case you have removed them for good, you can try to restore the files using installation medium as follows
 # New-Item C:\Mnt -Type Directory | Out-Null
@@ -2482,10 +2512,10 @@ Function InstallFaxAndScan {
 	Enable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
-
+#endregion Application Tweaks
 
 ##########
-# Server specific Tweaks
+#region Server specific Tweaks
 ##########
 
 # Hide Server Manager after login
@@ -2578,10 +2608,10 @@ Function DisableAudio {
 	Set-Service "Audiosrv" -StartupType Manual
 }
 
-
+#endregion Server specific Tweaks
 
 ##########
-# Unpinning
+#region Unpinning
 ##########
 
 # Unpin all Start Menu tiles - Note: This function has no counterpart. You have to pin the tiles back manually.
@@ -2593,7 +2623,7 @@ Function UnpinStartMenuTiles {
 			$data = $data.Substring(0, $data.IndexOf(",0,202,30") + 9) + ",0,202,80,0,0"
 			Set-ItemProperty -Path "$($_.PsPath)\Current" -Name "Data" -Type Binary -Value $data.Split(",")
 		}
-	} ElseIf ([System.Environment]::OSVersion.Version.Build -eq 17134) {
+	} ElseIf ([System.Environment]::OSVersion.Version.Build -ge 17134 -And [System.Environment]::OSVersion.Version.Build -le 17763) {
 		$key = Get-ChildItem -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount" -Recurse | Where-Object { $_ -like "*start.tilegrid`$windows.data.curatedtilecollection.tilecollection\Current" }
 		$data = (Get-ItemProperty -Path $key.PSPath -Name "Data").Data[0..25] + ([byte[]](202,50,0,226,44,1,1,0,0))
 		Set-ItemProperty -Path $key.PSPath -Name "Data" -Type Binary -Value $data
@@ -2607,10 +2637,10 @@ Function UnpinTaskbarIcons {
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "FavoritesResolve" -ErrorAction SilentlyContinue
 }
 
-
+#endregion Unpinning
 
 ##########
-# Auxiliary Functions
+#region Auxiliary Functions
 ##########
 
 # Wait for key press
@@ -2625,7 +2655,7 @@ Function Restart {
 	Restart-Computer
 }
 
-
+#endregion Auxiliary Functions
 
 # Export functions
 Export-ModuleMember -Function *
