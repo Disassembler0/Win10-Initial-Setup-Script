@@ -2439,6 +2439,18 @@ Function UninstallHyperV {
 	}
 }
 
+# Install .NET Framework 2.0, 3.0 and 3.5 runtimes - Requires internet connection
+Function InstallNET23 {
+	Write-Output "Installing .NET Framework 2.0, 3.0 and 3.5 runtimes..."
+	Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Uninstall .NET Framework 2.0, 3.0 and 3.5 runtimes
+Function UninstallNET23 {
+	Write-Output "Uninstalling .NET Framework 2.0, 3.0 and 3.5 runtimes..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
 # Set Photo Viewer association for bmp, gif, jpg, png and tif
 Function SetPhotoViewerAssociation {
 	Write-Output "Setting Photo Viewer association for bmp, gif, jpg, png and tif..."
