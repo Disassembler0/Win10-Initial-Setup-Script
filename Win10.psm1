@@ -2335,12 +2335,6 @@ Function EnableAdobeFlash {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\Addons" -Name "FlashPlayerEnabled" -ErrorAction SilentlyContinue
 }
 
-# Uninstall Windows Media Player
-Function UninstallMediaPlayer {
-	Write-Output "Uninstalling Windows Media Player..."
-	Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
-}
-
 # Disable Edge desktop shortcut creation after certain Windows updates are applied
 Function DisableEdgeShortcutCreation {
 	Write-Output "Disabling Edge shortcut creation..."
@@ -2351,6 +2345,12 @@ Function DisableEdgeShortcutCreation {
 Function EnableEdgeShortcutCreation {
 	Write-Output "Enabling Edge shortcut creation..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "DisableEdgeDesktopShortcutCreation" -ErrorAction SilentlyContinue
+}
+
+# Uninstall Windows Media Player
+Function UninstallMediaPlayer {
+	Write-Output "Uninstalling Windows Media Player..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Install Windows Media Player
