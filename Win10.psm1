@@ -638,19 +638,19 @@ Function EnableDefenderCloud {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" -Name "SubmitSamplesConsent" -ErrorAction SilentlyContinue
 }
 
-# Enable Controlled Folder Access (Defender Exploit Guard feature) - Applicable to 1709 or newer, requires Windows Defender to be enabled
+# Enable Controlled Folder Access (Defender Exploit Guard feature) - Applicable since 1709, requires Windows Defender to be enabled
 Function EnableCtrldFolderAccess {
 	Write-Output "Enabling Controlled Folder Access..."
 	Set-MpPreference -EnableControlledFolderAccess Enabled
 }
 
-# Disable Controlled Folder Access (Defender Exploit Guard feature) - Applicable to 1709 or newer, requires Windows Defender to be enabled
+# Disable Controlled Folder Access (Defender Exploit Guard feature) - Applicable since 1709, requires Windows Defender to be enabled
 Function DisableCtrldFolderAccess {
 	Write-Output "Disabling Controlled Folder Access..."
 	Set-MpPreference -EnableControlledFolderAccess Disabled
 }
 
-# Enable Core Isolation Memory Integrity - Part of Windows Defender System Guard virtualization-based security - Supported from 1803
+# Enable Core Isolation Memory Integrity - Part of Windows Defender System Guard virtualization-based security - Applicable since 1803
 Function EnableCIMemoryIntegrity {
 	Write-Output "Enabling Core Isolation Memory Integrity..."
 	If (!(Test-Path "HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity")) {
@@ -659,7 +659,7 @@ Function EnableCIMemoryIntegrity {
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" -Name "Enabled" -Type DWord -Value 1
 }
 
-# Disable Core Isolation Memory Integrity - 
+# Disable Core Isolation Memory Integrity - Applicable since 1803
 Function DisableCIMemoryIntegrity {
 	Write-Output "Disabling Core Isolation Memory Integrity..."
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" -Name "Enabled" -ErrorAction SilentlyContinue
@@ -837,7 +837,7 @@ Function EnableUpdateRestart {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUPowerManagement" -ErrorAction SilentlyContinue
 }
 
-# Stop and disable Home Groups services - Not applicable to 1803 and newer or Server
+# Stop and disable Home Groups services - Not applicable since 1803. Not applicable to Server
 Function DisableHomeGroups {
 	Write-Output "Stopping and disabling Home Groups services..."
 	If (Get-Service "HomeGroupListener" -ErrorAction SilentlyContinue) {
@@ -850,7 +850,7 @@ Function DisableHomeGroups {
 	}
 }
 
-# Enable and start Home Groups services - Not applicable to 1803 and newer or Server
+# Enable and start Home Groups services - Not applicable since 1803. Not applicable to Server
 Function EnableHomeGroups {
 	Write-Output "Starting and enabling Home Groups services..."
 	Set-Service "HomeGroupListener" -StartupType Manual
