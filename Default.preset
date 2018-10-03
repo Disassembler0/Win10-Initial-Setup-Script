@@ -45,6 +45,7 @@ SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
 # DisableDefenderCloud          # EnableDefenderCloud
 # EnableCtrldFolderAccess       # DisableCtrldFolderAccess
 # EnableCIMemoryIntegrity       # DisableCIMemoryIntegrity
+# EnableDefenderAppGuard        # DisableDefenderAppGuard
 DisableScriptHost               # EnableScriptHost
 EnableDotNetStrongCrypto        # DisableDotNetStrongCrypto
 # EnableMeltdownCompatFlag      # DisableMeltdownCompatFlag

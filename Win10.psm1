@@ -665,6 +665,19 @@ Function DisableCIMemoryIntegrity {
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" -Name "Enabled" -ErrorAction SilentlyContinue
 }
 
+# Enable Windows Defender Application Guard - Applicable since 1709 Enterprise and 1803 Pro
+# Not supported on VMs and VDI environment. Check requirements on https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-guard/reqs-wd-app-guard
+Function EnableDefenderAppGuard {
+	Write-Output "Enabling Windows Defender Application Guard..."
+	Enable-WindowsOptionalFeature -online -FeatureName "Windows-Defender-ApplicationGuard" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Disable Windows Defender Application Guard
+Function DisableDefenderAppGuard {
+	Write-Output "Disabling Windows Defender Application Guard..."
+	Disable-WindowsOptionalFeature -online -FeatureName "Windows-Defender-ApplicationGuard" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
 # Disable Windows Script Host (execution of *.vbs scripts and alike)
 Function DisableScriptHost {
 	Write-Output "Disabling Windows Script Host..."
