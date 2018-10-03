@@ -1055,7 +1055,7 @@ Function EnableHibernation {
 		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 1
-	powercfg /HIBERNATE ON
+	powercfg /HIBERNATE ON 2>&1 | Out-Null
 }
 
 # Disable Hibernation
@@ -1066,7 +1066,7 @@ Function DisableHibernation {
 		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 0
-	powercfg /HIBERNATE OFF
+	powercfg /HIBERNATE OFF 2>&1 | Out-Null
 }
 
 # Disable Sleep start menu and keyboard button
