@@ -2389,13 +2389,21 @@ Function InstallWorkFolders {
 # May affect Microsoft Diagnostic Tool and possibly other scripts. See https://blogs.msdn.microsoft.com/powershell/2017/08/24/windows-powershell-2-0-deprecation/
 Function UninstallPowerShellV2 {
 	Write-Output "Uninstalling PowerShell 2.0 Environment..."
-	Disable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	If ((Get-WmiObject -Class "Win32_OperatingSystem").Caption -like "*Server*") {
+		Uninstall-WindowsFeature -Name "PowerShell-V2" -WarningAction SilentlyContinue | Out-Null
+	} Else {
+		Disable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	}
 }
 
 # Install PowerShell 2.0 Environment
 Function InstallPowerShellV2 {
 	Write-Output "Installing PowerShell 2.0 Environment..."
-	Enable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	If ((Get-WmiObject -Class "Win32_OperatingSystem").Caption -like "*Server*") {
+		Install-WindowsFeature -Name "PowerShell-V2" -WarningAction SilentlyContinue | Out-Null
+	} Else {
+		Enable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	}
 }
 
 # Install Linux Subsystem - Applicable since 1607
@@ -2442,13 +2450,21 @@ Function UninstallHyperV {
 # Install .NET Framework 2.0, 3.0 and 3.5 runtimes - Requires internet connection
 Function InstallNET23 {
 	Write-Output "Installing .NET Framework 2.0, 3.0 and 3.5 runtimes..."
-	Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	If ((Get-WmiObject -Class "Win32_OperatingSystem").Caption -like "*Server*") {
+		Install-WindowsFeature -Name "NET-Framework-Core" -WarningAction SilentlyContinue | Out-Null
+	} Else {
+		Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	}
 }
 
 # Uninstall .NET Framework 2.0, 3.0 and 3.5 runtimes
 Function UninstallNET23 {
 	Write-Output "Uninstalling .NET Framework 2.0, 3.0 and 3.5 runtimes..."
-	Disable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	If ((Get-WmiObject -Class "Win32_OperatingSystem").Caption -like "*Server*") {
+		Uninstall-WindowsFeature -Name "NET-Framework-Core" -WarningAction SilentlyContinue | Out-Null
+	} Else {
+		Disable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -NoRestart -WarningAction SilentlyContinue | Out-Null
+	}
 }
 
 # Set Photo Viewer association for bmp, gif, jpg, png and tif
