@@ -1178,7 +1178,7 @@ Function EnableLockScreen {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoLockScreen" -ErrorAction SilentlyContinue
 }
 
-# Disable Lock screen (Anniversary Update workaround) - Applicable to 1607 - 1803 (The GPO used in DisableLockScreen has been fixed again in 1803)
+# Disable Lock screen - Anniversary Update workaround. The GPO used in DisableLockScreen has been broken in 1607 and fixed again in 1803
 Function DisableLockScreenRS1 {
 	Write-Output "Disabling Lock screen using scheduler workaround..."
 	$service = New-Object -com Schedule.Service
@@ -1194,7 +1194,7 @@ Function DisableLockScreenRS1 {
 	$service.GetFolder("\").RegisterTaskDefinition("Disable LockScreen", $task, 6, "NT AUTHORITY\SYSTEM", $null, 4) | Out-Null
 }
 
-# Enable Lock screen (Anniversary Update workaround) - Applicable to 1607 - 1803
+# Enable Lock screen - Anniversary Update workaround. The GPO used in DisableLockScreen has been broken in 1607 and fixed again in 1803
 Function EnableLockScreenRS1 {
 	Write-Output "Enabling Lock screen (removing scheduler workaround)..."
 	Unregister-ScheduledTask -TaskName "Disable LockScreen" -Confirm:$false -ErrorAction SilentlyContinue
@@ -1236,7 +1236,8 @@ Function EnableStickyKeys {
 	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "510"
 }
 
-# Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
+# Show Task Manager details - Applicable since 1607
+# Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
 Function ShowTaskManagerDetails {
 	Write-Output "Showing task manager details..."
 	$taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
@@ -1254,7 +1255,7 @@ Function ShowTaskManagerDetails {
 	}
 }
 
-# Hide Task Manager details
+# Hide Task Manager details - Applicable since 1607
 Function HideTaskManagerDetails {
 	Write-Output "Hiding task manager details..."
 	$preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
@@ -2397,7 +2398,7 @@ Function InstallPowerShellV2 {
 	Enable-WindowsOptionalFeature -Online -FeatureName "MicrosoftWindowsPowerShellV2Root" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
-# Install Linux Subsystem - Applicable to 1607 or newer
+# Install Linux Subsystem - Applicable since 1607
 Function InstallLinuxSubsystem {
 	Write-Output "Installing Linux Subsystem..."
 	If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
@@ -2408,7 +2409,7 @@ Function InstallLinuxSubsystem {
 	Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
-# Uninstall Linux Subsystem - Applicable to 1607 or newer
+# Uninstall Linux Subsystem - Applicable since 1607
 Function UninstallLinuxSubsystem {
 	Write-Output "Uninstalling Linux Subsystem..."
 	If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
