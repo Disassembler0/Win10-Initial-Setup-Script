@@ -6,7 +6,7 @@
 ##########
 
 ##########
-# Privacy Tweaks
+#region Privacy Tweaks
 ##########
 
 # Disable Telemetry
@@ -435,10 +435,14 @@ Function ShowRecentJumplists {
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -ErrorAction SilentlyContinue
 }
 
+##########
+#endregion Privacy Tweaks
+##########
+
 
 
 ##########
-# Security Tweaks
+#region Security Tweaks
 ##########
 
 # Lower UAC level (disabling it completely would break apps)
@@ -757,10 +761,14 @@ Function SetDEPOptIn {
 	bcdedit /set `{current`} nx OptIn | Out-Null
 }
 
+##########
+#endregion Security Tweaks
+##########
+
 
 
 ##########
-# Service Tweaks
+#region Service Tweaks
 ##########
 
 # Disable offering of Malicious Software Removal Tool through Windows Update
@@ -1098,10 +1106,14 @@ Function EnableFastStartup {
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name "HiberbootEnabled" -Type DWord -Value 1
 }
 
+##########
+#endregion Service Tweaks
+##########
+
 
 
 ##########
-# UI Tweaks
+#region UI Tweaks
 ##########
 
 # Disable Action Center
@@ -1576,10 +1588,14 @@ Function EnableChangingSoundScheme {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoChangingSoundScheme" -ErrorAction SilentlyContinue
 }
 
+##########
+#endregion UI Tweaks
+##########
+
 
 
 ##########
-# Explorer UI Tweaks
+#region Explorer UI Tweaks
 ##########
 
 # Show known file extensions
@@ -2002,10 +2018,14 @@ Function EnableThumbsDBOnNetwork {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -ErrorAction SilentlyContinue
 }
 
+##########
+#endregion Explorer UI Tweaks
+##########
+
 
 
 ##########
-# Application Tweaks
+#region Application Tweaks
 ##########
 
 # Disable OneDrive
@@ -2482,10 +2502,14 @@ Function InstallFaxAndScan {
 	Enable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
+##########
+#endregion Application Tweaks
+##########
+
 
 
 ##########
-# Server specific Tweaks
+#region Server specific Tweaks
 ##########
 
 # Hide Server Manager after login
@@ -2578,10 +2602,14 @@ Function DisableAudio {
 	Set-Service "Audiosrv" -StartupType Manual
 }
 
+##########
+#endregion Server specific Tweaks
+##########
+
 
 
 ##########
-# Unpinning
+#region Unpinning
 ##########
 
 # Unpin all Start Menu tiles - Note: This function has no counterpart. You have to pin the tiles back manually.
@@ -2607,10 +2635,14 @@ Function UnpinTaskbarIcons {
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name "FavoritesResolve" -ErrorAction SilentlyContinue
 }
 
+##########
+#endregion Unpinning
+##########
+
 
 
 ##########
-# Auxiliary Functions
+#region Auxiliary Functions
 ##########
 
 # Wait for key press
@@ -2624,6 +2656,10 @@ Function Restart {
 	Write-Output "Restarting..."
 	Restart-Computer
 }
+
+##########
+#endregion Auxiliary Functions
+##########
 
 
 
