@@ -40,4 +40,11 @@ While ($i -lt $args.Length) {
 }
 
 # Call the desired tweak functions
-$tweaks | ForEach-Object { Invoke-Expression $_ }
+try {
+	$tweaks | ForEach-Object { Invoke-Expression $_ }
+}
+catch [System.Management.Automation.ItemNotFoundException] {
+	$command = $error[0].InvocationInfo.Line # gets a reference to the offending line
+	New-Item -Path $_.TargetObject -Force # creates the missing registry keys
+	Invoke-Expression $command # runs the command that failed
+}
