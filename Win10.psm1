@@ -693,6 +693,21 @@ Function ShowAccountProtectionWarn {
 	Remove-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Name "AccountProtection_MicrosoftAccount_Disconnected" -ErrorAction SilentlyContinue
 }
 
+# Disable blocking of downloaded files (i.e. storing zone information - no need to do File\Properties\Unblock)
+Function DisableDownloadBlocking {
+	Write-Output "Disabling blocking of downloaded files..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments" | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments" -Name "SaveZoneInformation" -Type DWord -Value 1
+}
+
+# Enable blocking of downloaded files
+Function EnableDownloadBlocking {
+	Write-Output "Enabling blocking of downloaded files..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments" -Name "SaveZoneInformation" -ErrorAction SilentlyContinue
+}
+
 # Disable Windows Script Host (execution of *.vbs scripts and alike)
 Function DisableScriptHost {
 	Write-Output "Disabling Windows Script Host..."
