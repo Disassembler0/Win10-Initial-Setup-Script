@@ -678,6 +678,21 @@ Function DisableDefenderAppGuard {
 	Disable-WindowsOptionalFeature -online -FeatureName "Windows-Defender-ApplicationGuard" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
+# Hide Account Protection warning in Defender about not using a Microsoft account
+Function HideAccountProtectionWarn {
+	Write-Output "Hiding Account Protection warning..."
+	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State")) {
+		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Force | Out-Null
+	}
+	Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Name "AccountProtection_MicrosoftAccount_Disconnected" -Type DWord -Value 1
+}
+
+# Show Account Protection warning in Defender
+Function ShowAccountProtectionWarn {
+	Write-Output "Showing Account Protection warning..."
+	Remove-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Name "AccountProtection_MicrosoftAccount_Disconnected" -ErrorAction SilentlyContinue
+}
+
 # Disable Windows Script Host (execution of *.vbs scripts and alike)
 Function DisableScriptHost {
 	Write-Output "Disabling Windows Script Host..."
@@ -1146,21 +1161,6 @@ Function EnableActionCenter {
 	Write-Output "Enabling Action Center..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -ErrorAction SilentlyContinue
-}
-
-# Hide Account Protection warning in Defender about not using a Microsoft account
-Function HideAccountProtectionWarn {
-	Write-Output "Hiding Account Protection warning..."
-	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State")) {
-		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Force | Out-Null
-	}
-	Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Name "AccountProtection_MicrosoftAccount_Disconnected" -Type DWord -Value 1
-}
-
-# Show Account Protection warning in Defender
-Function ShowAccountProtectionWarn {
-	Write-Output "Showing Account Protection warning..."
-	Remove-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Name "AccountProtection_MicrosoftAccount_Disconnected" -ErrorAction SilentlyContinue
 }
 
 # Disable Lock screen

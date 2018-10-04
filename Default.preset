@@ -46,6 +46,7 @@ SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
 # EnableCtrldFolderAccess       # DisableCtrldFolderAccess
 # EnableCIMemoryIntegrity       # DisableCIMemoryIntegrity
 # EnableDefenderAppGuard        # DisableDefenderAppGuard
+HideAccountProtectionWarn       # ShowAccountProtectionWarn
 DisableScriptHost               # EnableScriptHost
 EnableDotNetStrongCrypto        # DisableDotNetStrongCrypto
 # EnableMeltdownCompatFlag      # DisableMeltdownCompatFlag
@@ -78,7 +79,6 @@ DisableAutorun                  # EnableAutorun
 
 ### UI Tweaks ###
 DisableActionCenter             # EnableActionCenter
-HideAccountProtectionWarn       # ShowAccountProtectionWarn
 DisableLockScreen               # EnableLockScreen
 # DisableLockScreenRS1          # EnableLockScreenRS1
 HideNetworkFromLockScreen       # ShowNetworkOnLockScreen
