@@ -1136,6 +1136,19 @@ Function EnableFastStartup {
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name "HiberbootEnabled" -Type DWord -Value 1
 }
 
+# Disable automatic reboot on crash
+Function DisableAutoRebootOnCrash {
+	Write-Output "Disabling automatic reboot on crash..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CrashControl" -Name "AutoReboot" -Type DWord -Value 0
+}
+
+# Enable automatic reboot on crash
+Function EnableAutoRebootOnCrash {
+	Write-Output "Enabling automatic reboot on crash..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CrashControl" -Name "AutoReboot" -Type DWord -Value 1
+}
+
+
 ##########
 #endregion Service Tweaks
 ##########
