@@ -107,6 +107,7 @@ SetVisualFXPerformance          # SetVisualFXAppearance
 ### Explorer UI Tweaks ###
 ShowKnownExtensions             # HideKnownExtensions
 ShowHiddenFiles                 # HideHiddenFiles
+EnableNavPaneExpand             # DisableNavPaneExpand
 # EnableFldrSeparateProcess     # DisableFldrSeparateProcess
 # EnableRestoreFldrWindows      # DisableRestoreFldrWindows
 # DisableSharingWizard          # EnableSharingWizard

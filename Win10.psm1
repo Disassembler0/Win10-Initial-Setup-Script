@@ -1638,6 +1638,18 @@ Function HideHiddenFiles {
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Type DWord -Value 2
 }
 
+# Enable navigation pane expanding to current folder
+Function EnableNavPaneExpand {
+	Write-Output "Enabling navigation pane expanding to current folder..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneExpandToCurrentFolder" -Type DWord -Value 1
+}
+
+# Disable navigation pane expanding to current folder
+Function DisableNavPaneExpand {
+	Write-Output "Disabling navigation pane expanding to current folder..."
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneExpandToCurrentFolder" -ErrorAction SilentlyContinue
+}
+
 # Enable launching folder windows in a separate process
 Function EnableFldrSeparateProcess {
 	Write-Output "Enabling launching folder windows in a separate process..."
