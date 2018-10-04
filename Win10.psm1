@@ -641,13 +641,13 @@ Function EnableDefenderCloud {
 # Enable Controlled Folder Access (Defender Exploit Guard feature) - Applicable since 1709, requires Windows Defender to be enabled
 Function EnableCtrldFolderAccess {
 	Write-Output "Enabling Controlled Folder Access..."
-	Set-MpPreference -EnableControlledFolderAccess Enabled
+	Set-MpPreference -EnableControlledFolderAccess Enabled -ErrorAction SilentlyContinue
 }
 
 # Disable Controlled Folder Access (Defender Exploit Guard feature) - Applicable since 1709, requires Windows Defender to be enabled
 Function DisableCtrldFolderAccess {
 	Write-Output "Disabling Controlled Folder Access..."
-	Set-MpPreference -EnableControlledFolderAccess Disabled
+	Set-MpPreference -EnableControlledFolderAccess Disabled -ErrorAction SilentlyContinue
 }
 
 # Enable Core Isolation Memory Integrity - Part of Windows Defender System Guard virtualization-based security - Applicable since 1803
@@ -2627,9 +2627,9 @@ Function UnsetPhotoViewerAssociation {
 	Remove-Item -Path "HKCR:\pngfile\shell\open" -Recurse -ErrorAction SilentlyContinue
 }
 
-# Add Photo Viewer to "Open with..."
+# Add Photo Viewer to 'Open with...'
 Function AddPhotoViewerOpenWith {
-	Write-Output "Adding Photo Viewer to `"Open with...`""
+	Write-Output "Adding Photo Viewer to 'Open with...'"
 	If (!(Test-Path "HKCR:")) {
 		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 	}
@@ -2640,9 +2640,9 @@ Function AddPhotoViewerOpenWith {
 	Set-ItemProperty -Path "HKCR:\Applications\photoviewer.dll\shell\open\DropTarget" -Name "Clsid" -Type String -Value "{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
 }
 
-# Remove Photo Viewer from "Open with..."
+# Remove Photo Viewer from 'Open with...'
 Function RemovePhotoViewerOpenWith {
-	Write-Output "Removing Photo Viewer from `"Open with...`""
+	Write-Output "Removing Photo Viewer from 'Open with...'"
 	If (!(Test-Path "HKCR:")) {
 		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 	}
