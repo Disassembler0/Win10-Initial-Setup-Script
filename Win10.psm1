@@ -2062,6 +2062,25 @@ Function Show3DObjectsInExplorer {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" -Name "ThisPCPolicy" -ErrorAction SilentlyContinue
 }
 
+# Hide 'Include in library' context menu item
+Function HideIncludeInLibraryMenu {
+	Write-Output "Hiding 'Include in library' context menu item..."
+	If (!(Test-Path "HKCR:")) {
+		New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
+	}
+	Remove-Item -Path "HKCR:\Folder\ShellEx\ContextMenuHandlers\Library Location" -ErrorAction SilentlyContinue
+}
+
+# Show 'Include in library' context menu item
+Function ShowIncludeInLibraryMenu {
+	Write-Output "Showing 'Include in library' context menu item..."
+	If (!(Test-Path "HKCR:")) {
+		New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
+	}
+	New-Item -Path "HKCR:\Folder\ShellEx\ContextMenuHandlers\Library Location" -ErrorAction SilentlyContinue | Out-Null
+	Set-ItemProperty -Path "HKCR:\Folder\ShellEx\ContextMenuHandlers\Library Location" -Name "(Default)" -Type String -Value "{3dad6c5d-2167-4cae-9914-f99e41c12cfa}"
+}
+
 # Disable thumbnails, show only file extension icons
 Function DisableThumbnails {
 	Write-Output "Disabling thumbnails..."
