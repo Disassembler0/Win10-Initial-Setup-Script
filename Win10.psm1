@@ -1017,14 +1017,14 @@ Function EnableDefragmentation {
 	Enable-ScheduledTask -TaskName "Microsoft\Windows\Defrag\ScheduledDefrag" | Out-Null
 }
 
-# Stop and disable Superfetch service - Not applicable to Server
+# Stop and disable Superfetch service
 Function DisableSuperfetch {
 	Write-Output "Stopping and disabling Superfetch service..."
 	Stop-Service "SysMain" -WarningAction SilentlyContinue
 	Set-Service "SysMain" -StartupType Disabled
 }
 
-# Start and enable Superfetch service - Not applicable to Server
+# Start and enable Superfetch service
 Function EnableSuperfetch {
 	Write-Output "Starting and enabling Superfetch service..."
 	Set-Service "SysMain" -StartupType Automatic
