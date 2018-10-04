@@ -1472,6 +1472,18 @@ Function SetControlPanelCategories {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "AllItemsIconView" -ErrorAction SilentlyContinue
 }
 
+# Disable adding '- shortcut' to shortcut name
+Function DisableShortcutInName {
+	Write-Output "Disabling adding '- shortcut' to shortcut name..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "link" -Type Binary -Value ([byte[]](0,0,0,0))
+}
+
+# Enable adding '- shortcut' to shortcut name
+Function EnableShortcutInName {
+	Write-Output "Enabling adding '- shortcut' to shortcut name..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "link" -ErrorAction SilentlyContinue
+}
+
 # Adjusts visual effects for performance - Disables animations, transparency etc. but leaves font smoothing and miniatures enabled
 Function SetVisualFXPerformance {
 	Write-Output "Adjusting visual effects for performance..."
