@@ -915,6 +915,9 @@ Function DisableSharedExperiences {
 	Write-Output "Disabling Shared Experiences..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableCdp" -Type DWord -Value 0
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableMmx" -Type DWord -Value 0
+	# Workaround to prevent dropping unsaved start menu caches which could be otherwise caused by this tweak.
+	# See https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/145 for details
+	Stop-Process -Name "ShellExperienceHost" -Force -ErrorAction SilentlyContinue
 }
 
 # Enable Shared Experiences - Not applicable to Server
