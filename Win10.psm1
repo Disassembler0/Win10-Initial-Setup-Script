@@ -910,21 +910,17 @@ Function EnableHomeGroups {
 	Start-Service "HomeGroupProvider" -WarningAction SilentlyContinue
 }
 
-# Disable Shared Experiences - Not applicable to Server
+# Disable Shared Experiences - Applicable since 1703. Not applicable to Server
+# This setting can be set also via GPO, however doing so causes reset of Start Menu cache. See https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/145 for details
 Function DisableSharedExperiences {
 	Write-Output "Disabling Shared Experiences..."
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableCdp" -Type DWord -Value 0
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableMmx" -Type DWord -Value 0
-	# Workaround to prevent dropping unsaved Start Menu caches which could be otherwise caused by this tweak. Any changes in Start Menu made after application of this tweak may be lost.
-	# See https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/145 for details
-	Stop-Process -Name "ShellExperienceHost" -Force -ErrorAction SilentlyContinue
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CDP" -Name "RomeSdkChannelUserAuthzPolicy" -Type DWord -Value 0
 }
 
-# Enable Shared Experiences - Not applicable to Server
+# Enable Shared Experiences - Applicable since 1703. Not applicable to Server
 Function EnableSharedExperiences {
 	Write-Output "Enabling Shared Experiences..."
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableCdp" -ErrorAction SilentlyContinue
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableMmx" -ErrorAction SilentlyContinue
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CDP" -Name "RomeSdkChannelUserAuthzPolicy" -Type DWord -Value 1
 }
 
 # Disable Remote Assistance - Not applicable to Server (unless Remote Assistance is explicitly installed)
