@@ -135,6 +135,13 @@ Function DisableAppSuggestions {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
+	# Empty placeholder tile collection in registry cache and restart Start Menu process to reload the cache
+	If ([System.Environment]::OSVersion.Version.Build -ge 17134) {
+		$key = Get-ChildItem -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount" -Recurse | Where-Object { $_ -like "*windows.data.placeholdertilecollection\Current" }
+		$data = (Get-ItemProperty -Path $key.PSPath -Name "Data").Data[0..15]
+		Set-ItemProperty -Path $key.PSPath -Name "Data" -Type Binary -Value $data
+		Stop-Process -Name "ShellExperienceHost" -Force -ErrorAction SilentlyContinue
+	}
 }
 
 # Enable Application suggestions and automatic installation
