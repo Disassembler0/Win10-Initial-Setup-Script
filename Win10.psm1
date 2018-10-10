@@ -1577,6 +1577,18 @@ Function SetVisualFXAppearance {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 1
 }
 
+# Enable Dark Theme
+Function EnableDarkTheme {
+	Write-Output "Enabling Dark Theme..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type DWord -Value 0
+}
+
+# Disable Dark Theme
+Function DisableDarkTheme {
+	Write-Output "Disabling Dark Theme..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -ErrorAction SilentlyContinue
+}
+
 # Add secondary en-US keyboard
 Function AddENKeyboard {
 	Write-Output "Adding secondary en-US keyboard..."
