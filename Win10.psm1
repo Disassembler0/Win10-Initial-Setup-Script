@@ -137,9 +137,8 @@ Function DisableAppSuggestions {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
 	# Empty placeholder tile collection in registry cache and restart Start Menu process to reload the cache
 	If ([System.Environment]::OSVersion.Version.Build -ge 17134) {
-		$key = Get-ChildItem -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount" -Recurse | Where-Object { $_ -like "*windows.data.placeholdertilecollection\Current" }
-		$data = (Get-ItemProperty -Path $key.PSPath -Name "Data").Data[0..15]
-		Set-ItemProperty -Path $key.PSPath -Name "Data" -Type Binary -Value $data
+		$key = Get-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\*windows.data.placeholdertilecollection\Current"
+		Set-ItemProperty -Path $key.PSPath -Name "Data" -Type Binary -Value $key.Data[0..15]
 		Stop-Process -Name "ShellExperienceHost" -Force -ErrorAction SilentlyContinue
 	}
 }
@@ -2869,8 +2868,8 @@ Function UnpinStartMenuTiles {
 			Set-ItemProperty -Path "$($_.PsPath)\Current" -Name "Data" -Type Binary -Value $data.Split(",")
 		}
 	} ElseIf ([System.Environment]::OSVersion.Version.Build -ge 17134) {
-		$key = Get-ChildItem -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount" -Recurse | Where-Object { $_ -like "*start.tilegrid`$windows.data.curatedtilecollection.tilecollection\Current" }
-		$data = (Get-ItemProperty -Path $key.PSPath -Name "Data").Data[0..25] + ([byte[]](202,50,0,226,44,1,1,0,0))
+		$key = Get-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\*start.tilegrid`$windows.data.curatedtilecollection.tilecollection\Current"
+		$data = $key.Data[0..25] + ([byte[]](202,50,0,226,44,1,1,0,0))
 		Set-ItemProperty -Path $key.PSPath -Name "Data" -Type Binary -Value $data
 		Stop-Process -Name "ShellExperienceHost" -Force -ErrorAction SilentlyContinue
 	}
