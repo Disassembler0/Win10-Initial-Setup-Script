@@ -149,6 +149,7 @@ Example of a preset file `otherpreset.txt`:
     MyTweak2
     !ShowHiddenFiles   # Will remove the tweak from selection
     WaitForKey
+    !Restart
 
 Command using all three examples combined:
 
