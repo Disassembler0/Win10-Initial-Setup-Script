@@ -66,8 +66,8 @@ The script supports command line options and parameters which can help you custo
 **Q:** For how long are you going to maintain the script?  
 **A:** As long as I use Windows 10.
 
-**Q:** I really like the script. Is there any way to express gratitude and send a donation?  
-**A:** Feel free to send donations via [PayPal donation link](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=disassembler%40dasm%2ecz&item_name=Disassembler&no_shipping=1). Any amount is appreciated, just be aware that PayPal charges [mediation fees](https://www.paypal.com/selfhelp/article/FAQ690). Also be aware that donations are completely voluntary and I'm not obliged to make any script adjustments in your favor regardless of the donated amount.
+**Q:** I really like the script. Can I send a donation?  
+**A:** Feel free to send donations via [PayPal](https://www.paypal.me/Disassembler). Any amount is appreciated, but keep in mind that donations are completely voluntary and I'm not obliged to make any script adjustments in your favor regardless of the donated amount. You can also drop me a mail to discuss an alternative way.
 
 &nbsp;
 
