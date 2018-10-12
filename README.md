@@ -87,15 +87,18 @@ The script supports command line options and parameters which can help you custo
 
 ## Advanced usage
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 [-include filename] [-preset filename] [tweakname]
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 [-include filename] [-preset filename] [[!]tweakname]
 
     -include filename       load module with user-defined tweaks
     -preset filename        load preset with tweak names to apply
     tweakname               apply tweak with this particular name
+    !tweakname              remove tweak with this particular name from selection
 
 ### Presets
 
 The tweak library consists of separate idempotent functions, containing one tweak each. The functions can be grouped to *presets*. Preset is simply a list of function names which should be called. Any function which is not present or is commented in a preset will not be called, thus the corresponding tweak will not be applied. In order for the script to do something, you need to supply at least one tweak library via `-include` and at least one tweak name, either via `-preset` or directly as command line argument.
+
+The tweak names can be prefixed with exclamation mark (`!`) which will instead cause the tweak to be removed from selection. This is useful in cases when you want to apply the whole preset, but omit a few specific tweaks in the current run. Alternatively, you can have a preset which "patches" another preset by adding and removing a small amount of tweaks.
 
 To supply a customized preset, you can either pass the function names directly as arguments.
 
@@ -110,7 +113,7 @@ Example of a preset file `mypreset.txt`:
 
     # UI tweaks
     ShowKnownExtensions
-    ShowHiddenFiles # Only hidden, not system
+    ShowHiddenFiles   # Only hidden, not system
 
 Command using the preset file above:
 
@@ -142,9 +145,9 @@ Command using the script above:
 All features described above can be combined. You can have a preset which includes both tweaks from the original script and your personal ones. Both `-include` and `-preset` options can be used more than once, so you can split your tweaks into groups and then combine them based on your current needs. The `-include` modules are always imported before the first tweak is applied, so the order of the command line parameters doesn't matter and neither does the order of the tweaks (except for `RequireAdmin`, which should always be called first and `Restart`, which should be always called last). It can happen that some tweaks are applied more than once during a singe run because you have them in multiple presets. That shouldn't cause any problems as the tweaks are idempotent.  
 Example of a preset file `otherpreset.txt`:
 
-    InstallLinuxSubsystem
     MyTweak1
     MyTweak2
+    !ShowHiddenFiles   # Will remove the tweak from selection
     WaitForKey
 
 Command using all three examples combined:
