@@ -1212,9 +1212,9 @@ Function EnableAutoRebootOnCrash {
 #region UI Tweaks
 ##########
 
-# Disable Action Center (Noification Center)
+# Disable Action Center (Notification Center)
 Function DisableActionCenter {
-	Write-Output "Disabling Action Center (Noification Center)..."
+	Write-Output "Disabling Action Center (Notification Center)..."
 	If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
 		New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
 	}
@@ -1222,9 +1222,9 @@ Function DisableActionCenter {
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
 }
 
-# Enable Action Center (Noification Center)
+# Enable Action Center (Notification Center)
 Function EnableActionCenter {
-	Write-Output "Enabling Action Center (Noification Center)..."
+	Write-Output "Enabling Action Center (Notification Center)..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -ErrorAction SilentlyContinue
 }
