@@ -1189,15 +1189,15 @@ Function EnableFastStartup {
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name "HiberbootEnabled" -Type DWord -Value 1
 }
 
-# Disable automatic reboot on crash
+# Disable automatic reboot on crash (BSOD)
 Function DisableAutoRebootOnCrash {
-	Write-Output "Disabling automatic reboot on crash..."
+	Write-Output "Disabling automatic reboot on crash (BSOD)..."
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CrashControl" -Name "AutoReboot" -Type DWord -Value 0
 }
 
-# Enable automatic reboot on crash
+# Enable automatic reboot on crash (BSOD)
 Function EnableAutoRebootOnCrash {
-	Write-Output "Enabling automatic reboot on crash..."
+	Write-Output "Enabling automatic reboot on crash (BSOD)..."
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CrashControl" -Name "AutoReboot" -Type DWord -Value 1
 }
 
@@ -1212,9 +1212,9 @@ Function EnableAutoRebootOnCrash {
 #region UI Tweaks
 ##########
 
-# Disable Action Center
+# Disable Action Center (Noification Center)
 Function DisableActionCenter {
-	Write-Output "Disabling Action Center..."
+	Write-Output "Disabling Action Center (Noification Center)..."
 	If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
 		New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
 	}
@@ -1222,9 +1222,9 @@ Function DisableActionCenter {
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
 }
 
-# Enable Action Center
+# Enable Action Center (Noification Center)
 Function EnableActionCenter {
-	Write-Output "Enabling Action Center..."
+	Write-Output "Enabling Action Center (Noification Center)..."
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -ErrorAction SilentlyContinue
 }
