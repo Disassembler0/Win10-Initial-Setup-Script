@@ -285,13 +285,13 @@ Function EnableAdvertisingID {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" -Name "DisabledByGroupPolicy" -ErrorAction SilentlyContinue
 }
 
-# Disable setting "Let websites provide locally relevant content by accessing my language list"
+# Disable setting 'Let websites provide locally relevant content by accessing my language list'
 Function DisableWebLangList {
 	Write-Output "Disabling Website Access to Language List..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 1
 }
 
-# Enable setting "Let websites provide locally relevant content by accessing my language list"
+# Enable setting 'Let websites provide locally relevant content by accessing my language list'
 Function EnableWebLangList {
 	Write-Output "Enabling Website Access to Language List..."
 	Remove-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -ErrorAction SilentlyContinue
@@ -1496,7 +1496,7 @@ Function EnableNewAppPrompt {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -ErrorAction SilentlyContinue
 }
 
-# Hide "Recently added" list from Start Menu
+# Hide 'Recently added' list from Start Menu
 Function HideRecentlyAddedApps {
 	Write-Output "Hiding 'Recently added' list from Start Menu..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
@@ -1505,7 +1505,7 @@ Function HideRecentlyAddedApps {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -Type DWord -Value 1
 }
 
-# Show "Recently added" list in Start Menu
+# Show 'Recently added' list in Start Menu
 Function ShowRecentlyAddedApps {
 	Write-Output "Showing 'Recently added' list in Start Menu..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -ErrorAction SilentlyContinue
