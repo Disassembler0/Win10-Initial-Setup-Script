@@ -621,7 +621,7 @@ Function HideDefenderTrayIcon {
 }
 
 # Show Windows Defender SysTray icon
-Function HideDefenderTrayIcon {
+Function ShowDefenderTrayIcon {
 	Write-Output "Showing Windows Defender SysTray icon..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" -Name "HideSystray" -ErrorAction SilentlyContinue
 	If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
