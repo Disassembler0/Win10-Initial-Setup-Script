@@ -1266,6 +1266,22 @@ Function EnableLockScreenRS1 {
 	Unregister-ScheduledTask -TaskName "Disable LockScreen" -Confirm:$false -ErrorAction SilentlyContinue
 }
 
+# Enable TitleBar Color
+Function EnableTitleBarColor {
+	Write-Output "Enabling TitleBar color..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "ColorPrevalence" -Type DWord -Value 1
+	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" | Out-Null
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
+}
+
+# Disable TitleBar Color
+Function DisableTitleBarColor {
+	Write-Output "Disabling TitleBar color..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "ColorPrevalence" -Type DWord -Value 0
+	New-Item-IfNotExist "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" | Out-Null
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
+}
+
 # Hide network options from Lock Screen
 Function HideNetworkFromLockScreen {
 	Write-Output "Hiding network options from Lock Screen..."
