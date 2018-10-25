@@ -449,6 +449,21 @@ Function ShowRecentJumplists {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -ErrorAction SilentlyContinue
 }
 
+# Clear 'Recent files' list on exit
+Function EnableClearRecentFiles {
+	Write-Output "Enabling the clearing of 'Recent files' on exit..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ClearRecentDocsOnExit" -Type DWord -Value 1
+}
+
+# Do not clear 'Recent files' list on exit
+Function DisableClearRecentFiles {
+	Write-Output "Disabling the clearing of 'Recent files' on exit..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ClearRecentDocsOnExit" -ErrorAction SilentlyContinue
+}
+
 ##########
 #endregion Privacy Tweaks
 ##########
@@ -1510,19 +1525,34 @@ Function EnableNewAppPrompt {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -ErrorAction SilentlyContinue
 }
 
-# Hide 'Recently added' list from Start Menu
+# Hide 'Recently added' list from the Start Menu
 Function HideRecentlyAddedApps {
-	Write-Output "Hiding 'Recently added' list from Start Menu..."
+	Write-Output "Hiding 'Recently added' list from the Start Menu..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -Type DWord -Value 1
 }
 
-# Show 'Recently added' list in Start Menu
+# Show 'Recently added' list in the Start Menu
 Function ShowRecentlyAddedApps {
-	Write-Output "Showing 'Recently added' list in Start Menu..."
+	Write-Output "Showing 'Recently added' list in the Start Menu..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -ErrorAction SilentlyContinue
+}
+
+# Remove 'Most used' apps list from the Start Menu
+Function HideMostUsedApps {
+	Write-Output "Hiding 'Most used' apps list from the Start Menu......"
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoStartMenuMFUprogramsList" -Type DWord -Value 1
+}
+
+# Show 'Most used' apps list in the Start Menu
+Function ShowMostUsedApps {
+	Write-Output "Showing 'Most used' apps list in the Start Menu......"
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoStartMenuMFUprogramsList" -ErrorAction SilentlyContinue
 }
 
 # Set Control Panel view to Small icons (Classic)
@@ -1865,6 +1895,21 @@ Function ShowRecentShortcuts {
 	Write-Output "Showing recent shortcuts..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowRecent" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowFrequent" -ErrorAction SilentlyContinue
+}
+
+# Hide 'Recent files' list
+Function HideRecentFiles {
+	Write-Output "Hiding 'Recent files' list..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecentDocsHistory" -Type DWord -Value 1
+}
+
+# Show 'Recent files' list
+Function ShowRecentFiles {
+	Write-Output "Showing 'Recent files' list..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecentDocsHistory" -ErrorAction SilentlyContinue
 }
 
 # Change default Explorer view to This PC
