@@ -182,10 +182,11 @@ Function EnableActivityHistory {
 	# CDPUserSvc is a parent for user services and cannot be started directly. The user services will be started after reboot.
 }
 
-# Disable Background application access - ie. if apps can download or update when they aren't used - Cortana is excluded as its inclusion breaks start menu search
+# Disable Background application access - ie. if apps can download or update when they aren't used
+# Cortana is excluded as its inclusion breaks start menu search, ShellExperience host breaks toasts and notifications
 Function DisableBackgroundApps {
 	Write-Output "Disabling Background application access..."
-	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude "Microsoft.Windows.Cortana*" | ForEach-Object {
+	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude "Microsoft.Windows.Cortana*","Microsoft.Windows.ShellExperienceHost*" | ForEach-Object {
 		Set-ItemProperty -Path $_.PsPath -Name "Disabled" -Type DWord -Value 1
 		Set-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -Type DWord -Value 1
 	}
