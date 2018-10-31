@@ -2340,6 +2340,60 @@ Function UninstallMsftBloat {
 	Get-AppxPackage "Microsoft.ScreenSketch" | Remove-AppxPackage
 }
 
+# Uninstall default Microsoft applications for All Users
+Function UninstallMsftBloatAllUsers {
+	Write-Output "Uninstalling default Microsoft applications..."
+    $AppsToRemove = Get-AppxProvisionedPackage -Online
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.3DBuilder"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.AppConnector"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.BingFinance"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.BingNews"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.BingSports"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.BingTranslator"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.BingWeather"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.CommsPhone"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.ConnectivityStore"}| Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.GetHelp"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.Getstarted"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.Messaging"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.Microsoft3DViewer"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.MicrosoftOfficeHub"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.MicrosoftPowerBIForWindows"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.MicrosoftSolitaireCollection"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.MicrosoftStickyNotes"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.MinecraftUWP"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.MSPaint"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.NetworkSpeedTest"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.Office.OneNote"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.Office.Sway"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.OfficeLens"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.OneConnect"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.People"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.Print3D"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.RemoteDesktop"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.SkypeApp"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.Todos"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.Wallet"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.Whiteboard"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.WindowsAlarms"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.WindowsCamera"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "microsoft.windowscommunicationsapps"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.WindowsFeedbackHub"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.WindowsMaps"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.WindowsPhone"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.Windows.Photos"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.WindowsSoundRecorder"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.ZuneMusic"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.ZuneVideo"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.WebMediaExtensions"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.MixedReality.Portal"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.YourPhone"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.ScreenSketch"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.DesktopAppInstaller"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.WindowsStore"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
+}
+
+
 # Install default Microsoft applications
 Function InstallMsftBloat {
 	Write-Output "Installing default Microsoft applications..."
