@@ -2340,7 +2340,7 @@ Function UninstallMsftBloat {
 	Get-AppxPackage "Microsoft.ScreenSketch" | Remove-AppxPackage
 }
 
-# Uninstall default Microsoft applications for All Users
+# Uninstall default Microsoft applications for All Users - Note: This function has no counterpart. You have to install apps manually from store.
 Function UninstallMsftBloatAllUsers {
 	Write-Output "Uninstalling default Microsoft applications..."
     $AppsToRemove = Get-AppxProvisionedPackage -Online
