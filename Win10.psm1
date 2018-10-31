@@ -2389,9 +2389,7 @@ Function UninstallMsftBloatAllUsers {
 	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.MixedReality.Portal"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
 	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.YourPhone"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
 	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.ScreenSketch"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
-	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.DesktopAppInstaller"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
-	$AppsToRemove | Where-Object {$_.DisplayName -eq  "Microsoft.WindowsStore"} | Remove-AppxProvisionedPackage -AllUsers -Online | Out-Null
-}
+	}
 
 
 # Install default Microsoft applications
