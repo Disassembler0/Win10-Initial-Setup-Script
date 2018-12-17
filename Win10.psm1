@@ -1888,7 +1888,7 @@ Function HideThisPCFromDesktop {
 }
 
 # Show Control panel shortcut on desktop
-Function ShowControlpanelOnDesktop {
+Function ShowControlPanelOnDesktop {
 	Write-Output "Showing Control panel shortcut on desktop..."
 	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu")) {
 		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Force | Out-Null
@@ -1901,7 +1901,7 @@ Function ShowControlpanelOnDesktop {
 }
 
 # Hide Control panel shortcut from desktop
-Function HideControlpanelFromDesktop {
+Function HideControlPanelFromDesktop {
 	Write-Output "Hiding Control panel shortcut from desktop..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" -ErrorAction SilentlyContinue
