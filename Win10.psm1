@@ -1597,6 +1597,18 @@ Function SetVisualFXAppearance {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroPeek" -Type DWord -Value 1
 }
 
+# Enable window title bar color according to prevalent background color
+Function EnableTitleBarColor {
+	Write-Output "Enabling window title bar color..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "ColorPrevalence" -Type DWord -Value 1
+}
+
+# Disable window title bar color
+Function DisableTitleBarColor {
+	Write-Output "Disabling window title bar color..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "ColorPrevalence" -Type DWord -Value 0
+}
+
 # Enable Dark Theme
 Function EnableDarkTheme {
 	Write-Output "Enabling Dark Theme..."
