@@ -2624,6 +2624,20 @@ Function InstallInternetExplorer {
 	Enable-WindowsOptionalFeature -Online -FeatureName "Internet-Explorer-Optional-$env:PROCESSOR_ARCHITECTURE" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
+# Disable Internet Explorer First Run Wizard
+Function DisableIEFirstRun {
+  Write-Output "Disabling Internet Explorer First Run Wizard..."
+  If (!(Test-Path "HKLM:\Software\Policies\Microsoft\Internet Explorer\Main")) {
+  New-Item -Path "HKLM:\Software\Policies\Microsoft\Internet Explorer\Main" -Force | Out-Null}
+  Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Internet Explorer\Main" -Name "DisableFirstRunCustomize" -Type Dword -Value 1
+  
+}
+
+# Enable Internet Explorer First Run Wizard
+Function EnableIEFirstRun {
+  Write-Output "Disabling Internet Explorer First Run Wizard..."
+  Remove-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Internet Explorer\Main" -Name "DisableFirstRunCustomize" -ErrorAction SilentlyContinue
+}
 # Uninstall Work Folders Client - Not applicable to Server
 Function UninstallWorkFolders {
 	Write-Output "Uninstalling Work Folders Client..."
