@@ -19,10 +19,10 @@ $PSCommandArgs = @()
 Function AddOrRemoveTweak($tweak) {
 	If ($tweak[0] -eq "!") {
 		# If the name starts with exclamation mark (!), exclude the tweak from selection
-		$global:tweaks = $global:tweaks | Where-Object { $_ -ne $tweak.Substring(1) }
+		$script:tweaks = $script:tweaks | Where-Object { $_ -ne $tweak.Substring(1) }
 	} ElseIf ($tweak -ne "") {
 		# Otherwise add the tweak
-		$global:tweaks += $tweak
+		$script:tweaks += $tweak
 	}
 }
 
