@@ -437,16 +437,36 @@ Function EnableWAPPush {
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\dmwappushservice" -Name "DelayedAutoStart" -Type DWord -Value 1
 }
 
-# Hide recently opened items in Jump Lists on Start or the taskbar
-Function HideRecentJumplists {
-	Write-Output "Hiding recently opened items in Jump Lists..."
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -Type DWord -Value 0
+# Enable clearing of recent files on exit
+# Empties most recently used (MRU) items lists such as 'Recent Items' menu on the Start menu, jump lists, and shortcuts at the bottom of the 'File' menu in applications during every logout.
+Function EnableClearRecentFiles {
+	Write-Output "Enabling clearing of recent files on exit..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ClearRecentDocsOnExit" -Type DWord -Value 1
 }
 
-# Show recently opened items in Jump Lists on Start or the taskbar
-Function ShowRecentJumplists {
-	Write-Output "Showing recently opened items in Jump Lists..."
-	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -ErrorAction SilentlyContinue
+# Disable clearing of recent files on exit
+Function DisableClearRecentFiles {
+	Write-Output "Disabling clearing of recent files on exit..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ClearRecentDocsOnExit" -ErrorAction SilentlyContinue
+}
+
+# Disable recent files lists
+# Stops creating most recently used (MRU) items lists such as 'Recent Items' menu on the Start menu, jump lists, and shortcuts at the bottom of the 'File' menu in applications.
+Function DisableRecentFiles {
+	Write-Output "Disabling recent files lists..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecentDocsHistory" -Type DWord -Value 1
+}
+
+# Enable recent files lists
+Function EnableRecentFiles {
+	Write-Output "Enabling recent files lists..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecentDocsHistory" -ErrorAction SilentlyContinue
 }
 
 ##########
@@ -1510,19 +1530,34 @@ Function EnableNewAppPrompt {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoNewAppAlert" -ErrorAction SilentlyContinue
 }
 
-# Hide 'Recently added' list from Start Menu
+# Hide 'Recently added' list from the Start Menu
 Function HideRecentlyAddedApps {
-	Write-Output "Hiding 'Recently added' list from Start Menu..."
+	Write-Output "Hiding 'Recently added' list from the Start Menu..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -Type DWord -Value 1
 }
 
-# Show 'Recently added' list in Start Menu
+# Show 'Recently added' list in the Start Menu
 Function ShowRecentlyAddedApps {
-	Write-Output "Showing 'Recently added' list in Start Menu..."
+	Write-Output "Showing 'Recently added' list in the Start Menu..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -ErrorAction SilentlyContinue
+}
+
+# Hide 'Most used' apps list from the Start Menu - Applicable until 1703 (hidden by default since then)
+Function HideMostUsedApps {
+	Write-Output "Hiding 'Most used' apps list from the Start Menu..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoStartMenuMFUprogramsList" -Type DWord -Value 1
+}
+
+# Show 'Most used' apps list in the Start Menu - Applicable until 1703 (GPO broken since then)
+Function ShowMostUsedApps {
+	Write-Output "Showing 'Most used' apps list in the Start Menu..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoStartMenuMFUprogramsList" -ErrorAction SilentlyContinue
 }
 
 # Set Control Panel view to Small icons (Classic)
@@ -1854,15 +1889,16 @@ Function ShowSyncNotifications {
 }
 
 # Hide recently and frequently used item shortcuts in Explorer
+# Note: This is only UI tweak to hide the shortcuts. In order to stop creating most recently used (MRU) items lists everywhere, use privacy tweak 'DisableRecentFiles' instead.
 Function HideRecentShortcuts {
-	Write-Output "Hiding recent shortcuts..."
+	Write-Output "Hiding recent shortcuts in Explorer..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowRecent" -Type DWord -Value 0
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowFrequent" -Type DWord -Value 0
 }
 
 # Show recently and frequently used item shortcuts in Explorer
 Function ShowRecentShortcuts {
-	Write-Output "Showing recent shortcuts..."
+	Write-Output "Showing recent shortcuts in Explorer..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowRecent" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "ShowFrequent" -ErrorAction SilentlyContinue
 }
