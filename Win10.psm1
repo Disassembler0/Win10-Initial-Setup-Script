@@ -1081,6 +1081,19 @@ Function EnableIndexing {
 	Start-Service "WSearch" -WarningAction SilentlyContinue
 }
 
+# Disable Modern UI swap file
+# This disables creation and use of swapfile.sys and frees 256 MB of disk space. Swapfile.sys is used only by Modern UI apps. The tweak has no effect on the real swap in pagefile.sys.
+Function DisableSwapFile {
+	Write-Output "Disabling Modern UI swap file..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "SwapfileControl" -Type Dword -Value 0
+}
+
+# Enable Modern UI swap file
+Function EnableSwapFile {
+	Write-Output "Enabling Modern UI swap file..."
+	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "SwapfileControl" -ErrorAction SilentlyContinue
+}
+
 # Disable the updating of the NTFS Last Access Time stamps
 Function DisableNTFSLastAccess {
 	Write-Output "Disabling the updating of the Last Access Time stamps..."
