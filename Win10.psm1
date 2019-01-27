@@ -1711,6 +1711,22 @@ Function DisableNumlock {
 	}
 }
 
+# Disable enhanced pointer precision
+Function DisableEnhPointerPrecision {
+	Write-Output "Disabling enhanced pointer precision..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseSpeed" -Type String -Value "0"
+	Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold1" -Type String -Value "0"
+	Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold2" -Type String -Value "0"
+}
+
+# Enable enhanced pointer precision
+Function EnableEnhPointerPrecision {
+	Write-Output "Enabling enhanced pointer precision..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseSpeed" -Type String -Value "1"
+	Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold1" -Type String -Value "6"
+	Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold2" -Type String -Value "10"
+}
+
 # Set sound scheme to No Sounds
 Function SetSoundSchemeNone {
 	Write-Output "Setting sound scheme to No Sounds..."
