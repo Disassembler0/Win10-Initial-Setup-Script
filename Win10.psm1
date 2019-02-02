@@ -1798,6 +1798,18 @@ Function EnableChangingSoundScheme {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoChangingSoundScheme" -ErrorAction SilentlyContinue
 }
 
+# Enable VerboseStatus 
+Function EnableVerboseStatus {
+	Write-Output "Enabling VerboseStatus..."
+	New-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'VerboseStatus' -Value '1' -PropertyType DWORD -Force
+}
+
+# Disable VerboseStatus
+Function DisableVerboseStatus {
+	Write-Output "Disabling VerboseStatus..."
+	New-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'VerboseStatus' -Value '0' -PropertyType DWORD -Force
+}
+
 ##########
 #endregion UI Tweaks
 ##########

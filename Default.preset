@@ -115,6 +115,7 @@ SetVisualFXPerformance          # SetVisualFXAppearance
 # SetSoundSchemeNone            # SetSoundSchemeDefault
 # DisableStartupSound           # EnableStartupSound
 # DisableChangingSoundScheme    # EnableChangingSoundScheme
+EnableVerboseStatus             # DisableVerboseStatus
 
 ### Explorer UI Tweaks ###
 ShowKnownExtensions             # HideKnownExtensions
