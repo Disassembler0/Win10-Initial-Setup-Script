@@ -62,6 +62,7 @@ SetDEPOptOut                    # SetDEPOptIn
 # DisableUpdateMSRT             # EnableUpdateMSRT
 # DisableUpdateDriver           # EnableUpdateDriver
 DisableUpdateRestart            # EnableUpdateRestart
+# DisableUpdateAutoDownload		# EnableUpdateAutoDownload
 # DisableHomeGroups             # EnableHomeGroups
 DisableSharedExperiences        # EnableSharedExperiences
 DisableRemoteAssistance         # EnableRemoteAssistance

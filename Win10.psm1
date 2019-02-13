@@ -941,6 +941,22 @@ Function EnableUpdateRestart {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUPowerManagement" -ErrorAction SilentlyContinue
 }
 
+# Disable Windows Update automatic downloads
+# Note: This doesn't disable the need for updates but rather tries to ensure that the downloading updates is done manually.
+Function DisableUpdateAutoDownload {
+	Write-Output "Disabling Windows Update automatic downloads..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUOptions" -Type DWord -Value 2
+}
+
+# Enable Windows Update automatic downloads
+Function EnableUpdateAutoDownload {
+	Write-Output "Enabling Windows Update automatic downloads..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUOptions" -ErrorAction SilentlyContinue
+}
+
 # Stop and disable Home Groups services - Not applicable since 1803. Not applicable to Server
 Function DisableHomeGroups {
 	Write-Output "Stopping and disabling Home Groups services..."
