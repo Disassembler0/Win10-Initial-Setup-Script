@@ -942,7 +942,7 @@ Function EnableUpdateRestart {
 }
 
 # Disable Windows Update automatic downloads
-# Note: This doesn't disable the need for updates but rather tries to ensure that downloading updates is done manually.
+# Note: This doesn't disable the need for updates but rather tries to ensure that downloading updates is done manually for Non-Active Directory environments.
 Function DisableUpdateAutoDownload {
 	Write-Output "Disabling Windows Update automatic downloads..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU")) {
