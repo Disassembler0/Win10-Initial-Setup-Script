@@ -2597,7 +2597,7 @@ Function InstallWindowsStore {
 	Get-AppxPackage -AllUsers "Microsoft.WindowsStore" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 }
 
-# Disable Xbox features
+# Disable Xbox features - Not applicable to Server
 Function DisableXboxFeatures {
 	Write-Output "Disabling Xbox features..."
 	Get-AppxPackage "Microsoft.XboxApp" | Remove-AppxPackage
@@ -2606,6 +2606,7 @@ Function DisableXboxFeatures {
 	Get-AppxPackage "Microsoft.XboxGameOverlay" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.XboxGamingOverlay" | Remove-AppxPackage
 	Get-AppxPackage "Microsoft.Xbox.TCUI" | Remove-AppxPackage
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\GameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 0
 	Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" | Out-Null
@@ -2613,7 +2614,7 @@ Function DisableXboxFeatures {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
 }
 
-# Enable Xbox features
+# Enable Xbox features - Not applicable to Server
 Function EnableXboxFeatures {
 	Write-Output "Enabling Xbox features..."
 	Get-AppxPackage -AllUsers "Microsoft.XboxApp" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
@@ -2622,6 +2623,7 @@ Function EnableXboxFeatures {
 	Get-AppxPackage -AllUsers "Microsoft.XboxGameOverlay" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "Microsoft.XboxGamingOverlay" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "Microsoft.Xbox.TCUI" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\GameBar" -Name "AutoGameModeEnabled" -ErrorAction SilentlyContinue
 	Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -ErrorAction SilentlyContinue
 }
