@@ -117,11 +117,17 @@ SetVisualFXPerformance          # SetVisualFXAppearance
 # DisableChangingSoundScheme    # EnableChangingSoundScheme
 
 ### Explorer UI Tweaks ###
+# DisplayFullPath               # DontDisplayFullPath
 ShowKnownExtensions             # HideKnownExtensions
 ShowHiddenFiles                 # HideHiddenFiles
+# ShowSuperHidden               # HideSuperHidden
+# ShowDrivesWithNoMedia         # HideDrivesWithNoMedia
+# ShowMergeConflicts            # HideMergeConflicts
 EnableNavPaneExpand             # DisableNavPaneExpand
+# NavPaneShowAllFolders         # NavPaneHideSomeFolders
 # EnableFldrSeparateProcess     # DisableFldrSeparateProcess
 # EnableRestoreFldrWindows      # DisableRestoreFldrWindows
+# ColorEncryptCompressed        # DontColorEncryptCompressed
 # DisableSharingWizard          # EnableSharingWizard
 # HideSelectCheckboxes          # ShowSelectCheckboxes
 HideSyncNotifications           # ShowSyncNotifications

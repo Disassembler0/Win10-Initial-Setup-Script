@@ -1808,6 +1808,18 @@ Function EnableChangingSoundScheme {
 #region Explorer UI Tweaks
 ##########
 
+# Display the full path in the title bar
+Function DisplayFullPath {
+    Write-Output "Displaying the full path in the title bar..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" -Name "FullPath" -Type DWord -Value 1
+}
+
+# Don't display the full path in the title bar
+Function DontDisplayFullPath {
+    Write-Output "Not displaying the full path in the title bar..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" -Name "FullPath" -Type DWord -Value 0
+}
+
 # Show known file extensions
 Function ShowKnownExtensions {
 	Write-Output "Showing known file extensions..."
@@ -1832,6 +1844,42 @@ Function HideHiddenFiles {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Type DWord -Value 2
 }
 
+# Show protected operating system files
+Function ShowSuperHidden {
+    Write-Output "Showing protected operating system files..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Type DWord -Value 1
+}
+
+# Hide protected operating system files
+Function HideSuperHidden {
+    Write-Output "Hiding protected operating system files..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Type DWord -Value 0
+}
+
+# Show empty drives
+Function ShowDrivesWithNoMedia {
+    Write-Output "Showing empty drives..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value 0
+}
+
+# Hide empty drives
+Function HideDrivesWithNoMedia {
+    Write-Output "Hiding empty drives..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value 1
+}
+
+# Show merge conflicts
+Function ShowMergeConflicts {
+    Write-Output "Showing merge conflicts..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideMergeConflicts" -Type DWord -Value 0
+}
+
+# Hide merge conflicts
+Function HideMergeConflicts {
+    Write-Output "Hiding merge conflicts..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideMergeConflicts" -Type DWord -Value 1
+}
+
 # Enable navigation pane expanding to current folder
 Function EnableNavPaneExpand {
 	Write-Output "Enabling navigation pane expanding to current folder..."
@@ -1842,6 +1890,18 @@ Function EnableNavPaneExpand {
 Function DisableNavPaneExpand {
 	Write-Output "Disabling navigation pane expanding to current folder..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneExpandToCurrentFolder" -ErrorAction SilentlyContinue
+}
+
+# Show all folders in navigation pane
+Function NavPaneShowAllFolders {
+    Write-Output "Showing all folders in navigation pane..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneShowAllFolders" -Type DWord -Value 1
+}
+
+# Hide some folders in navigation pane
+Function NavPaneHideSomeFolders {
+    Write-Output "Hiding some folders in navigation pane..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneShowAllFolders" -Type DWord -Value 0
 }
 
 # Enable launching folder windows in a separate process
@@ -1866,6 +1926,18 @@ Function EnableRestoreFldrWindows {
 Function DisableRestoreFldrWindows {
 	Write-Output "Disabling restoring previous folder windows at logon..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -ErrorAction SilentlyContinue
+}
+
+# Color encrypted or compressed files
+Function ColorEncryptCompressed {
+    Write-Output "Coloring encrypted or compressed files..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowEncryptCompressedColor" -Type DWord -Value 1
+}
+
+# Don't color encrypted or compressed files
+Function DontColorEncryptCompressed {
+    Write-Output "Not coloring encrypted or compressed files..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowEncryptCompressedColor" -Type DWord -Value 0
 }
 
 # Disable Sharing Wizard
