@@ -202,6 +202,23 @@ Function EnableBackgroundApps {
 	}
 }
 
+# Disable location feature and scripting for the location feature
+Function DisableLocation {
+	Write-Output "Disabling location services..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Name "DisableLocation" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Name "DisableLocationScripting" -Type DWord -Value 1
+}
+
+# Enable location feature and scripting for the location feature
+Function EnableLocation {
+	Write-Output "Enabling location services..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Name "DisableLocation" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Name "DisableLocationScripting" -ErrorAction SilentlyContinue
+}
+
 # Disable Location Tracking
 Function DisableLocationTracking {
 	Write-Output "Disabling Location Tracking..."
@@ -332,6 +349,21 @@ Function EnableCortana {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value 0
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore" -Name "HarvestContacts" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -ErrorAction SilentlyContinue
+}
+
+# Disable biometric features in Windows. Note - it's recommended to create a password recovery disk, if you log on using biometrics.
+Function DisableBiometrics {
+	Write-Output "Disabling biometric services..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics" -Name "Enabled" -Type DWord -Value 0
+}
+
+# Enable biometric features
+Function EnableBiometrics {
+	Write-Output "Enabling biometric services..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics" -Name "Enabled" -ErrorAction SilentlyContinue
 }
 
 # Disable Error reporting
@@ -1322,6 +1354,24 @@ Function HideShutdownFromLockScreen {
 Function ShowShutdownOnLockScreen {
 	Write-Output "Showing shutdown options on Lock Screen..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ShutdownWithoutLogon" -Type DWord -Value 1
+}
+
+# Disable screen auto rotation
+Function DisableAutoRotation {
+	Write-Output "Disabling screen auto rotation..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation" -Name "Enable" -Type DWord -Value 0
+}
+
+# Enable screen auto rotation
+Function EnableAutoRotation {
+	Write-Output "Enabling screen auto rotation..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation" -Name "Enable" -Type DWord -Value 1
 }
 
 # Disable Aero Shake (minimizing other windows when one is dragged by mouse and shaken)
@@ -2693,6 +2743,21 @@ Function DisableIEFirstRun {
 Function EnableIEFirstRun {
 	Write-Output "Disabling Internet Explorer first run wizard..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Main" -Name "DisableFirstRunCustomize" -ErrorAction SilentlyContinue
+}
+
+# Disable Windows Media Player's media sharing feature
+Function DisableMediaSharing {
+	Write-Output "Disabling media sharing..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsMediaPlayer")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsMediaPlayer" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsMediaPlayer" -Name "PreventLibrarySharing" -Type DWord -Value 1
+}
+
+# Enable Windows Media Player's media sharing feature
+Function EnableMediaSharing {
+	Write-Output "Enabling media sharing..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsMediaPlayer" -Name "PreventLibrarySharing" -ErrorAction SilentlyContinue
 }
 
 # Uninstall Windows Media Player
