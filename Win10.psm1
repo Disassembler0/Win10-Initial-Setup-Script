@@ -366,6 +366,21 @@ Function EnableBiometrics {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics" -Name "Enabled" -ErrorAction SilentlyContinue
 }
 
+# Disable use of camera devices
+Function DisableCamera {
+	Write-Output "Disabling camera devices..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Name "AllowCamera" -Type DWord -Value 0
+}
+
+# Enable use of camera devices
+Function EnableCamera {
+	Write-Output "Enabling camera devices..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Name "AllowCamera" -ErrorAction SilentlyContinue
+}
+
 # Disable Error reporting
 Function DisableErrorReporting {
 	Write-Output "Disabling Error reporting..."
@@ -1356,22 +1371,19 @@ Function ShowShutdownOnLockScreen {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ShutdownWithoutLogon" -Type DWord -Value 1
 }
 
-# Disable screen auto rotation
-Function DisableAutoRotation {
-	Write-Output "Disabling screen auto rotation..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation")) {
-		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation" -Force | Out-Null
+# Disable sensor features, such as screen auto rotation
+Function DisableSensors {
+	Write-Output "Disabling sensors..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Force | Out-Null
 	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation" -Name "Enable" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Name "DisableSensors" -Type DWord -Value 1
 }
 
-# Enable screen auto rotation
-Function EnableAutoRotation {
-	Write-Output "Enabling screen auto rotation..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation")) {
-		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation" -Force | Out-Null
-	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AutoRotation" -Name "Enable" -Type DWord -Value 1
+# Enable sensor features
+Function EnableSensors {
+	Write-Output "Enabling sensors..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Name "DisableSensors" -ErrorAction SilentlyContinue
 }
 
 # Disable Aero Shake (minimizing other windows when one is dragged by mouse and shaken)
