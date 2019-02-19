@@ -1348,6 +1348,30 @@ Function EnableStickyKeys {
 	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "510"
 }
 
+# Disable Toggle keys prompt
+Function DisableToggleKeys {
+	Write-Output "Disabling Toggle keys prompt..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\ToggleKeys" -Name "Flags" -Type String -Value "58"
+}
+
+# Enable Toggle keys prompt
+Function EnableToggleKeys {
+	Write-Output "Enabling Toggle keys prompt..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\ToggleKeys" -Name "Flags" -Type String -Value "62"
+}
+
+# Disable Filter keys prompt
+Function DisableFilterKeys {
+	Write-Output "Disabling Filter keys prompt..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" -Name "Flags" -Type String -Value "122"
+}
+
+# Enable Filter keys prompt
+Function EnableFilterKeys {
+	Write-Output "Enabling Filter keys prompt..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" -Name "Flags" -Type String -Value "126"
+}
+
 # Show Task Manager details - Applicable since 1607
 # Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
 Function ShowTaskManagerDetails {
