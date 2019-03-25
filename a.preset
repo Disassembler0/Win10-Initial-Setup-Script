@@ -31,7 +31,7 @@ DisableWAPPush                  # EnableWAPPush
 # DisableRecentFiles            # EnableRecentFiles
 
 ### Security Tweaks ###
-# SetUACLow                     # SetUACHigh
+ SetUACLow                     # SetUACHigh
 # EnableSharingMappedDrives     # DisableSharingMappedDrives
 DisableAdminShares              # EnableAdminShares
 # DisableSMB1                   # EnableSMB1
@@ -86,9 +86,11 @@ DisableAutorun                  # EnableAutorun
 #DisableActionCenter             # EnableActionCenter
 DisableLockScreen               # EnableLockScreen
 # DisableLockScreenRS1          # EnableLockScreenRS1
-HideNetworkFromLockScreen       # ShowNetworkOnLockScreen
-#HideShutdownFromLockScreen      # ShowShutdownOnLockScreen
-# DisableAeroShake              # EnableAeroShake
+#HideNetworkFromLockScreen       # 
+ShowNetworkOnLockScreen
+#HideShutdownFromLockScreen      # 
+ShowShutdownOnLockScreen
+DisableAeroShake              # EnableAeroShake
 DisableStickyKeys               # EnableStickyKeys
 ShowTaskManagerDetails          # HideTaskManagerDetails
 ShowFileOperationsDetails       # HideFileOperationsDetails
@@ -102,7 +104,8 @@ ShowTrayIcons                   # HideTrayIcons
 DisableSearchAppInStore         # EnableSearchAppInStore
 DisableNewAppPrompt             # EnableNewAppPrompt
 # HideRecentlyAddedApps         # ShowRecentlyAddedApps
-# HideMostUsedApps              # ShowMostUsedApps
+# HideMostUsedApps              # 
+ShowMostUsedApps
 # SetControlPanelSmallIcons     # SetControlPanelLargeIcons     # SetControlPanelCategories
 DisableShortcutInName           # EnableShortcutInName
 # HideShortcutArrow             # ShowShortcutArrow
@@ -122,12 +125,14 @@ ShowHiddenFiles                 # HideHiddenFiles
 EnableNavPaneExpand             # DisableNavPaneExpand
 # EnableFldrSeparateProcess     # DisableFldrSeparateProcess
 # EnableRestoreFldrWindows      # DisableRestoreFldrWindows
-# DisableSharingWizard          # EnableSharingWizard
+ DisableSharingWizard          # EnableSharingWizard
 # HideSelectCheckboxes          # ShowSelectCheckboxes
 HideSyncNotifications           # ShowSyncNotifications
-HideRecentShortcuts             # ShowRecentShortcuts
+# HideRecentShortcuts             # 
+ShowRecentShortcuts
 SetExplorerThisPC               # SetExplorerQuickAccess
-HideQuickAccess                 # ShowQuickAccess
+#HideQuickAccess                 # 
+ShowQuickAccess
 ShowThisPCOnDesktop             # HideThisPCFromDesktop
 ShowUserFolderOnDesktop       # HideUserFolderFromDesktop
 ShowControlPanelOnDesktop     # HideControlPanelFromDesktop
