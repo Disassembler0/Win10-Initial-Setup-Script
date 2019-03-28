@@ -28,7 +28,7 @@ DisableErrorReporting           # EnableErrorReporting
 DisableDiagTrack                # EnableDiagTrack
 DisableWAPPush                  # EnableWAPPush
 # EnableClearRecentFiles        # DisableClearRecentFiles
-# DisableRecentFiles            # EnableRecentFiles
+DisableRecentFiles              # EnableRecentFiles
 
 ### Security Tweaks ###
 # SetUACLow                     # SetUACHigh
@@ -65,21 +65,21 @@ DisableUpdateRestart            # EnableUpdateRestart
 # DisableHomeGroups             # EnableHomeGroups
 DisableSharedExperiences        # EnableSharedExperiences
 DisableRemoteAssistance         # EnableRemoteAssistance
-EnableRemoteDesktop             # DisableRemoteDesktop
+DisableRemoteDesktop            # EnableRemoteDesktop
 DisableAutoplay                 # EnableAutoplay
 DisableAutorun                  # EnableAutorun
 EnableRestorePoints             # DisableRestorePoints
 DisableStorageSense             # EnableStorageSense
-# DisableDefragmentation        # EnableDefragmentation
+DisableDefragmentation          # EnableDefragmentation
 DisableSuperfetch               # EnableSuperfetch
 EnableIndexing                  # DisableIndexing
 EnableSwapFile                  # DisableSwapFile
 EnableNTFSLastAccess            # DisableNTFSLastAccess
-# SetBIOSTimeLocal              # SetBIOSTimeUTC
+SetBIOSTimeLocal                # SetBIOSTimeUTC
 DisableHibernation              # EnableHibernation
-# DisableSleepButton            # EnableSleepButton
+DisableSleepButton              # EnableSleepButton
 DisableSleepTimeout             # EnableSleepTimeout
-# DisableFastStartup            # EnableFastStartup
+DisableFastStartup              # EnableFastStartup
 EnableAutoRebootOnCrash         # DisableAutoRebootOnCrash
 
 ### UI Tweaks ###
@@ -88,7 +88,7 @@ EnableLockScreen                # DisableLockScreen
 # EnableLockScreenRS1             # DisableLockScreenRS1
 HideNetworkFromLockScreen       # ShowNetworkOnLockScreen
 ShowShutdownOnLockScreen        # HideShutdownFromLockScreen
-# DisableAeroShake              # EnableAeroShake
+DisableAeroShake                # EnableAeroShake
 DisableStickyKeys               # EnableStickyKeys
 ShowTaskManagerDetails          # HideTaskManagerDetails
 ShowFileOperationsDetails       # HideFileOperationsDetails
@@ -100,19 +100,19 @@ SetTaskbarCombineAlways       # SetTaskbarCombineWhenFull        # SetTaskbarCom
 HideTaskbarPeopleIcon           # ShowTaskbarPeopleIcon
 ShowTrayIcons                   # HideTrayIcons
 DisableSearchAppInStore         # EnableSearchAppInStore
-DisableNewAppPrompt             # EnableNewAppPrompt
-# HideRecentlyAddedApps         # ShowRecentlyAddedApps
-# HideMostUsedApps              # ShowMostUsedApps
-# SetControlPanelSmallIcons     # SetControlPanelLargeIcons     # SetControlPanelCategories
+EnableNewAppPrompt              # DisableNewAppPrompt
+HideRecentlyAddedApps           # ShowRecentlyAddedApps
+HideMostUsedApps                # ShowMostUsedApps
+SetControlPanelCategories     # SetControlPanelLargeIcons     # SetControlPanelSmallIcons
 DisableShortcutInName           # EnableShortcutInName
 ShowShortcutArrow               # HideShortcutArrow
 SetVisualFXPerformance          # SetVisualFXAppearance
 DisableTitleBarColor            # EnableTitleBarColor
-# EnableDarkTheme               # DisableDarkTheme
+DisableDarkTheme                # EnableDarkTheme
 # AddENKeyboard                 # RemoveENKeyboard
 EnableNumlock                   # DisableNumlock
-# EnableEnhPointerPrecision     # DisableEnhPointerPrecision
-# SetSoundSchemeNone            # SetSoundSchemeDefault
+EnableEnhPointerPrecision       # DisableEnhPointerPrecision
+SetSoundSchemeNone              # SetSoundSchemeDefault
 DisableStartupSound             # EnableStartupSound
 EnableChangingSoundScheme       # DisableChangingSoundScheme
 
@@ -121,9 +121,9 @@ ShowKnownExtensions             # HideKnownExtensions
 ShowHiddenFiles                 # HideHiddenFiles
 EnableNavPaneExpand             # DisableNavPaneExpand
 DisableFldrSeparateProcess      # EnableFldrSeparateProcess
-# EnableRestoreFldrWindows      # DisableRestoreFldrWindows
-# DisableSharingWizard          # EnableSharingWizard
-# HideSelectCheckboxes          # ShowSelectCheckboxes
+DisableRestoreFldrWindows       # EnableRestoreFldrWindows
+DisableSharingWizard            # EnableSharingWizard
+HideSelectCheckboxes            # ShowSelectCheckboxes
 HideSyncNotifications           # ShowSyncNotifications
 HideRecentShortcuts             # ShowRecentShortcuts
 SetExplorerThisPC               # SetExplorerQuickAccess
@@ -165,7 +165,7 @@ DisableEdgeShortcutCreation     # EnableEdgeShortcutCreation
 DisableIEFirstRun               # EnableIEFirstRun
 UninstallMediaPlayer            # InstallMediaPlayer
 UninstallInternetExplorer       # InstallInternetExplorer
-# UninstallWorkFolders          # InstallWorkFolders
+UninstallWorkFolders            # InstallWorkFolders
 UninstallPowerShellV2           # InstallPowerShellV2
 InstallLinuxSubsystem           # UninstallLinuxSubsystem
 # InstallHyperV                 # UninstallHyperV
