@@ -41,11 +41,11 @@ DisableAdminShares              # EnableAdminShares
 SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
 SetUnknownNetworksPublic        # SetUnknownNetworksPrivate
 # DisableNetDevicesAutoInst     # EnableNetDevicesAutoInst
-# DisableFirewall               # EnableFirewall
-# HideDefenderTrayIcon          # ShowDefenderTrayIcon
+EnableFirewall                  # DisableFirewall
+HideDefenderTrayIcon            # ShowDefenderTrayIcon
 # DisableDefender               # EnableDefender
 # DisableDefenderCloud          # EnableDefenderCloud
-# EnableCtrldFolderAccess       # DisableCtrldFolderAccess
+DisableCtrldFolderAccess        # EnableCtrldFolderAccess
 # EnableCIMemoryIntegrity       # DisableCIMemoryIntegrity
 # EnableDefenderAppGuard        # DisableDefenderAppGuard
 HideAccountProtectionWarn       # ShowAccountProtectionWarn
@@ -127,22 +127,22 @@ DisableFldrSeparateProcess      # EnableFldrSeparateProcess
 HideSyncNotifications           # ShowSyncNotifications
 HideRecentShortcuts             # ShowRecentShortcuts
 SetExplorerThisPC               # SetExplorerQuickAccess
-HideQuickAccess                 # ShowQuickAccess
+ShowQuickAccess                 # HideQuickAccess
 ShowThisPCOnDesktop             # HideThisPCFromDesktop
-# ShowUserFolderOnDesktop       # HideUserFolderFromDesktop
-# ShowControlPanelOnDesktop     # HideControlPanelFromDesktop
-HideDesktopFromThisPC           # ShowDesktopInThisPC
-# HideDesktopFromExplorer       # ShowDesktopInExplorer
-HideDocumentsFromThisPC         # ShowDocumentsInThisPC
-# HideDocumentsFromExplorer     # ShowDocumentsInExplorer
-HideDownloadsFromThisPC         # ShowDownloadsInThisPC
-# HideDownloadsFromExplorer     # ShowDownloadsInExplorer
+HideUserFolderFromDesktop       # ShowUserFolderOnDesktop
+HideControlPanelFromDesktop     # ShowControlPanelOnDesktop
+ShowDesktopInThisPC             # HideDesktopFromThisPC
+ShowDesktopInExplorer           # HideDesktopFromExplorer
+ShowDocumentsInThisPC           # HideDocumentsFromThisPC
+ShowDocumentsInExplorer         # HideDocumentsFromExplorer
+ShowDownloadsInThisPC           # HideDownloadsFromThisPC
+ShowDownloadsInExplorer         # HideDownloadsFromExplorer
 HideMusicFromThisPC             # ShowMusicInThisPC
-# HideMusicFromExplorer         # ShowMusicInExplorer
-HidePicturesFromThisPC          # ShowPicturesInThisPC
-# HidePicturesFromExplorer      # ShowPicturesInExplorer
-HideVideosFromThisPC            # ShowVideosInThisPC
-# HideVideosFromExplorer        # ShowVideosInExplorer
+HideMusicFromExplorer           # ShowMusicInExplorer
+ShowPicturesInThisPC            # HidePicturesFromThisPC
+ShowPicturesInExplorer          # HidePicturesFromExplorer
+ShowVideosInThisPC              # HideVideosFromThisPC
+ShowVideosInExplorer            # HideVideosFromExplorer
 Hide3DObjectsFromThisPC         # Show3DObjectsInThisPC
 Hide3DObjectsFromExplorer       # Show3DObjectsInExplorer
 HideIncludeInLibraryMenu        # ShowIncludeInLibraryMenu
