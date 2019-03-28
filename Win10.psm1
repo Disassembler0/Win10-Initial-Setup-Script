@@ -857,12 +857,14 @@ Function EnableRecoveryAndReset {
 }
 
 # Set Data Execution Prevention (DEP) policy to OptOut
+# OptOut selects DEP radio button "Turn on DEP for all programs and services except those I select"
 Function SetDEPOptOut {
 	Write-Output "Setting Data Execution Prevention (DEP) policy to OptOut..."
 	bcdedit /set `{current`} nx OptOut | Out-Null
 }
 
 # Set Data Execution Prevention (DEP) policy to OptIn
+# OptIn selects DEP radio button "Turn on DEP for essential Windows programs and services only"
 Function SetDEPOptIn {
 	Write-Output "Setting Data Execution Prevention (DEP) policy to OptIn..."
 	bcdedit /set `{current`} nx OptIn | Out-Null

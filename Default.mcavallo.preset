@@ -56,7 +56,7 @@ EnableDotNetStrongCrypto        # DisableDotNetStrongCrypto
 EnableF8BootMenu                # DisableF8BootMenu
 EnableBootRecovery              # DisableBootRecovery
 # DisableRecoveryAndReset       # EnableRecoveryAndReset
-SetDEPOptOut                    # SetDEPOptIn
+SetDEPOptIn                     # SetDEPOptOut
 
 ### Service Tweaks ###
 # DisableUpdateMSRT             # EnableUpdateMSRT
