@@ -85,7 +85,7 @@ EnableAutoRebootOnCrash         # DisableAutoRebootOnCrash
 ### UI Tweaks ###
 DisableActionCenter             # EnableActionCenter
 EnableLockScreen                # DisableLockScreen
-# EnableLockScreenRS1             # DisableLockScreenRS1
+# EnableLockScreenRS1           # DisableLockScreenRS1
 HideNetworkFromLockScreen       # ShowNetworkOnLockScreen
 ShowShutdownOnLockScreen        # HideShutdownFromLockScreen
 DisableAeroShake                # EnableAeroShake
@@ -96,14 +96,14 @@ EnableFileDeleteConfirm         # DisableFileDeleteConfirm
 HideTaskbarSearch               # ShowTaskbarSearchIcon         # ShowTaskbarSearchBox
 HideTaskView                    # ShowTaskView
 ShowLargeTaskbarIcons           # ShowSmallTaskbarIcons
-SetTaskbarCombineAlways       # SetTaskbarCombineWhenFull        # SetTaskbarCombineNever
+SetTaskbarCombineAlways         # SetTaskbarCombineWhenFull        # SetTaskbarCombineNever
 HideTaskbarPeopleIcon           # ShowTaskbarPeopleIcon
 ShowTrayIcons                   # HideTrayIcons
 DisableSearchAppInStore         # EnableSearchAppInStore
 EnableNewAppPrompt              # DisableNewAppPrompt
 HideRecentlyAddedApps           # ShowRecentlyAddedApps
 HideMostUsedApps                # ShowMostUsedApps
-SetControlPanelCategories     # SetControlPanelLargeIcons     # SetControlPanelSmallIcons
+SetControlPanelCategories       # SetControlPanelLargeIcons     # SetControlPanelSmallIcons
 DisableShortcutInName           # EnableShortcutInName
 ShowShortcutArrow               # HideShortcutArrow
 SetVisualFXPerformance          # SetVisualFXAppearance
@@ -169,7 +169,7 @@ UninstallWorkFolders            # InstallWorkFolders
 UninstallPowerShellV2           # InstallPowerShellV2
 InstallLinuxSubsystem           # UninstallLinuxSubsystem
 # InstallHyperV                 # UninstallHyperV
-# InstallNET23                  # UninstallNET23
+InstallNET23                    # UninstallNET23
 SetPhotoViewerAssociation       # UnsetPhotoViewerAssociation
 AddPhotoViewerOpenWith          # RemovePhotoViewerOpenWith
 InstallPDFPrinter               # UninstallPDFPrinter
