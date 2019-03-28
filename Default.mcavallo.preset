@@ -39,7 +39,7 @@ DisableAdminShares              # EnableAdminShares
 # DisableLLMNR                  # EnableLLMNR
 # DisableNCSIProbe              # EnableNCSIProbe
 SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
-# SetUnknownNetworksPrivate     # SetUnknownNetworksPublic
+SetUnknownNetworksPublic        # SetUnknownNetworksPrivate
 # DisableNetDevicesAutoInst     # EnableNetDevicesAutoInst
 # DisableFirewall               # EnableFirewall
 # HideDefenderTrayIcon          # ShowDefenderTrayIcon
@@ -113,14 +113,14 @@ DisableTitleBarColor            # EnableTitleBarColor
 EnableNumlock                   # DisableNumlock
 # EnableEnhPointerPrecision     # DisableEnhPointerPrecision
 # SetSoundSchemeNone            # SetSoundSchemeDefault
-# DisableStartupSound           # EnableStartupSound
-# DisableChangingSoundScheme    # EnableChangingSoundScheme
+DisableStartupSound             # EnableStartupSound
+EnableChangingSoundScheme       # DisableChangingSoundScheme
 
 ### Explorer UI Tweaks ###
 ShowKnownExtensions             # HideKnownExtensions
 ShowHiddenFiles                 # HideHiddenFiles
 EnableNavPaneExpand             # DisableNavPaneExpand
-# EnableFldrSeparateProcess     # DisableFldrSeparateProcess
+DisableFldrSeparateProcess      # EnableFldrSeparateProcess
 # EnableRestoreFldrWindows      # DisableRestoreFldrWindows
 # DisableSharingWizard          # EnableSharingWizard
 # HideSelectCheckboxes          # ShowSelectCheckboxes
@@ -144,35 +144,35 @@ HidePicturesFromThisPC          # ShowPicturesInThisPC
 HideVideosFromThisPC            # ShowVideosInThisPC
 # HideVideosFromExplorer        # ShowVideosInExplorer
 Hide3DObjectsFromThisPC         # Show3DObjectsInThisPC
-# Hide3DObjectsFromExplorer     # Show3DObjectsInExplorer
-# HideIncludeInLibraryMenu      # ShowIncludeInLibraryMenu
-# HideGiveAccessToMenu          # ShowGiveAccessToMenu
-# HideShareMenu                 # ShowShareMenu
-# DisableThumbnails             # EnableThumbnails
+Hide3DObjectsFromExplorer       # Show3DObjectsInExplorer
+HideIncludeInLibraryMenu        # ShowIncludeInLibraryMenu
+HideGiveAccessToMenu            # ShowGiveAccessToMenu
+HideShareMenu                   # ShowShareMenu
+EnableThumbnails                # DisableThumbnails
 DisableThumbnailCache           # EnableThumbnailCache
 DisableThumbsDBOnNetwork        # EnableThumbsDBOnNetwork
 
 ### Application Tweaks ###
-DisableOneDrive                 # EnableOneDrive
-UninstallOneDrive               # InstallOneDrive
+EnableOneDrive                  # DisableOneDrive
+InstallOneDrive                 # UninstallOneDrive
 UninstallMsftBloat              # InstallMsftBloat
 UninstallThirdPartyBloat        # InstallThirdPartyBloat
 # UninstallWindowsStore         # InstallWindowsStore
-DisableXboxFeatures             # EnableXboxFeatures
+EnableXboxFeatures              # DisableXboxFeatures
 DisableAdobeFlash               # EnableAdobeFlash
 DisableEdgePreload              # EnableEdgePreload
 DisableEdgeShortcutCreation     # EnableEdgeShortcutCreation
 DisableIEFirstRun               # EnableIEFirstRun
-# UninstallMediaPlayer          # InstallMediaPlayer
-# UninstallInternetExplorer     # InstallInternetExplorer
+UninstallMediaPlayer            # InstallMediaPlayer
+UninstallInternetExplorer       # InstallInternetExplorer
 # UninstallWorkFolders          # InstallWorkFolders
-# UninstallPowerShellV2         # InstallPowerShellV2
-# InstallLinuxSubsystem         # UninstallLinuxSubsystem
+UninstallPowerShellV2           # InstallPowerShellV2
+InstallLinuxSubsystem           # UninstallLinuxSubsystem
 # InstallHyperV                 # UninstallHyperV
 # InstallNET23                  # UninstallNET23
 SetPhotoViewerAssociation       # UnsetPhotoViewerAssociation
 AddPhotoViewerOpenWith          # RemovePhotoViewerOpenWith
-# UninstallPDFPrinter           # InstallPDFPrinter
+InstallPDFPrinter               # UninstallPDFPrinter
 UninstallXPSPrinter             # InstallXPSPrinter
 RemoveFaxPrinter                # AddFaxPrinter
 # UninstallFaxAndScan           # InstallFaxAndScan
