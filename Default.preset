@@ -36,6 +36,7 @@ DisableWAPPush                  # EnableWAPPush
 DisableAdminShares              # EnableAdminShares
 # DisableSMB1                   # EnableSMB1
 # DisableSMBServer              # EnableSMBServer
+# DisableNetBios                  # EnableNetBios
 # DisableLLMNR                  # EnableLLMNR
 # DisableNCSIProbe              # EnableNCSIProbe
 SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
