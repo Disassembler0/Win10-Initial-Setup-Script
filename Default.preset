@@ -151,6 +151,7 @@ Hide3DObjectsFromThisPC         # Show3DObjectsInThisPC
 # DisableThumbnails             # EnableThumbnails
 DisableThumbnailCache           # EnableThumbnailCache
 DisableThumbsDBOnNetwork        # EnableThumbsDBOnNetwork
+#EnableFullPathTitleBar         # DisableFullPathTitleBar
 
 ### Application Tweaks ###
 DisableOneDrive                 # EnableOneDrive
