@@ -96,7 +96,7 @@ EnableFileDeleteConfirm         # DisableFileDeleteConfirm
 HideTaskbarSearch               # ShowTaskbarSearchIcon         # ShowTaskbarSearchBox
 HideTaskView                    # ShowTaskView
 ShowLargeTaskbarIcons           # ShowSmallTaskbarIcons
-SetTaskbarCombineAlways         # SetTaskbarCombineWhenFull        # SetTaskbarCombineNever
+SetTaskbarCombineAlways         # SetTaskbarCombineWhenFull     # SetTaskbarCombineNever
 HideTaskbarPeopleIcon           # ShowTaskbarPeopleIcon
 ShowTrayIcons                   # HideTrayIcons
 DisableSearchAppInStore         # EnableSearchAppInStore
@@ -119,7 +119,7 @@ EnableChangingSoundScheme       # DisableChangingSoundScheme
 ### Explorer UI Tweaks ###
 ShowKnownExtensions             # HideKnownExtensions
 ShowHiddenFiles                 # HideHiddenFiles
-EnableNavPaneExpand             # DisableNavPaneExpand
+DisableNavPaneExpand            # EnableNavPaneExpand
 DisableFldrSeparateProcess      # EnableFldrSeparateProcess
 DisableRestoreFldrWindows       # EnableRestoreFldrWindows
 DisableSharingWizard            # EnableSharingWizard
