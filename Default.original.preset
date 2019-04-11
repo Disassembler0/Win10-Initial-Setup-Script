@@ -129,6 +129,8 @@ HideRecentShortcuts             # ShowRecentShortcuts
 SetExplorerThisPC               # SetExplorerQuickAccess
 HideQuickAccess                 # ShowQuickAccess
 ShowThisPCOnDesktop             # HideThisPCFromDesktop
+# HideRecycleBinFromDesktop     # ShowRecycleBinOnDesktop
+# HideNetworkFromDesktop        # ShowNetworkOnDesktop
 # ShowUserFolderOnDesktop       # HideUserFolderFromDesktop
 # ShowControlPanelOnDesktop     # HideControlPanelFromDesktop
 HideDesktopFromThisPC           # ShowDesktopInThisPC

@@ -129,6 +129,8 @@ HideRecentShortcuts             # ShowRecentShortcuts
 SetExplorerThisPC               # SetExplorerQuickAccess
 ShowQuickAccess                 # HideQuickAccess
 HideThisPCFromDesktop           # ShowThisPCOnDesktop
+HideRecycleBinFromDesktop       # ShowRecycleBinOnDesktop
+HideNetworkFromDesktop          # ShowNetworkOnDesktop
 HideUserFolderFromDesktop       # ShowUserFolderOnDesktop
 HideControlPanelFromDesktop     # ShowControlPanelOnDesktop
 ShowDesktopInThisPC             # HideDesktopFromThisPC
@@ -154,7 +156,7 @@ DisableThumbsDBOnNetwork        # EnableThumbsDBOnNetwork
 
 ### Application Tweaks ###
 EnableOneDrive                  # DisableOneDrive
-InstallOneDrive                 # UninstallOneDrive
+# InstallOneDrive                 # UninstallOneDrive
 UninstallMsftBloat              # InstallMsftBloat
 UninstallThirdPartyBloat        # InstallThirdPartyBloat
 # UninstallWindowsStore         # InstallWindowsStore
@@ -175,7 +177,7 @@ AddPhotoViewerOpenWith          # RemovePhotoViewerOpenWith
 InstallPDFPrinter               # UninstallPDFPrinter
 UninstallXPSPrinter             # InstallXPSPrinter
 RemoveFaxPrinter                # AddFaxPrinter
-# UninstallFaxAndScan           # InstallFaxAndScan
+InstallFaxAndScan               # UninstallFaxAndScan
 
 ### Server Specific Tweaks ###
 # HideServerManagerOnLogin      # ShowServerManagerOnLogin
