@@ -61,8 +61,8 @@ SetDEPOptOut                    # SetDEPOptIn
 ### Service Tweaks ###
 # DisableUpdateMSRT             # EnableUpdateMSRT
 # DisableUpdateDriver           # EnableUpdateDriver
+# DisableUpdateAutoDownload     # EnableUpdateAutoDownload
 DisableUpdateRestart            # EnableUpdateRestart
-# DisableUpdateAutoDownload		# EnableUpdateAutoDownload
 # DisableHomeGroups             # EnableHomeGroups
 DisableSharedExperiences        # EnableSharedExperiences
 DisableRemoteAssistance         # EnableRemoteAssistance

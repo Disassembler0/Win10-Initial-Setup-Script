@@ -923,6 +923,21 @@ Function EnableUpdateDriver {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ExcludeWUDriversInQualityUpdate" -ErrorAction SilentlyContinue
 }
 
+# Disable Windows Update automatic downloads
+Function DisableUpdateAutoDownload {
+	Write-Output "Disabling Windows Update automatic downloads..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUOptions" -Type DWord -Value 2
+}
+
+# Enable Windows Update automatic downloads
+Function EnableUpdateAutoDownload {
+	Write-Output "Enabling Windows Update automatic downloads..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUOptions" -ErrorAction SilentlyContinue
+}
+
 # Disable Windows Update automatic restart
 # Note: This doesn't disable the need for the restart but rather tries to ensure that the restart doesn't happen in the least expected moment. Allow the machine to restart as soon as possible anyway.
 Function DisableUpdateRestart {
@@ -939,22 +954,6 @@ Function EnableUpdateRestart {
 	Write-Output "Enabling Windows Update automatic restart..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoRebootWithLoggedOnUsers" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUPowerManagement" -ErrorAction SilentlyContinue
-}
-
-# Disable Windows Update automatic downloads
-# Note: This doesn't disable the need for updates but rather tries to ensure that downloading updates is done manually for Non-Active Directory environments.
-Function DisableUpdateAutoDownload {
-	Write-Output "Disabling Windows Update automatic downloads..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU")) {
-		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Force | Out-Null
-	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUOptions" -Type DWord -Value 2
-}
-
-# Enable Windows Update automatic downloads
-Function EnableUpdateAutoDownload {
-	Write-Output "Enabling Windows Update automatic downloads..."
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUOptions" -ErrorAction SilentlyContinue
 }
 
 # Stop and disable Home Groups services - Not applicable since 1803. Not applicable to Server
