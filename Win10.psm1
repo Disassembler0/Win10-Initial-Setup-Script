@@ -1161,16 +1161,28 @@ Function EnableSwapFile {
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "SwapfileControl" -ErrorAction SilentlyContinue
 }
 
-# Disable the updating of the NTFS Last Access Time stamps
+# Enable NTFS paths with length over 260 characters
+Function EnableNTFSLongPaths {
+	Write-Output "Enabling NTFS paths with length over 260 characters..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Type DWord -Value 1
+}
+
+# Disable NTFS paths with length over 260 characters
+Function DisableNTFSLongPaths {
+	Write-Output "Disabling NTFS paths with length over 260 characters..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Type DWord -Value 0
+}
+
+# Disable updating of NTFS last access timestamps
 Function DisableNTFSLastAccess {
-	Write-Output "Disabling the updating of the Last Access Time stamps..."
+	Write-Output "Disabling updating of NTFS last access timestamps..."
 	# User Managed, Last Access Updates Disabled
 	fsutil behavior set DisableLastAccess 1 | Out-Null
 }
 
-# Enable the updating of the NTFS Last Access Time stamps
+# Enable updating of NTFS last access timestamps
 Function EnableNTFSLastAccess {
-	Write-Output "Enabling the updating of the Last Access Time stamps..."
+	Write-Output "Enabling updating of NTFS last access timestamps..."
 	If ([System.Environment]::OSVersion.Version.Build -ge 17134) {
 		# System Managed, Last Access Updates Enabled
 		fsutil behavior set DisableLastAccess 2 | Out-Null
