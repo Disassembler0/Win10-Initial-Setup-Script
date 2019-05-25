@@ -547,6 +547,18 @@ Function EnableSMBServer {
 	Set-SmbServerConfiguration -EnableSMB2Protocol $true -Force
 }
 
+# Disable NetBIOS over TCP/IP on all currently installed network interfaces
+Function DisableNetBIOS {
+	Write-Output "Disabling NetBIOS over TCP/IP..."
+	Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\services\NetBT\Parameters\Interfaces\Tcpip*" -Name "NetbiosOptions" -Type DWord -Value 2
+}
+
+# Enable NetBIOS over TCP/IP on all currently installed network interfaces
+Function EnableNetBIOS {
+	Write-Output "Enabling NetBIOS over TCP/IP..."
+	Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\services\NetBT\Parameters\Interfaces\Tcpip*" -Name "NetbiosOptions" -Type DWord -Value 0
+}
+
 # Disable Link-Local Multicast Name Resolution (LLMNR) protocol
 Function DisableLLMNR {
 	Write-Output "Disabling LLMNR..."
