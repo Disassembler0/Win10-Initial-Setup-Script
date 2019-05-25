@@ -1338,6 +1338,18 @@ Function ShowShutdownOnLockScreen {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ShutdownWithoutLogon" -Type DWord -Value 1
 }
 
+# Disable Lock screen Blur - Applicable since 1903
+Function DisableLockScreenBlur {
+	Write-Output "Disabling Lock screen Blur..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DisableAcrylicBackgroundOnLogon" -Type DWord -Value 1
+}
+
+# Enable Lock screen Blur - Applicable since 1903
+Function EnableLockScreenBlur {
+	Write-Output "Enabling Lock screen Blur..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DisableAcrylicBackgroundOnLogon" -ErrorAction SilentlyContinue
+}
+
 # Disable Aero Shake (minimizing other windows when one is dragged by mouse and shaken)
 Function DisableAeroShake {
 	Write-Output "Disabling Aero Shake..."
