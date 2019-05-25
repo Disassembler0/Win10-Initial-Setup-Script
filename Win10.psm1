@@ -872,13 +872,13 @@ Function EnableRecoveryAndReset {
 	reagentc /enable 2>&1 | Out-Null
 }
 
-# Set Data Execution Prevention (DEP) policy to OptOut
+# Set Data Execution Prevention (DEP) policy to OptOut (Turn on DEP for all programs and services except selected)
 Function SetDEPOptOut {
 	Write-Output "Setting Data Execution Prevention (DEP) policy to OptOut..."
 	bcdedit /set `{current`} nx OptOut | Out-Null
 }
 
-# Set Data Execution Prevention (DEP) policy to OptIn
+# Set Data Execution Prevention (DEP) policy to OptIn (Turn on DEP for essential Windows programs and services only)
 Function SetDEPOptIn {
 	Write-Output "Setting Data Execution Prevention (DEP) policy to OptIn..."
 	bcdedit /set `{current`} nx OptIn | Out-Null
@@ -2115,6 +2115,26 @@ Function HideThisPCFromDesktop {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -ErrorAction SilentlyContinue
 }
 
+# Show User Folder shortcut on desktop
+Function ShowUserFolderOnDesktop {
+	Write-Output "Showing User Folder shortcut on desktop..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" -Type DWord -Value 0
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" -Type DWord -Value 0
+}
+
+# Hide User Folder shortcut from desktop
+Function HideUserFolderFromDesktop {
+	Write-Output "Hiding User Folder shortcut from desktop..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" -ErrorAction SilentlyContinue
+}
+
 # Show Control panel shortcut on desktop
 Function ShowControlPanelOnDesktop {
 	Write-Output "Showing Control panel shortcut on desktop..."
@@ -2128,19 +2148,6 @@ Function ShowControlPanelOnDesktop {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" -Type DWord -Value 0
 }
 
-# Hide User Folder shortcut from desktop
-Function HideUserFolderFromDesktop {
-	Write-Output "Hiding User Folder shortcut from desktop..."
-	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" -ErrorAction SilentlyContinue
-	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" -ErrorAction SilentlyContinue
-}
-
-# Hide Desktop icon from This PC - The icon remains in personal folders and open/save dialogs
-Function HideDesktopFromThisPC {
-	Write-Output "Hiding Desktop icon from This PC..."
-	Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}" -Recurse -ErrorAction SilentlyContinue
-}
-
 # Hide Control panel shortcut from desktop
 Function HideControlPanelFromDesktop {
 	Write-Output "Hiding Control panel shortcut from desktop..."
@@ -2148,17 +2155,10 @@ Function HideControlPanelFromDesktop {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" -ErrorAction SilentlyContinue
 }
 
-# Show User Folder shortcut on desktop
-Function ShowUserFolderOnDesktop {
-	Write-Output "Showing User Folder shortcut on desktop..."
-	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu")) {
-		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Force | Out-Null
-	}
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" -Type DWord -Value 0
-	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel")) {
-		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Force | Out-Null
-	}
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" -Type DWord -Value 0
+# Hide Desktop icon from This PC - The icon remains in personal folders and open/save dialogs
+Function HideDesktopFromThisPC {
+	Write-Output "Hiding Desktop icon from This PC..."
+	Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}" -Recurse -ErrorAction SilentlyContinue
 }
 
 # Show Desktop icon in This PC
