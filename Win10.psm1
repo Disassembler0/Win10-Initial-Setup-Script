@@ -1010,6 +1010,18 @@ Function EnableSharedExperiences {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CDP" -Name "RomeSdkChannelUserAuthzPolicy" -Type DWord -Value 1
 }
 
+# Enable Clipboard History - Applicable since 1809
+Function EnableClipboardHistory {
+	Write-Output "Enabling Clipboard History..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Clipboard" -Name "EnableClipboardHistory" -Type DWord -Value 1
+}
+
+# Disable Clipboard History - Applicable since 1809
+Function DisableClipboardHistory {
+	Write-Output "Disabling Clipboard History..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Clipboard" -Name "EnableClipboardHistory" -ErrorAction SilentlyContinue
+}
+
 # Disable Remote Assistance - Not applicable to Server (unless Remote Assistance is explicitly installed)
 Function DisableRemoteAssistance {
 	Write-Output "Disabling Remote Assistance..."

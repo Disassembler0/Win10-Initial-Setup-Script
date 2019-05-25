@@ -66,6 +66,7 @@ SetDEPOptOut                    # SetDEPOptIn
 DisableUpdateRestart            # EnableUpdateRestart
 # DisableHomeGroups             # EnableHomeGroups
 DisableSharedExperiences        # EnableSharedExperiences
+# EnableClipboardHistory        # DisableClipboardHistory
 DisableRemoteAssistance         # EnableRemoteAssistance
 EnableRemoteDesktop             # DisableRemoteDesktop
 DisableAutoplay                 # EnableAutoplay
