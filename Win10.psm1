@@ -1366,16 +1366,20 @@ Function EnableAeroShake {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisallowShaking" -ErrorAction SilentlyContinue
 }
 
-# Disable Sticky keys prompt
-Function DisableStickyKeys {
-	Write-Output "Disabling Sticky keys prompt..."
+# Disable accessibility keys prompts (Sticky keys, Toggle keys, Filter keys)
+Function DisableAccessibilityKeys {
+	Write-Output "Disabling accessibility keys prompts..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "506"
+	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\ToggleKeys" -Name "Flags" -Type String -Value "58"
+	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" -Name "Flags" -Type String -Value "122"
 }
 
-# Enable Sticky keys prompt
-Function EnableStickyKeys {
-	Write-Output "Enabling Sticky keys prompt..."
+# Enable accessibility keys prompts (Sticky keys, Toggle keys, Filter keys)
+Function EnableAccessibilityKeys {
+	Write-Output "Enabling accessibility keys prompts..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "510"
+	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\ToggleKeys" -Name "Flags" -Type String -Value "62"
+	Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" -Name "Flags" -Type String -Value "126"
 }
 
 # Show Task Manager details - Applicable since 1607
