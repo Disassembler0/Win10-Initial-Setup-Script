@@ -1846,6 +1846,21 @@ Function DisableVerboseStatus {
 #region Explorer UI Tweaks
 ##########
 
+# Show full directory path in Explorer title bar
+Function ShowExplorerTitleFullPath {
+	Write-Output "Showing full directory path in Explorer title bar..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" -Name "FullPath" -Type DWord -Value 1
+}
+
+# Hide full directory path in Explorer title bar, only directory name will be shown
+Function HideExplorerTitleFullPath {
+	Write-Output "Hiding full directory path in Explorer title bar..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" -Name "FullPath" -ErrorAction SilentlyContinue
+}
+
 # Show known file extensions
 Function ShowKnownExtensions {
 	Write-Output "Showing known file extensions..."
@@ -1870,16 +1885,64 @@ Function HideHiddenFiles {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Type DWord -Value 2
 }
 
-# Enable navigation pane expanding to current folder
+# Show protected operating system files
+Function ShowSuperHiddenFiles {
+	Write-Output "Showing protected operating system files..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Type DWord -Value 1
+}
+
+# Hide protected operating system files
+Function HideSuperHiddenFiles {
+	Write-Output "Hiding protected operating system files..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Type DWord -Value 0
+}
+
+# Show empty drives (with no media)
+Function ShowEmptyDrives {
+	Write-Output "Showing empty drives (with no media)..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value 0
+}
+
+# Hide empty drives (with no media)
+Function HideEmptyDrives {
+	Write-Output "Hiding empty drives (with no media)..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideDrivesWithNoMedia" -ErrorAction SilentlyContinue
+}
+
+# Show folder merge conflicts
+Function ShowFolderMergeConflicts {
+	Write-Output "Showing folder merge conflicts..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideMergeConflicts" -Type DWord -Value 0
+}
+
+# Hide folder merge conflicts
+Function HideFolderMergeConflicts {
+	Write-Output "Hiding folder merge conflicts..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideMergeConflicts" -ErrorAction SilentlyContinue
+}
+
+# Enable Explorer navigation pane expanding to current folder
 Function EnableNavPaneExpand {
 	Write-Output "Enabling navigation pane expanding to current folder..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneExpandToCurrentFolder" -Type DWord -Value 1
 }
 
-# Disable navigation pane expanding to current folder
+# Disable Explorer navigation pane expanding to current folder
 Function DisableNavPaneExpand {
 	Write-Output "Disabling navigation pane expanding to current folder..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneExpandToCurrentFolder" -ErrorAction SilentlyContinue
+}
+
+# Show all folders in Explorer navigation pane
+Function ShowNavPaneAllFolders {
+	Write-Output "Showing all folders in Explorer navigation pane..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneShowAllFolders" -Type DWord -Value 1
+}
+
+# Hide all folders in Explorer navigation pane except the basic ones (Quick access, OneDrive, This PC, Network), some of which can be disabled using other tweaks
+Function HideNavPaneAllFolders {
+	Write-Output "Hiding all folders in Explorer navigation pane (except the basic ones)..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneShowAllFolders" -ErrorAction SilentlyContinue
 }
 
 # Enable launching folder windows in a separate process
@@ -1904,6 +1967,18 @@ Function EnableRestoreFldrWindows {
 Function DisableRestoreFldrWindows {
 	Write-Output "Disabling restoring previous folder windows at logon..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "PersistBrowsers" -ErrorAction SilentlyContinue
+}
+
+# Show coloring of encrypted or compressed NTFS files (green for encrypted, blue for compressed)
+Function ShowEncCompFilesColor {
+	Write-Output "Showing coloring of encrypted or compressed NTFS files..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowEncryptCompressedColor" -Type DWord -Value 1
+}
+
+# Hide coloring of encrypted or compressed NTFS files
+Function HideEncCompFilesColor {
+	Write-Output "Hiding coloring of encrypted or compressed NTFS files..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowEncryptCompressedColor" -ErrorAction SilentlyContinue
 }
 
 # Disable Sharing Wizard
