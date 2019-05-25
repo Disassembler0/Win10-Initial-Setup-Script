@@ -2695,17 +2695,14 @@ Function EnableIEFirstRun {
 
 # Disable "Hi!" First Logon Animation (it will be replaced by "Preparing Windows" message)
 Function DisableFirstLogonAnimation {
-    Write-Output "Disabling First Logon Animation..."
- If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System")) {
-		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Force | Out-Null
-	}
+	Write-Output "Disabling First Logon Animation..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableFirstLogonAnimation" -Type DWord -Value 0
 }
 
 # Enable "Hi!" First Logon Animation
 Function EnableFirstLogonAnimation {
-    Write-Output "Enabling First Logon Animation..."
-    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableFirstLogonAnimation" -ErrorAction SilentlyContinue
+	Write-Output "Enabling First Logon Animation..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableFirstLogonAnimation" -ErrorAction SilentlyContinue
 }
 
 # Uninstall Windows Media Player
