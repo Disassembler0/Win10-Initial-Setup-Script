@@ -408,30 +408,30 @@ Function SetP2PUpdateDisable {
 	}
 }
 
-# Stop and disable Diagnostics Tracking Service
+# Stop and disable Connected User Experiences and Telemetry (previously named Diagnostics Tracking Service)
 Function DisableDiagTrack {
-	Write-Output "Stopping and disabling Diagnostics Tracking Service..."
+	Write-Output "Stopping and disabling Connected User Experiences and Telemetry Service..."
 	Stop-Service "DiagTrack" -WarningAction SilentlyContinue
 	Set-Service "DiagTrack" -StartupType Disabled
 }
 
-# Enable and start Diagnostics Tracking Service
+# Enable and start Connected User Experiences and Telemetry (previously named Diagnostics Tracking Service)
 Function EnableDiagTrack {
-	Write-Output "Enabling and starting Diagnostics Tracking Service..."
+	Write-Output "Enabling and starting Connected User Experiences and Telemetry Service ..."
 	Set-Service "DiagTrack" -StartupType Automatic
 	Start-Service "DiagTrack" -WarningAction SilentlyContinue
 }
 
-# Stop and disable WAP Push Service
+# Stop and disable Device Management Wireless Application Protocol (WAP) Push Service
 Function DisableWAPPush {
-	Write-Output "Stopping and disabling WAP Push Service..."
+	Write-Output "Stopping and disabling Device Management WAP Push Service..."
 	Stop-Service "dmwappushservice" -WarningAction SilentlyContinue
 	Set-Service "dmwappushservice" -StartupType Disabled
 }
 
-# Enable and start WAP Push Service
+# Enable and start Device Management Wireless Application Protocol (WAP) Push Service
 Function EnableWAPPush {
-	Write-Output "Enabling and starting WAP Push Service..."
+	Write-Output "Enabling and starting Device Management WAP Push Service..."
 	Set-Service "dmwappushservice" -StartupType Automatic
 	Start-Service "dmwappushservice" -WarningAction SilentlyContinue
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\dmwappushservice" -Name "DelayedAutoStart" -Type DWord -Value 1
