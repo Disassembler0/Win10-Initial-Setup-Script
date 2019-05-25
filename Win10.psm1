@@ -1797,6 +1797,18 @@ Function EnableChangingSoundScheme {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoChangingSoundScheme" -ErrorAction SilentlyContinue
 }
 
+# Enable verbose startup/shutdown status messages
+Function EnableVerboseStatus {
+	Write-Output "Enabling verbose startup/shutdown status messages..."
+	New-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'VerboseStatus' -Value '1' -PropertyType DWORD -Force
+}
+
+# Disable verbose startup/shutdown status messages
+Function DisableVerboseStatus {
+	Write-Output "Disabling verbose startup/shutdown status messages..."
+	New-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'VerboseStatus' -Value '0' -PropertyType DWORD -Force
+}
+
 ##########
 #endregion UI Tweaks
 ##########
