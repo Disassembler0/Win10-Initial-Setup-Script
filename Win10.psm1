@@ -2743,6 +2743,54 @@ Function InstallMsftBloat {
 # dism /Unmount-Image /Discard /MountDir:C:\Mnt
 # Remove-Item -Path C:\Mnt -Recurse
 
+
+# De-provision default Microsoft applications - Warning: Re-provisioning is not possible
+Function DeprovisionMsftBloat {
+	Write-Output "De-provisioning default Microsoft applications..."
+
+	# Sources:
+	#  https://docs.microsoft.com/en-us/windows/application-management/apps-in-windows-10
+	#  https://gal.vin/2017/04/06/removing-uwp-apps-mdt/
+
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.3DBuilder"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.BingWeather"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	#Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.DesktopAppInstaller"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.GetHelp"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.Getstarted"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	#Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.HEIFImageExtension"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	#Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.HEVCVideoExtension"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.Messaging"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.Microsoft3DViewer"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.MicrosoftOfficeHub"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.MicrosoftSolitaireCollection"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.MicrosoftStickyNotes"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.MixedReality.Portal"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.MSPaint"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.Office.OneNote"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.OneConnect"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.People"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.Print3D"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	#Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.ScreenSketch"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.SkypeApp"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	#Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.StorePurchaseApp"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	#Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.VP9VideoExtensions"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.Wallet"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	#Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.WebMediaExtensions"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	#Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.WebpImageExtension"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.Windows.Photos"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.WindowsAlarms"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	#Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.WindowsCalculator"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.WindowsCamera"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "microsoft.windowscommunicationsapps"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.WindowsFeedbackHub"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.WindowsMaps"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.WindowsSoundRecorder"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	#Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.WindowsStore"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.YourPhone"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.ZuneMusic"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.ZuneVideo"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+}
+
 # Uninstall default third party applications
 function UninstallThirdPartyBloat {
 	Write-Output "Uninstalling default third party applications..."
@@ -2890,6 +2938,18 @@ Function EnableXboxFeatures {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\GameBar" -Name "AutoGameModeEnabled" -ErrorAction SilentlyContinue
 	Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -ErrorAction SilentlyContinue
+}
+
+# De-provision Xbox features - Warning: Re-provisioning is not possible
+Function DeprovisionXboxFeatures {
+	Write-Output "De-provisioning Xbox features..."
+
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.XboxApp"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.XboxIdentityProvider"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.XboxSpeechToTextOverlay"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.XboxGameOverlay"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.XboxGamingOverlay"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
+	Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq "Microsoft.Xbox.TCUI"} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null
 }
 
 # Disable built-in Adobe Flash in IE and Edge
