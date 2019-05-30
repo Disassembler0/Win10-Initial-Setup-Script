@@ -1010,13 +1010,13 @@ Function EnableSharedExperiences {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CDP" -Name "RomeSdkChannelUserAuthzPolicy" -Type DWord -Value 1
 }
 
-# Enable Clipboard History - Applicable since 1809
+# Enable Clipboard History - Applicable since 1809. Not applicable to Server
 Function EnableClipboardHistory {
 	Write-Output "Enabling Clipboard History..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Clipboard" -Name "EnableClipboardHistory" -Type DWord -Value 1
 }
 
-# Disable Clipboard History - Applicable since 1809
+# Disable Clipboard History - Applicable since 1809. Not applicable to Server
 Function DisableClipboardHistory {
 	Write-Output "Disabling Clipboard History..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Clipboard" -Name "EnableClipboardHistory" -ErrorAction SilentlyContinue
@@ -1871,13 +1871,21 @@ Function EnableChangingSoundScheme {
 # Enable verbose startup/shutdown status messages
 Function EnableVerboseStatus {
 	Write-Output "Enabling verbose startup/shutdown status messages..."
-	New-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'VerboseStatus' -Value '1' -PropertyType DWORD -Force
+	If ((Get-CimInstance -Class "Win32_OperatingSystem").ProductType -eq 1) {
+		Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "VerboseStatus" -Type DWord -Value 1
+	} Else {
+		Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "VerboseStatus" -ErrorAction SilentlyContinue
+	}
 }
 
 # Disable verbose startup/shutdown status messages
 Function DisableVerboseStatus {
 	Write-Output "Disabling verbose startup/shutdown status messages..."
-	New-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'VerboseStatus' -Value '0' -PropertyType DWORD -Force
+	If ((Get-CimInstance -Class "Win32_OperatingSystem").ProductType -eq 1) {
+		Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "VerboseStatus" -ErrorAction SilentlyContinue
+	} Else {
+		Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "VerboseStatus" -Type DWord -Value 0
+	}
 }
 
 # Disable F1 Help key in Explorer and on the Desktop
