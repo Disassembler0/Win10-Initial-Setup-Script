@@ -88,10 +88,11 @@ The script supports command line options and parameters which can help you custo
 
 ## Advanced usage
 
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 [-include filename] [-preset filename] [[!]tweakname]
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 [-include filename] [-preset filename] [-log logname] [[!]tweakname]
 
     -include filename       load module with user-defined tweaks
     -preset filename        load preset with tweak names to apply
+    -log logname            save script output to a file
     tweakname               apply tweak with this particular name
     !tweakname              remove tweak with this particular name from selection
 
@@ -156,6 +157,14 @@ Command using all three examples combined:
     powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 -include Win10.psm1 -include mytweaks.psm1 -preset mypreset.txt -preset otherpreset.txt Restart
 
 &nbsp;
+
+### Logging
+
+If you'd like to store output from the script execution, you can do so using `-log` parameter followed by a filename of the log file you want to create. For example:
+
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 -include Win10.psm1 -preset mypreset.txt -log myoutput.log
+
+The logging is done using PowerShell `Start-Transcript` cmdlet, which writes extra information about current environment (date, machine and user name, command used for execution etc.) to the beginning of the file and logs both standard output and standard error streams.
 
 ## Maintaining own forks
 
