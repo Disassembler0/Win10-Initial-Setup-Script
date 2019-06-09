@@ -1,7 +1,7 @@
 ##########
 # Win 10 / Server 2016 / Server 2019 Initial Setup Script - Main execution loop
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: v3.6, 2019-01-28
+# Version: v3.7, 2019-05-31
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -41,6 +41,12 @@ While ($i -lt $args.Length) {
 		$PSCommandArgs += "-preset `"$preset`""
 		# Load tweak names from the preset file
 		Get-Content $preset -ErrorAction Stop | ForEach-Object { AddOrRemoveTweak($_.Split("#")[0].Trim()) }
+	} ElseIf ($args[$i].ToLower() -eq "-log") {
+		# Resolve full path to the output file
+		$log = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($args[++$i])
+		$PSCommandArgs += "-log `"$log`""
+		# Record session to the output file
+		Start-Transcript $log
 	} Else {
 		$PSCommandArgs += $args[$i]
 		# Load tweak names from command line
