@@ -66,6 +66,7 @@ SetDEPOptOut                    # SetDEPOptIn
 ### Service Tweaks ###
 # DisableUpdateMSRT             # EnableUpdateMSRT
 # DisableUpdateDriver           # EnableUpdateDriver
+EnableUpdateMSProducts          # DisableUpdateMSProducts
 # DisableUpdateAutoDownload     # EnableUpdateAutoDownload
 DisableMaintenanceWakeUp        # EnableMaintenanceWakeUp
 # DisableHomeGroups             # EnableHomeGroups

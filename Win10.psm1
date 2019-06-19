@@ -1020,6 +1020,18 @@ Function EnableUpdateDriver {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ExcludeWUDriversInQualityUpdate" -ErrorAction SilentlyContinue
 }
 
+# Enable receiving updates for other Microsoft products via Windows Update
+Function EnableUpdateMSProducts {
+	Write-Output "Enabling updates for other Microsoft products..."
+	(New-Object -ComObject Microsoft.Update.ServiceManager).AddService2("7971f918-a847-4430-9279-4a52d1efe18d", 7, "") | Out-Null
+}
+
+# Disable receiving updates for other Microsoft products via Windows Update
+Function DisableUpdateMSProducts {
+	Write-Output "Disabling updates for other Microsoft products..."
+	(New-Object -ComObject Microsoft.Update.ServiceManager).RemoveService("7971f918-a847-4430-9279-4a52d1efe18d") | Out-Null
+}
+
 # Disable Windows Update automatic downloads
 Function DisableUpdateAutoDownload {
 	Write-Output "Disabling Windows Update automatic downloads..."
