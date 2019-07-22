@@ -127,7 +127,7 @@ SetVisualFXPerformance          # SetVisualFXAppearance
 # DisableChangingSoundScheme    # EnableChangingSoundScheme
 # EnableVerboseStatus           # DisableVerboseStatus
 DisableF1HelpKey                # EnableF1HelpKey
-ShowSecondsInTaskbar			# HideSecondsInTaskbar
+# ShowSecondsInTaskbar			# HideSecondsInTaskbar
 
 ### Explorer UI Tweaks ###
 # ShowExplorerTitleFullPath     # HideExplorerTitleFullPath
