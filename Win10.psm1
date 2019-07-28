@@ -111,6 +111,42 @@ Function EnableWiFiSense {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" -Name "WiFISenseAllowed" -ErrorAction SilentlyContinue
 }
 
+# Disable Unneeded Network Protocols
+function DisableUnneededNWProtocols {
+	$Components = @('Client for Microsoft Networks'
+					'File and Printer Sharing for Microsoft Networks'
+					'QoS Packet Scheduler'
+					'Microsoft Network Adapter Multiplexor Protocol'
+					'Microsoft LLDP Protocol Driver'
+					'Internet Protocol Version 6 (TCP/IPv6)'
+					'Link-Layer Topology Discovery Responder'
+					'Link-Layer Topology Discovery Mapper I/O Driver'
+					)
+	
+	foreach ($Component in $Components){
+		Disable-NetAdapterBinding -Name Ethernet -DisplayName $Component  | Out-Null 
+	}
+	
+}
+
+# Enable Unneeded Network Protocols
+function EnableUnneededNWProtocols {
+	
+	$Components = @('Client for Microsoft Networks'
+					'File and Printer Sharing for Microsoft Networks'
+					'QoS Packet Scheduler'
+					'Microsoft Network Adapter Multiplexor Protocol'
+					'Microsoft LLDP Protocol Driver'
+					'Internet Protocol Version 6 (TCP/IPv6)'
+					'Link-Layer Topology Discovery Responder'
+					'Link-Layer Topology Discovery Mapper I/O Driver'
+					)
+	
+	foreach ($Component in $Components){
+		Enable-NetAdapterBinding -Name Ethernet -DisplayName $Component  | Out-Null
+	}
+}
+
 # Disable SmartScreen Filter
 Function DisableSmartScreen {
 	Write-Output "Disabling SmartScreen Filter..."

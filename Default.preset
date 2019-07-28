@@ -46,6 +46,7 @@ SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
 # SetUnknownNetworksPrivate     # SetUnknownNetworksPublic
 # DisableConnectionSharing      # EnableConnectionSharing
 # DisableNetDevicesAutoInst     # EnableNetDevicesAutoInst
+# DisableUnneededNWProtocols    # EnableUnneededNWProtocols
 # DisableFirewall               # EnableFirewall
 # HideDefenderTrayIcon          # ShowDefenderTrayIcon
 # DisableDefender               # EnableDefender
