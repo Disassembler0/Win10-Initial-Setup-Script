@@ -124,7 +124,7 @@ function DisableUnneededNWProtocols {
 					)
 	
 	foreach ($Component in $Components){
-		Disable-NetAdapterBinding -Name Ethernet -DisplayName $Component  | Out-Null 
+		Disable-NetAdapterBinding -Name "*" -DisplayName $Component -ErrorAction SilentlyContinue | Out-Null 
 	}
 	
 }
@@ -143,7 +143,7 @@ function EnableUnneededNWProtocols {
 					)
 	
 	foreach ($Component in $Components){
-		Enable-NetAdapterBinding -Name Ethernet -DisplayName $Component  | Out-Null
+		Enable-NetAdapterBinding -Name "*" -DisplayName $Component -ErrorAction SilentlyContinue | Out-Null
 	}
 }
 
