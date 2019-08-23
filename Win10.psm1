@@ -3450,7 +3450,7 @@ Function UninstallWindowsStoreAllUsers {
 }
 
 # Disable Xbox features for all users - Note: This function has no counterpart. Not applicable to Server
-Function DisableXboxFeatures {
+Function DisableXboxFeaturesAllUsers {
 	DisableXboxFeatures -AllUsers
 }
 
