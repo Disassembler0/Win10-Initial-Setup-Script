@@ -402,19 +402,34 @@ Function EnableBiometrics {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics" -Name "Enabled" -ErrorAction SilentlyContinue
 }
 
-# Disable use of camera devices
+# Disable access to camera from ModernUI applications
 Function DisableCamera {
-	Write-Output "Disabling camera devices..."
+	Write-Output "Disabling access to camera from ModernUI applications..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Force | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Name "AllowCamera" -Type DWord -Value 0
 }
 
-# Enable use of camera devices
+# Enable access to camera in ModernUI applications
 Function EnableCamera {
-	Write-Output "Enabling camera devices..."
+	Write-Output "Enabling access to camera from ModernUI applications..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Name "AllowCamera" -ErrorAction SilentlyContinue
+}
+
+# Disable access to microphone in ModernUI applications
+Function DisableMicrophone {
+	Write-Output "Disabling access to microphone in ModernUI applications..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessMicrophone" -Type DWord -Value 2
+}
+
+# Enable access to microphone in ModernUI applications
+Function EnableMicrophone {
+	Write-Output "Enabling access to microphone from ModernUI applications..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessMicrophone" -ErrorAction SilentlyContinue
 }
 
 # Disable Error reporting
