@@ -2039,6 +2039,18 @@ Function EnableF1HelpKey {
 	Remove-Item "HKCU:\Software\Classes\TypeLib\{8cec5860-07a1-11d9-b15e-000d56bfe6ee}\1.0\0" -Recurse -ErrorAction SilentlyContinue
 }
 
+# Show Windows build number and Windows edition (Home/Pro/Enterprise) from bottom right of desktop
+Function ShowBuildNumberOnDesktop {
+	Write-Output "Showing Windows build number on desktop..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 1
+}
+
+# Remove Windows build number and Windows edition (Home/Pro/Enterprise) from bottom right of desktop
+Function HideBuildNumberFromDesktop {
+	Write-Output "Hiding Windows build number from desktop..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 0
+}
+
 ##########
 #endregion UI Tweaks
 ##########
