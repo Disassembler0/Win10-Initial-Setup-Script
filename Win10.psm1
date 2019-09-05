@@ -1661,6 +1661,21 @@ Function HideTrayIcons {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoAutoTrayNotify" -ErrorAction SilentlyContinue
 }
 
+# Show seconds in taskbar
+Function ShowSecondsInTaskbar {
+	Write-Output "Showing seconds in taskbar..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSecondsInSystemClock" -Type DWord -Value 1
+}
+
+# Hide seconds from taskbar
+Function HideSecondsFromTaskbar {
+	Write-Output "Hiding seconds from taskbar..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSecondsInSystemClock" -ErrorAction SilentlyContinue
+}
+
 # Disable search for app in store for unknown extensions
 Function DisableSearchAppInStore {
 	Write-Output "Disabling search for app in store for unknown extensions..."
@@ -1996,21 +2011,6 @@ Function DisableF1HelpKey {
 Function EnableF1HelpKey {
 	Write-Output "Enabling F1 Help key..."
 	Remove-Item "HKCU:\Software\Classes\TypeLib\{8cec5860-07a1-11d9-b15e-000d56bfe6ee}\1.0\0" -Recurse -ErrorAction SilentlyContinue
-}
-
-# Show seconds in taskbar
-Function ShowSecondsInTaskbar {
-	Write-Output "Showing seconds in taskbar..."
-	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")) {
-		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" | Out-Null
-	}
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSecondsInSystemClock" -Type DWord -Value 1
-}
-
-# Hide seconds in taskbar
-Function HideSecondsInTaskbar {
-	Write-Output "Hiding seconds in taskbar..."
-	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSecondsInSystemClock" -ErrorAction SilentlyContinue
 }
 
 ##########
