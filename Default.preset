@@ -38,15 +38,6 @@ DisableWAPPush                  # EnableWAPPush
 # SetUACLow                     # SetUACHigh
 # EnableSharingMappedDrives     # DisableSharingMappedDrives
 DisableAdminShares              # EnableAdminShares
-# DisableSMB1                   # EnableSMB1
-# DisableSMBServer              # EnableSMBServer
-# DisableNetBIOS                # EnableNetBIOS
-# DisableLLMNR                  # EnableLLMNR
-# DisableNCSIProbe              # EnableNCSIProbe
-SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
-# SetUnknownNetworksPrivate     # SetUnknownNetworksPublic
-# DisableConnectionSharing      # EnableConnectionSharing
-# DisableNetDevicesAutoInst     # EnableNetDevicesAutoInst
 # DisableFirewall               # EnableFirewall
 # HideDefenderTrayIcon          # ShowDefenderTrayIcon
 # DisableDefender               # EnableDefender
@@ -64,17 +55,28 @@ EnableF8BootMenu                # DisableF8BootMenu
 # DisableRecoveryAndReset       # EnableRecoveryAndReset
 SetDEPOptOut                    # SetDEPOptIn
 
+### Network Tweaks ###
+SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
+# SetUnknownNetworksPrivate     # SetUnknownNetworksPublic
+# DisableNetDevicesAutoInst     # EnableNetDevicesAutoInst
+# DisableHomeGroups             # EnableHomeGroups
+# DisableSMB1                   # EnableSMB1
+# DisableSMBServer              # EnableSMBServer
+# DisableNetBIOS                # EnableNetBIOS
+# DisableLLMNR                  # EnableLLMNR
+# DisableNCSIProbe              # EnableNCSIProbe
+# DisableConnectionSharing      # EnableConnectionSharing
+DisableRemoteAssistance         # EnableRemoteAssistance
+# EnableRemoteDesktop           # DisableRemoteDesktop
+
 ### Service Tweaks ###
 # DisableUpdateMSRT             # EnableUpdateMSRT
 # DisableUpdateDriver           # EnableUpdateDriver
 EnableUpdateMSProducts          # DisableUpdateMSProducts
 # DisableUpdateAutoDownload     # EnableUpdateAutoDownload
 DisableMaintenanceWakeUp        # EnableMaintenanceWakeUp
-# DisableHomeGroups             # EnableHomeGroups
 DisableSharedExperiences        # EnableSharedExperiences
 # EnableClipboardHistory        # DisableClipboardHistory
-DisableRemoteAssistance         # EnableRemoteAssistance
-EnableRemoteDesktop             # DisableRemoteDesktop
 DisableAutoplay                 # EnableAutoplay
 DisableAutorun                  # EnableAutorun
 # DisableRestorePoints          # EnableRestorePoints
