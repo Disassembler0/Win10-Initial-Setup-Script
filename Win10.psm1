@@ -1904,7 +1904,7 @@ Function RemoveENKeyboard {
 Function EnableNumlock {
 	Write-Output "Enabling NumLock after startup..."
 	If (!(Test-Path "HKU:")) {
-		New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
+		New-PSDrive -Name "HKU" -PSProvider "Registry" -Root "HKEY_USERS" | Out-Null
 	}
 	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 2147483650
 	Add-Type -AssemblyName System.Windows.Forms
@@ -1918,7 +1918,7 @@ Function EnableNumlock {
 Function DisableNumlock {
 	Write-Output "Disabling NumLock after startup..."
 	If (!(Test-Path "HKU:")) {
-		New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
+		New-PSDrive -Name "HKU" -PSProvider "Registry" -Root "HKEY_USERS" | Out-Null
 	}
 	Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 2147483648
 	Add-Type -AssemblyName System.Windows.Forms
@@ -2756,7 +2756,7 @@ Function UninstallOneDrive {
 	Remove-Item -Path "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	Remove-Item -Path "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
 	If (!(Test-Path "HKCR:")) {
-		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+		New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
 	}
 	Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
 	Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
@@ -3289,7 +3289,7 @@ Function UninstallNET23 {
 Function SetPhotoViewerAssociation {
 	Write-Output "Setting Photo Viewer association for bmp, gif, jpg, png and tif..."
 	If (!(Test-Path "HKCR:")) {
-		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+		New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
 	}
 	ForEach ($type in @("Paint.Picture", "giffile", "jpegfile", "pngfile")) {
 		New-Item -Path $("HKCR:\$type\shell\open") -Force | Out-Null
@@ -3303,7 +3303,7 @@ Function SetPhotoViewerAssociation {
 Function UnsetPhotoViewerAssociation {
 	Write-Output "Unsetting Photo Viewer association for bmp, gif, jpg, png and tif..."
 	If (!(Test-Path "HKCR:")) {
-		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+		New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
 	}
 	Remove-Item -Path "HKCR:\Paint.Picture\shell\open" -Recurse -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCR:\giffile\shell\open" -Name "MuiVerb" -ErrorAction SilentlyContinue
@@ -3318,7 +3318,7 @@ Function UnsetPhotoViewerAssociation {
 Function AddPhotoViewerOpenWith {
 	Write-Output "Adding Photo Viewer to 'Open with...'"
 	If (!(Test-Path "HKCR:")) {
-		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+		New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
 	}
 	New-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open\command" -Force | Out-Null
 	New-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open\DropTarget" -Force | Out-Null
@@ -3331,7 +3331,7 @@ Function AddPhotoViewerOpenWith {
 Function RemovePhotoViewerOpenWith {
 	Write-Output "Removing Photo Viewer from 'Open with...'"
 	If (!(Test-Path "HKCR:")) {
-		New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+		New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
 	}
 	Remove-Item -Path "HKCR:\Applications\photoviewer.dll\shell\open" -Recurse -ErrorAction SilentlyContinue
 }
