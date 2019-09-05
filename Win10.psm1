@@ -1556,19 +1556,18 @@ Function DisableFileDeleteConfirm {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ConfirmFileDelete" -ErrorAction SilentlyContinue
 }
 
-# Disable file recycling. Delete files for real.
-# Needs admin privileges, as for some interesting reason it is required for this key.
-Function DisableRecycleFiles {
-	Write-Output "Disable file recycling..."
+# Disable Recycle Bin - Files will be permanently deleted without placing into Recycle Bin
+Function DisableRecycleBin {
+	Write-Output "Disabling Recycle Bin..."
 	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
 		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
 	}
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecycleFiles" -Type DWord -Value 1
 }
 
-# Reverts change of 'DisableRecycleFiles'. Allow moving files into recycle bin.
-Function EnableRecycleFiles {
-	Write-Output "Enable file recycling..."
+# Enable Recycle Bin
+Function EnableRecycleBin {
+	Write-Output "Enable Recycle Bin..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecycleFiles" -ErrorAction SilentlyContinue
 }
 
