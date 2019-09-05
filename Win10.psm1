@@ -2000,11 +2000,13 @@ Function EnableF1HelpKey {
 
 # Show Windows build number and Windows edition (Home/Pro/Enterprise) from bottom right of desktop
 Function ShowBuildNumberOnDesktop {
+	Write-Output "Showing Windows build number on desktop..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 1
 }
 
 # Remove Windows build number and Windows edition (Home/Pro/Enterprise) from bottom right of desktop
-Function HideBuildNumberOnDesktop {
+Function HideBuildNumberFromDesktop {
+	Write-Output "Hiding Windows build number from desktop..."
 	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 0
 }
 

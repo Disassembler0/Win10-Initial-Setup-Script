@@ -127,7 +127,7 @@ SetVisualFXPerformance          # SetVisualFXAppearance
 # DisableChangingSoundScheme    # EnableChangingSoundScheme
 # EnableVerboseStatus           # DisableVerboseStatus
 DisableF1HelpKey                # EnableF1HelpKey
-# ShowBuildNumberOnDesktop      # HideBuildNumberOnDesktop
+# ShowBuildNumberOnDesktop      # HideBuildNumberFromDesktop
 
 ### Explorer UI Tweaks ###
 # ShowExplorerTitleFullPath     # HideExplorerTitleFullPath
