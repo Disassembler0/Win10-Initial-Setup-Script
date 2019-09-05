@@ -1594,6 +1594,21 @@ Function DisableFileDeleteConfirm {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ConfirmFileDelete" -ErrorAction SilentlyContinue
 }
 
+# Disable Recycle Bin - Files will be permanently deleted without placing into Recycle Bin
+Function DisableRecycleBin {
+	Write-Output "Disabling Recycle Bin..."
+	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecycleFiles" -Type DWord -Value 1
+}
+
+# Enable Recycle Bin
+Function EnableRecycleBin {
+	Write-Output "Enable Recycle Bin..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecycleFiles" -ErrorAction SilentlyContinue
+}
+
 # Hide Taskbar Search icon / box
 Function HideTaskbarSearch {
 	Write-Output "Hiding Taskbar Search icon / box..."
