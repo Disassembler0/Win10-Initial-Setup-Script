@@ -1278,6 +1278,21 @@ Function EnableSwapFile {
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "SwapfileControl" -ErrorAction SilentlyContinue
 }
 
+# Disable Recycle Bin - Files will be permanently deleted without placing into Recycle Bin
+Function DisableRecycleBin {
+	Write-Output "Disabling Recycle Bin..."
+	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecycleFiles" -Type DWord -Value 1
+}
+
+# Enable Recycle Bin
+Function EnableRecycleBin {
+	Write-Output "Enable Recycle Bin..."
+	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecycleFiles" -ErrorAction SilentlyContinue
+}
+
 # Enable NTFS paths with length over 260 characters
 Function EnableNTFSLongPaths {
 	Write-Output "Enabling NTFS paths with length over 260 characters..."
@@ -1592,21 +1607,6 @@ Function EnableFileDeleteConfirm {
 Function DisableFileDeleteConfirm {
 	Write-Output "Disabling file delete confirmation dialog..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "ConfirmFileDelete" -ErrorAction SilentlyContinue
-}
-
-# Disable Recycle Bin - Files will be permanently deleted without placing into Recycle Bin
-Function DisableRecycleBin {
-	Write-Output "Disabling Recycle Bin..."
-	If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
-		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
-	}
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecycleFiles" -Type DWord -Value 1
-}
-
-# Enable Recycle Bin
-Function EnableRecycleBin {
-	Write-Output "Enable Recycle Bin..."
-	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoRecycleFiles" -ErrorAction SilentlyContinue
 }
 
 # Hide Taskbar Search icon / box
@@ -2039,18 +2039,6 @@ Function EnableF1HelpKey {
 	Remove-Item "HKCU:\Software\Classes\TypeLib\{8cec5860-07a1-11d9-b15e-000d56bfe6ee}\1.0\0" -Recurse -ErrorAction SilentlyContinue
 }
 
-# Show Windows build number and Windows edition (Home/Pro/Enterprise) from bottom right of desktop
-Function ShowBuildNumberOnDesktop {
-	Write-Output "Showing Windows build number on desktop..."
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 1
-}
-
-# Remove Windows build number and Windows edition (Home/Pro/Enterprise) from bottom right of desktop
-Function HideBuildNumberFromDesktop {
-	Write-Output "Hiding Windows build number from desktop..."
-	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 0
-}
-
 ##########
 #endregion UI Tweaks
 ##########
@@ -2369,6 +2357,18 @@ Function HideNetworkFromDesktop {
 	Write-Output "Hiding Network shortcut from desktop..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -ErrorAction SilentlyContinue
+}
+
+# Show Windows build number and Windows edition (Home/Pro/Enterprise) from bottom right of desktop
+Function ShowBuildNumberOnDesktop {
+	Write-Output "Showing Windows build number on desktop..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 1
+}
+
+# Remove Windows build number and Windows edition (Home/Pro/Enterprise) from bottom right of desktop
+Function HideBuildNumberFromDesktop {
+	Write-Output "Hiding Windows build number from desktop..."
+	Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 0
 }
 
 # Hide Desktop icon from This PC - The icon remains in personal folders and open/save dialogs
