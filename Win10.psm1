@@ -960,12 +960,14 @@ Function DisableSMBServer {
 	Write-Output "Disabling SMB Server..."
 	Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
 	Set-SmbServerConfiguration -EnableSMB2Protocol $false -Force
+	Disable-NetAdapterBinding -Name "*" -ComponentID "ms_server"
 }
 
 # Enable SMB Server
 Function EnableSMBServer {
 	Write-Output "Enabling SMB Server..."
 	Set-SmbServerConfiguration -EnableSMB2Protocol $true -Force
+	Enable-NetAdapterBinding -Name "*" -ComponentID "ms_server"
 }
 
 # Disable NetBIOS over TCP/IP on all currently installed network interfaces
@@ -982,7 +984,7 @@ Function EnableNetBIOS {
 
 # Disable Link-Local Multicast Name Resolution (LLMNR) protocol
 Function DisableLLMNR {
-	Write-Output "Disabling LLMNR..."
+	Write-Output "Disabling Link-Local Multicast Name Resolution (LLMNR)..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Force | Out-Null
 	}
@@ -991,21 +993,95 @@ Function DisableLLMNR {
 
 # Enable Link-Local Multicast Name Resolution (LLMNR) protocol
 Function EnableLLMNR {
-	Write-Output "Enabling LLMNR..."
+	Write-Output "Enabling Link-Local Multicast Name Resolution (LLMNR)..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Name "EnableMulticast" -ErrorAction SilentlyContinue
+}
+
+# Disable Local-Link Discovery Protocol (LLDP) for all installed network interfaces
+Function DisableLLDP {
+	Write-Output "Disabling Local-Link Discovery Protocol (LLDP)..."
+	Disable-NetAdapterBinding -Name "*" -ComponentID "ms_lldp"
+}
+
+# Enable Local-Link Discovery Protocol (LLDP) for all installed network interfaces
+Function EnableLLDP {
+	Write-Output "Enabling Local-Link Discovery Protocol (LLDP)..."
+	Enable-NetAdapterBinding -Name "*" -ComponentID "ms_lldp"
+}
+
+# Disable Local-Link Topology Discovery (LLTD) for all installed network interfaces
+Function DisableLLTD {
+	Write-Output "Disabling Local-Link Topology Discovery (LLTD)..."
+	Disable-NetAdapterBinding -Name "*" -ComponentID "ms_lltdio"
+	Disable-NetAdapterBinding -Name "*" -ComponentID "ms_rspndr"
+}
+
+# Enable Local-Link Topology Discovery (LLTD) for all installed network interfaces
+Function EnableLLTD {
+	Write-Output "Enabling Local-Link Topology Discovery (LLTD)..."
+	Enable-NetAdapterBinding -Name "*" -ComponentID "ms_lltdio"
+	Enable-NetAdapterBinding -Name "*" -ComponentID "ms_rspndr"
+}
+
+# Disable Client for Microsoft Networks for all installed network interfaces
+Function DisableMSNetClient {
+	Write-Output "Disabling Client for Microsoft Networks..."
+	Disable-NetAdapterBinding -Name "*" -ComponentID "ms_msclient"
+}
+
+# Enable Client for Microsoft Networks for all installed network interfaces
+Function EnableMSNetClient {
+	Write-Output "Enabling Client for Microsoft Networks..."
+	Enable-NetAdapterBinding -Name "*" -ComponentID "ms_msclient"
+}
+
+# Disable Quality of Service (QoS) packet scheduler for all installed network interfaces
+Function DisableQoS {
+	Write-Output "Disabling Quality of Service (QoS) packet scheduler..."
+	Disable-NetAdapterBinding -Name "*" -ComponentID "ms_pacer"
+}
+
+# Enable Quality of Service (QoS) packet scheduler for all installed network interfaces
+Function EnableQoS {
+	Write-Output "Enabling Quality of Service (QoS) packet scheduler..."
+	Enable-NetAdapterBinding -Name "*" -ComponentID "ms_pacer"
+}
+
+# Disable IPv4 stack for all installed network interfaces
+Function DisableIPv4 {
+	Write-Output "Disabling IPv4 stack..."
+	Disable-NetAdapterBinding -Name "*" -ComponentID "ms_tcpip"
+}
+
+# Enable IPv4 stack for all installed network interfaces
+Function EnableIPv4 {
+	Write-Output "Enabling IPv4 stack..."
+	Enable-NetAdapterBinding -Name "*" -ComponentID "ms_tcpip"
+}
+
+# Disable IPv6 stack for all installed network interfaces
+Function DisableIPv6 {
+	Write-Output "Disabling IPv6 stack..."
+	Disable-NetAdapterBinding -Name "*" -ComponentID "ms_tcpip6"
+}
+
+# Enable IPv6 stack for all installed network interfaces
+Function EnableIPv6 {
+	Write-Output "Enabling IPv6 stack..."
+	Enable-NetAdapterBinding -Name "*" -ComponentID "ms_tcpip6"
 }
 
 # Disable Network Connectivity Status Indicator active test
 # Note: This may reduce the ability of OS and other components to determine internet access, however protects against a specific type of zero-click attack.
 # See https://github.com/Disassembler0/Win10-Initial-Setup-Script/pull/111 for details
 Function DisableNCSIProbe {
-	Write-Output "Disabling NCSI active test..."
+	Write-Output "Disabling Network Connectivity Status Indicator (NCSI) active test..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" -Name "NoActiveProbe" -Type DWord -Value 1
 }
 
 # Enable Network Connectivity Status Indicator active test
 Function EnableNCSIProbe {
-	Write-Output "Enabling NCSI active test..."
+	Write-Output "Enabling Network Connectivity Status Indicator (NCSI) active test..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" -Name "NoActiveProbe" -ErrorAction SilentlyContinue
 }
 
