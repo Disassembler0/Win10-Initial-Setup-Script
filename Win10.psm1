@@ -1188,7 +1188,9 @@ Function EnableUpdateMSProducts {
 # Disable receiving updates for other Microsoft products via Windows Update
 Function DisableUpdateMSProducts {
 	Write-Output "Disabling updates for other Microsoft products..."
-	(New-Object -ComObject Microsoft.Update.ServiceManager).RemoveService("7971f918-a847-4430-9279-4a52d1efe18d") | Out-Null
+	If ((New-Object -ComObject Microsoft.Update.ServiceManager).Services | Where-Object { $_.ServiceID -eq "7971f918-a847-4430-9279-4a52d1efe18d"}) {
+		(New-Object -ComObject Microsoft.Update.ServiceManager).RemoveService("7971f918-a847-4430-9279-4a52d1efe18d") | Out-Null
+	}
 }
 
 # Disable Windows Update automatic downloads
@@ -2852,7 +2854,7 @@ Function UninstallOneDrive {
 	Start-Sleep -s 2
 	Stop-Process -Name "explorer" -Force -ErrorAction SilentlyContinue
 	Start-Sleep -s 2
-	If ((Get-ChildItem -Path "$env:USERPROFILE\OneDrive" | Measure-Object).Count -eq 0) {
+	If ((Get-ChildItem -Path "$env:USERPROFILE\OneDrive" -ErrorAction SilentlyContinue | Measure-Object).Count -eq 0) {
 		Remove-Item -Path "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	}
 	Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue

@@ -66,7 +66,7 @@ SetCurrentNetworkPrivate        # SetCurrentNetworkPublic
 # DisableLLMNR                  # EnableLLMNR
 # DisableLLDP                   # EnableLLDP
 # DisableLLTD                   # EnableLLTD
-# DisableMSClient               # EnableMSClient
+# DisableMSNetClient            # EnableMSNetClient
 # DisableQoS                    # EnableQoS
 # DisableIPv4                   # EnableIPv4
 # DisableIPv6                   # EnableIPv6
