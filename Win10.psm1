@@ -131,12 +131,6 @@ Function EnableSmartScreen {
 # Disable Web Search in Start Menu
 Function DisableWebSearch {
 	Write-Output "Disabling Bing Search in Start Menu..."
-	# Build 10.0.18362.329 contains a bug breaking Start Menu search if DisableWebSearch is applied
-	# See https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/262 for details and ways to fix the problem
-	If ((Get-ItemProperty -Path c:\windows\system32\hal.dll).VersionInfo.ProductVersion -eq "10.0.18362.329") {
-		Write-Warning "Build 10.0.18362.329 contains a bug breaking Start Menu search if DisableWebSearch is applied."
-		Write-Warning "See https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/262 for details and ways to fix the problem."
-	}
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Type DWord -Value 0
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "CortanaConsent" -Type DWord -Value 0
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search")) {
