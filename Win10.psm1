@@ -10,7 +10,7 @@
 ##########
 
 # Disable Telemetry
-# Note: This tweak also disables the possibility to join Windows Insider Program, as it requires Telemetry data.
+# Note: This tweak also disables the possibility to join Windows Insider Program and breaks Microsoft Intune enrollment/deployment, as these feaures require Telemetry data.
 # Windows Update control panel may show message "Your device is at risk because it's out of date and missing important security and quality updates. Let's get you back on track so Windows can run more securely. Select this button to get going".
 # In such case, enable telemetry, run Windows update and then disable telemetry again.
 # See also https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/57 and https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/92
@@ -515,6 +515,7 @@ Function EnableDiagTrack {
 }
 
 # Stop and disable Device Management Wireless Application Protocol (WAP) Push Service
+# Note: This service is needed for Microsoft Intune interoperability
 Function DisableWAPPush {
 	Write-Output "Stopping and disabling Device Management WAP Push Service..."
 	Stop-Service "dmwappushservice" -WarningAction SilentlyContinue
