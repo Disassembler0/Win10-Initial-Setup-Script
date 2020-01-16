@@ -1238,6 +1238,19 @@ Function EnableMaintenanceWakeUp {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Maintenance" -Name "WakeUp" -ErrorAction SilentlyContinue
 }
 
+# Disable Automatic Restart Sign-on - Applicable since 1903
+# See https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/manage/component-updates/winlogon-automatic-restart-sign-on--arso-
+Function DisableAutoRestartSignOn {
+	Write-Output "Disabling Automatic Restart Sign-on..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "DisableAutomaticRestartSignOn" -Type DWord -Value 1
+}
+
+# Enable Automatic Restart Sign-on - Applicable since 1903
+Function EnableAutoRestartSignOn {
+	Write-Output "Enabling Automatic Restart Sign-on..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "DisableAutomaticRestartSignOn" -ErrorAction SilentlyContinue
+}
+
 # Disable Shared Experiences - Applicable since 1703. Not applicable to Server
 # This setting can be set also via GPO, however doing so causes reset of Start Menu cache. See https://github.com/Disassembler0/Win10-Initial-Setup-Script/issues/145 for details
 Function DisableSharedExperiences {
