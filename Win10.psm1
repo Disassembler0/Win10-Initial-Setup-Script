@@ -3268,6 +3268,20 @@ Function EnableMediaSharing {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsMediaPlayer" -Name "PreventLibrarySharing" -ErrorAction SilentlyContinue
 }
 
+# Enable Developer Mode
+Function EnableDeveloperMode {
+	Write-Output "Enabling Developer Mode..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
+}
+
+# Disable Developer Mode
+Function DisableDeveloperMode {
+	Write-Output "Disabling Developer Mode..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -ErrorAction SilentlyContinue
+}
+
 # Uninstall Windows Media Player
 Function UninstallMediaPlayer {
 	Write-Output "Uninstalling Windows Media Player..."
@@ -3327,24 +3341,16 @@ Function InstallPowerShellV2 {
 }
 
 # Install Linux Subsystem - Applicable since Win10 1607 and Server 1709
+# Note: 1607 requires also EnableDevelopmentMode for WSL to work
 # For automated Linux distribution installation, see https://docs.microsoft.com/en-us/windows/wsl/install-on-server
 Function InstallLinuxSubsystem {
 	Write-Output "Installing Linux Subsystem..."
-	If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
-		# 1607 needs developer mode to be enabled
-		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Type DWord -Value 1
-		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
-	}
 	Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 # Uninstall Linux Subsystem - Applicable since Win10 1607 and Server 1709
 Function UninstallLinuxSubsystem {
 	Write-Output "Uninstalling Linux Subsystem..."
-	If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
-		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Type DWord -Value 0
-		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 0
-	}
 	Disable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
