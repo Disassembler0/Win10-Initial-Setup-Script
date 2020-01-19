@@ -853,13 +853,13 @@ Function EnableRecoveryAndReset {
 	reagentc /enable 2>&1 | Out-Null
 }
 
-# Set Data Execution Prevention (DEP) policy to OptOut (Turn on DEP for all programs and services except selected)
+# Set Data Execution Prevention (DEP) policy to OptOut - Turn on DEP for all 32-bit applications except manually excluded. 64-bit applications have DEP always on.
 Function SetDEPOptOut {
 	Write-Output "Setting Data Execution Prevention (DEP) policy to OptOut..."
 	bcdedit /set `{current`} nx OptOut | Out-Null
 }
 
-# Set Data Execution Prevention (DEP) policy to OptIn (Turn on DEP for essential Windows programs and services only)
+# Set Data Execution Prevention (DEP) policy to OptIn - Turn on DEP only for essential 32-bit Windows executables and manually included applications. 64-bit applications have DEP always on.
 Function SetDEPOptIn {
 	Write-Output "Setting Data Execution Prevention (DEP) policy to OptIn..."
 	bcdedit /set `{current`} nx OptIn | Out-Null
