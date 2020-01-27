@@ -3047,7 +3047,6 @@ function UninstallThirdPartyBloat {
 	Get-AppxPackage "DB6EA5DB.CyberLinkMediaSuiteEssentials" | Remove-AppxPackage
 	Get-AppxPackage "DolbyLaboratories.DolbyAccess" | Remove-AppxPackage
 	Get-AppxPackage "Drawboard.DrawboardPDF" | Remove-AppxPackage
-	Get-AppxPackage "E046963F.LenovoCompanion" | Remove-AppxPackage
 	Get-AppxPackage "Facebook.Facebook" | Remove-AppxPackage
 	Get-AppxPackage "Fitbit.FitbitCoach" | Remove-AppxPackage
 	Get-AppxPackage "flaregamesGmbH.RoyalRevolt2" | Remove-AppxPackage
@@ -3058,8 +3057,6 @@ function UninstallThirdPartyBloat {
 	Get-AppxPackage "king.com.CandyCrushSaga" | Remove-AppxPackage
 	Get-AppxPackage "king.com.CandyCrushSodaSaga" | Remove-AppxPackage
 	Get-AppxPackage "king.com.FarmHeroesSaga" | Remove-AppxPackage
-	Get-AppxPackage "LenovoCorporation.LenovoID" | Remove-AppxPackage
-	Get-AppxPackage "LenovoCorporation.LenovoSettings" | Remove-AppxPackage
 	Get-AppxPackage "Nordcurrent.CookingFever" | Remove-AppxPackage
 	Get-AppxPackage "PandoraMediaInc.29680B314EFC2" | Remove-AppxPackage
 	Get-AppxPackage "PricelinePartnerNetwork.Booking.comBigsavingsonhot" | Remove-AppxPackage
@@ -3098,7 +3095,6 @@ Function InstallThirdPartyBloat {
 	Get-AppxPackage -AllUsers "DB6EA5DB.CyberLinkMediaSuiteEssentials" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "DolbyLaboratories.DolbyAccess" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "Drawboard.DrawboardPDF" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
-	Get-AppxPackage -AllUsers "E046963F.LenovoCompanion" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "Facebook.Facebook" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "Fitbit.FitbitCoach" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "flaregamesGmbH.RoyalRevolt2" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
@@ -3109,8 +3105,6 @@ Function InstallThirdPartyBloat {
 	Get-AppxPackage -AllUsers "king.com.CandyCrushSaga" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "king.com.CandyCrushSodaSaga" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "king.com.FarmHeroesSaga" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
-	Get-AppxPackage -AllUsers "LenovoCorporation.LenovoID" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
-	Get-AppxPackage -AllUsers "LenovoCorporation.LenovoSettings" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "Nordcurrent.CookingFever" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "PandoraMediaInc.29680B314EFC2" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Get-AppxPackage -AllUsers "PricelinePartnerNetwork.Booking.comBigsavingsonhot" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
