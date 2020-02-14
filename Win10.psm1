@@ -1990,6 +1990,18 @@ Function DisableTitleBarColor {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "ColorPrevalence" -Type DWord -Value 0
 }
 
+# Enable System Dark Theme
+Function EnableSystemDarkTheme {
+	Write-Output "Enabling System Dark Theme..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type DWord -Value 0
+}
+
+# Disable System Dark Theme
+Function DisableSystemDarkTheme {
+	Write-Output "Disabling System Dark Theme..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type DWord -Value 1
+}
+
 # Enable Dark Theme
 Function EnableDarkTheme {
 	Write-Output "Enabling Dark Theme..."
