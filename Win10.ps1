@@ -1,7 +1,7 @@
 ##########
 # Win 10 / Server 2016 / Server 2019 Initial Setup Script - Main execution loop
 # Author: Disassembler <disassembler@dasm.cz>
-# Version: development
+# Version: v3.8, 2019-09-11
 # Source: https://github.com/Disassembler0/Win10-Initial-Setup-Script
 ##########
 
@@ -31,13 +31,13 @@ $i = 0
 While ($i -lt $args.Length) {
 	If ($args[$i].ToLower() -eq "-include") {
 		# Resolve full path to the included file
-		$include = Resolve-Path $args[++$i]
+		$include = Resolve-Path $args[++$i] -ErrorAction Stop
 		$PSCommandArgs += "-include `"$include`""
 		# Import the included file as a module
-		Import-Module -Name $include
+		Import-Module -Name $include -ErrorAction Stop
 	} ElseIf ($args[$i].ToLower() -eq "-preset") {
 		# Resolve full path to the preset file
-		$preset = Resolve-Path $args[++$i]
+		$preset = Resolve-Path $args[++$i] -ErrorAction Stop
 		$PSCommandArgs += "-preset `"$preset`""
 		# Load tweak names from the preset file
 		Get-Content $preset -ErrorAction Stop | ForEach-Object { AddOrRemoveTweak($_.Split("#")[0].Trim()) }
