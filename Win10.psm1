@@ -3351,6 +3351,18 @@ Function InstallHelloFace {
 	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Hello.Face*" } | Add-WindowsCapability -Online | Out-Null
 }
 
+# Uninstall Math Recognizer - Not applicable to Server
+Function UninstallMathRecognizer {
+	Write-Output "Uninstalling Math Recognizer..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "MathRecognizer*" } | Remove-WindowsCapability -Online | Out-Null
+}
+
+# Install Math Recognizer - Not applicable to Server
+Function InstallMathRecognizer {
+	Write-Output "Installing Math Recognizer..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "MathRecognizer*" } | Add-WindowsCapability -Online | Out-Null
+}
+
 # Uninstall PowerShell 2.0 Environment
 # PowerShell 2.0 is deprecated since September 2018. This doesn't affect PowerShell 5 or newer which is the default PowerShell environment.
 # May affect Microsoft Diagnostic Tool and possibly other scripts. See https://blogs.msdn.microsoft.com/powershell/2017/08/24/windows-powershell-2-0-deprecation/
