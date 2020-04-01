@@ -3448,14 +3448,11 @@ Function InstallSSHClient {
 Function InstallSSHServer {
 	Write-Output "Installing OpenSSH Server..."
 	Get-WindowsCapability -Online | Where-Object { $_.Name -like "OpenSSH.Server*" } | Add-WindowsCapability -Online | Out-Null
-	Set-Service "sshd" -StartupType Automatic
-	Start-Service "sshd" -WarningAction SilentlyContinue
 }
 
 # Uninstall OpenSSH Server - Applicable since 1809
 Function UninstallSSHServer {
 	Write-Output "Uninstalling OpenSSH Server..."
-	Stop-Service "sshd" -WarningAction SilentlyContinue
 	Get-WindowsCapability -Online | Where-Object { $_.Name -like "OpenSSH.Server*" } | Remove-WindowsCapability -Online | Out-Null
 }
 
