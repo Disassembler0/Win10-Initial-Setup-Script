@@ -3385,6 +3385,19 @@ Function InstallPowerShellV2 {
 	}
 }
 
+# Uninstall PowerShell Integrated Scripting Environment - Applicable since 2004
+# Note: Also removes built-in graphical methods like Out-GridView
+Function UninstallPowerShellISE {
+	Write-Output "Uninstalling PowerShell Integrated Scripting Environment..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Microsoft.Windows.PowerShell.ISE*" } | Remove-WindowsCapability -Online | Out-Null
+}
+
+# Install PowerShell Integrated Scripting Environment - Applicable since 2004
+Function InstallPowerShellISE {
+	Write-Output "Installing PowerShell Integrated Scripting Environment..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Microsoft.Windows.PowerShell.ISE*" } | Add-WindowsCapability -Online | Out-Null
+}
+
 # Install Linux Subsystem - Applicable since Win10 1607 and Server 1709
 # Note: 1607 requires also EnableDevelopmentMode for WSL to work
 # For automated Linux distribution installation, see https://docs.microsoft.com/en-us/windows/wsl/install-on-server

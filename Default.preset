@@ -207,6 +207,7 @@ DisableMediaSharing             # EnableMediaSharing
 # UninstallHelloFace            # InstallHelloFace
 # UninstallMathRecognizer       # InstallMathRecognizer
 # UninstallPowerShellV2         # InstallPowerShellV2
+# UninstallPowerShellISE        # InstallPowerShellISE
 # InstallLinuxSubsystem         # UninstallLinuxSubsystem
 # InstallHyperV                 # UninstallHyperV
 # UninstallSSHClient            # InstallSSHClient
