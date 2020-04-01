@@ -204,6 +204,7 @@ DisableMediaSharing             # EnableMediaSharing
 # UninstallMediaPlayer          # InstallMediaPlayer
 # UninstallInternetExplorer     # InstallInternetExplorer
 # UninstallWorkFolders          # InstallWorkFolders
+# UninstallHelloFace            # InstallHelloFace
 # UninstallPowerShellV2         # InstallPowerShellV2
 # InstallLinuxSubsystem         # UninstallLinuxSubsystem
 # InstallHyperV                 # UninstallHyperV

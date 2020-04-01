@@ -3339,6 +3339,18 @@ Function InstallWorkFolders {
 	Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "WorkFolders-Client" } | Enable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
+# Uninstall Windows Hello Face - Not applicable to Server
+Function UninstallHelloFace {
+	Write-Output "Uninstalling Windows Hello Face..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Hello.Face*" } | Remove-WindowsCapability -Online | Out-Null
+}
+
+# Install Windows Hello Face - Not applicable to Server
+Function InstallHelloFace {
+	Write-Output "Installing Windows Hello Face..."
+	Get-WindowsCapability -Online | Where-Object { $_.Name -like "Hello.Face*" } | Add-WindowsCapability -Online | Out-Null
+}
+
 # Uninstall PowerShell 2.0 Environment
 # PowerShell 2.0 is deprecated since September 2018. This doesn't affect PowerShell 5 or newer which is the default PowerShell environment.
 # May affect Microsoft Diagnostic Tool and possibly other scripts. See https://blogs.msdn.microsoft.com/powershell/2017/08/24/windows-powershell-2-0-deprecation/
