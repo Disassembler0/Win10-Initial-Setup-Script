@@ -2835,6 +2835,16 @@ Function EnableThumbsDBOnNetwork {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -ErrorAction SilentlyContinue
 }
 
+# Hide icons of elements on the Desktop
+Function HideDesktopIcons {
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideIcons" -Value 1
+}
+
+# Show icons of elements on the Desktop
+Function ShowDesktopIcons {
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideIcons" -Value 0
+}
+
 ##########
 #endregion Explorer UI Tweaks
 ##########
