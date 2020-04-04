@@ -2837,11 +2837,13 @@ Function EnableThumbsDBOnNetwork {
 
 # Hide icons of elements on the Desktop
 Function HideDesktopIcons {
+	Write-Output "Hiding desktop icons..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideIcons" -Value 1
 }
 
 # Show icons of elements on the Desktop
 Function ShowDesktopIcons {
+	Write-Output "Showing desktop icons..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideIcons" -Value 0
 }
 
