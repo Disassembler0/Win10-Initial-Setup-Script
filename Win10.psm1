@@ -2498,6 +2498,18 @@ Function HideNetworkFromDesktop {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -ErrorAction SilentlyContinue
 }
 
+# Hide all icons from desktop
+Function HideDesktopIcons {
+	Write-Output "Hiding all icons from desktop..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideIcons" -Value 1
+}
+
+# Show all icons on desktop
+Function ShowDesktopIcons {
+	Write-Output "Showing all icons on desktop..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideIcons" -Value 0
+}
+
 # Show Windows build number and Windows edition (Home/Pro/Enterprise) from bottom right of desktop
 Function ShowBuildNumberOnDesktop {
 	Write-Output "Showing Windows build number on desktop..."
@@ -2833,18 +2845,6 @@ Function DisableThumbsDBOnNetwork {
 Function EnableThumbsDBOnNetwork {
 	Write-Output "Enabling creation of Thumbs.db on network folders..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -ErrorAction SilentlyContinue
-}
-
-# Hide icons of elements on the Desktop
-Function HideDesktopIcons {
-	Write-Output "Hiding desktop icons..."
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideIcons" -Value 1
-}
-
-# Show icons of elements on the Desktop
-Function ShowDesktopIcons {
-	Write-Output "Showing desktop icons..."
-	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideIcons" -Value 0
 }
 
 ##########
