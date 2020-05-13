@@ -1997,16 +1997,16 @@ Function DisableTitleBarColor {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "ColorPrevalence" -Type DWord -Value 0
 }
 
-# Enable Dark Theme
-Function EnableDarkTheme {
-	Write-Output "Enabling Dark Theme..."
+# Set Dark Mode for Applications
+Function SetAppsDarkMode {
+	Write-Output "Setting Dark Mode for Applications..."
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type DWord -Value 0
 }
 
-# Disable Dark Theme
-Function DisableDarkTheme {
-	Write-Output "Disabling Dark Theme..."
-	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -ErrorAction SilentlyContinue
+# Set Light Mode for Applications
+Function SetAppsLightMode {
+	Write-Output "Setting Light Mode for Applications..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type DWord -Value 1
 }
 
 # Add secondary en-US keyboard
