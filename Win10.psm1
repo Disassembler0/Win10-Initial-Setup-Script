@@ -476,7 +476,7 @@ Function SetP2PUpdateInternet {
 			New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" | Out-Null
 		}
 		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 3
-	} ElseIf ([System.Environment]::OSVersion.Version.Build -eq 14393) {
+	} ElseIf ([System.Environment]::OSVersion.Version.Build -le 14393) {
 		# Method used in 1511 and 1607
 		Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" -Name "DODownloadMode" -ErrorAction SilentlyContinue
 	} Else {
