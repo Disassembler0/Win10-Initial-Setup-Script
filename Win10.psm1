@@ -2009,6 +2009,18 @@ Function SetAppsLightMode {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type DWord -Value 1
 }
 
+# Set Light Mode for System - Applicable since 1903
+Function SetSystemLightMode {
+	Write-Output "Setting Light Mode for System..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type DWord -Value 1
+}
+
+# Set Dark Mode for System - Applicable since 1903
+Function SetSystemDarkMode {
+	Write-Output "Setting Dark Mode for System..."
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type DWord -Value 0
+}
+
 # Add secondary en-US keyboard
 Function AddENKeyboard {
 	Write-Output "Adding secondary en-US keyboard..."
