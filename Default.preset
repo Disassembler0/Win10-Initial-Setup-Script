@@ -33,6 +33,7 @@ DisableDiagTrack                # EnableDiagTrack
 DisableWAPPush                  # EnableWAPPush
 # EnableClearRecentFiles        # DisableClearRecentFiles
 # DisableRecentFiles            # EnableRecentFiles
+# ToggleOffDefaultPrivacyOptions ## ToggleOnDefaultPrivacyOptions
 
 ### Security Tweaks ###
 # SetUACLow                     # SetUACHigh
