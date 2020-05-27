@@ -33,7 +33,8 @@ DisableDiagTrack                # EnableDiagTrack
 DisableWAPPush                  # EnableWAPPush
 # EnableClearRecentFiles        # DisableClearRecentFiles
 # DisableRecentFiles            # EnableRecentFiles
-# ToggleOffDefaultPrivacyOptions ## ToggleOnDefaultPrivacyOptions
+# ToggleOffDefaultPrivacyOptions # ToggleOnDefaultPrivacyOptions
+# DisableMediaPlayerTelemetry   # EnableMediaPlayerTelemetry
 
 ### Security Tweaks ###
 # SetUACLow                     # SetUACHigh
