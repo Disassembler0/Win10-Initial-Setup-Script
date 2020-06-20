@@ -85,6 +85,7 @@ The script supports command line options and parameters which can help you custo
 |  1903   | 19H1                    | May 2019 Update        | 18362 |
 |  1909   | 19H2                    | November 2019 Update   | 18363 |
 |  2004   | 20H1                    | May 2020 Update        | 19041 |
+|  20H2   | 20H2                    | TBA                    | 19042 |
 
 &nbsp;
 
