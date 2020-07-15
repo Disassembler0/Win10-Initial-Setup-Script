@@ -2550,10 +2550,25 @@ Function ShowNavPaneAllFolders {
 	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneShowAllFolders" -Type DWord -Value 1
 }
 
-# Hide all folders in Explorer navigation pane except the basic ones (Quick access, OneDrive, This PC, Network), some of which can be disabled using other tweaks
+# Hide all folders from Explorer navigation pane except the basic ones (Quick access, OneDrive, This PC, Network), some of which can be disabled using other tweaks
 Function HideNavPaneAllFolders {
 	Write-Output "Hiding all folders in Explorer navigation pane (except the basic ones)..."
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "NavPaneShowAllFolders" -ErrorAction SilentlyContinue
+}
+
+# Show Libraries in Explorer navigation pane
+Function ShowNavPaneLibraries {
+	Write-Output "Showing Libraries icon in Explorer namespace..."
+	If (!(Test-Path "HKCU:\Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}")) {
+		New-Item -Path "HKCU:\Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}" -Name "System.IsPinnedToNameSpaceTree" -Type DWord -Value 1
+}
+
+# Hide Libraries from Explorer navigation pane
+Function HideNavPaneLibraries {
+	Write-Output "Hiding Libraries icon from Explorer namespace..."
+	Remove-ItemProperty -Path "HKCU:\Software\Classes\CLSID\{031E4825-7B94-4dc3-B131-E946B44C8DD5}" -Name "System.IsPinnedToNameSpaceTree" -ErrorAction SilentlyContinue
 }
 
 # Enable launching folder windows in a separate process
