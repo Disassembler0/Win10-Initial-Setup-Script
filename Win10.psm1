@@ -3013,6 +3013,18 @@ Function Show3DObjectsInExplorer {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{31C0DD25-9439-4F12-BF41-7FF4EDA38722}\PropertyBag" -Name "ThisPCPolicy" -ErrorAction SilentlyContinue
 }
 
+# Hide Network icon from Explorer namespace - Hides the icon also from personal folders and open/save dialogs
+Function HideNetworkFromExplorer {
+	Write-Output "Hiding Network icon from Explorer namespace..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum" -Name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -Type DWord -Value 1
+}
+
+# Show Network icon in Explorer namespace
+Function ShowNetworkInExplorer {
+	Write-Output "Showing Network icon in Explorer namespace..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\NonEnum" -Name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -ErrorAction SilentlyContinue
+}
+
 # Hide 'Include in library' context menu item
 Function HideIncludeInLibraryMenu {
 	Write-Output "Hiding 'Include in library' context menu item..."
