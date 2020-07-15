@@ -862,12 +862,14 @@ Function DisableSharingMappedDrives {
 # Disable implicit administrative shares
 Function DisableAdminShares {
 	Write-Output "Disabling implicit administrative shares..."
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "AutoShareServer" -Type DWord -Value 0
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "AutoShareWks" -Type DWord -Value 0
 }
 
 # Enable implicit administrative shares
 Function EnableAdminShares {
 	Write-Output "Enabling implicit administrative shares..."
+	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "AutoShareServer" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "AutoShareWks" -ErrorAction SilentlyContinue
 }
 
