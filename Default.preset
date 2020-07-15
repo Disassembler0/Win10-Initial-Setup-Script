@@ -10,6 +10,7 @@ RequireAdmin
 
 ### Privacy Tweaks ###
 DisableTelemetry                # EnableTelemetry
+DisableCortana                  # EnableCortana
 DisableWiFiSense                # EnableWiFiSense
 # DisableSmartScreen            # EnableSmartScreen
 # DisableWebSearch              # EnableWebSearch
@@ -22,7 +23,6 @@ DisableFeedback                 # EnableFeedback
 DisableTailoredExperiences      # EnableTailoredExperiences
 DisableAdvertisingID            # EnableAdvertisingID
 DisableWebLangList              # EnableWebLangList
-DisableCortana                  # EnableCortana
 # DisableBiometrics             # EnableBiometrics
 # DisableCamera                 # EnableCamera
 # DisableMicrophone             # EnableMicrophone
