@@ -4078,6 +4078,27 @@ Function UnpinTaskbarIcons {
 
 
 ##########
+#region UWP Loopback
+##########
+
+# Disable Loopback
+Function DisableLoopback{
+	Write-Output "Disabling Loopback..."
+	CheckNetIsolation LoopbackExempt –c | Out-Null
+}
+
+# Enable Loopback
+Function EnableLoopback{
+	Write-Output "Enabling Loopback..."
+	Get-AppxPackage | select-object -ExpandProperty PackageFamilyName | ForEach-Object -Process {CheckNetIsolation LoopbackExempt –a –n=$_} | Out-Null
+}
+
+##########
+#endregion UWP Loopback
+##########
+
+
+##########
 #region Auxiliary Functions
 ##########
 
