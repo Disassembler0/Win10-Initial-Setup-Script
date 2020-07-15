@@ -255,6 +255,9 @@ RemoveFaxPrinter                # AddFaxPrinter
 # UnpinStartMenuTiles
 # UnpinTaskbarIcons
 
+### UWP Loopback ###
+#EnableLoopback                 # DisableLoopback
+
 ### Auxiliary Functions ###
 WaitForKey
 Restart
