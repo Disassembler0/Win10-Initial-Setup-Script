@@ -15,7 +15,6 @@ DisableWiFiSense                # EnableWiFiSense
 # DisableWebSearch              # EnableWebSearch
 DisableAppSuggestions           # EnableAppSuggestions
 DisableActivityHistory          # EnableActivityHistory
-DisableBackgroundApps           # EnableBackgroundApps
 # DisableSensors                # EnableSensors
 DisableLocation                 # EnableLocation
 DisableMapUpdates               # EnableMapUpdates
@@ -33,6 +32,24 @@ DisableDiagTrack                # EnableDiagTrack
 DisableWAPPush                  # EnableWAPPush
 # EnableClearRecentFiles        # DisableClearRecentFiles
 # DisableRecentFiles            # EnableRecentFiles
+
+### UWP Privacy Tweaks ###
+DisableUWPBackgroundApps        # EnableUWPBackgroundApps
+# DisableUWPVoiceActivation     # EnableUWPVoiceActivation
+# DisableUWPNotifications       # EnableUWPNotifications
+# DisableUWPAccountInfo         # EnableUWPAccountInfo
+# DisableUWPContacts            # EnableUWPContacts
+# DisableUWPCalendar            # EnableUWPCalendar
+# DisableUWPPhoneCalls          # EnableUWPPhoneCalls
+# DisableUWPCallHistory         # EnableUWPCallHistory
+# DisableUWPEmail               # EnableUWPEmail
+# DisableUWPTasks               # EnableUWPTasks
+# DisableUWPMessaging           # EnableUWPMessaging
+# DisableUWPRadios              # EnableUWPRadios
+# DisableUWPOtherDevices        # EnableUWPOtherDevices
+# DisableUWPDiagInfo            # EnableUWPDiagInfo
+# DisableUWPFileSystem          # EnableUWPFileSystem
+# DisableUWPSwapFile            # EnableUWPSwapFile
 
 ### Security Tweaks ###
 # SetUACLow                     # SetUACHigh
@@ -92,7 +109,6 @@ DisableAutorun                  # EnableAutorun
 # DisableDefragmentation        # EnableDefragmentation
 # DisableSuperfetch             # EnableSuperfetch
 # DisableIndexing               # EnableIndexing
-# DisableSwapFile               # EnableSwapFile
 # DisableRecycleBin             # EnableRecycleBin
 EnableNTFSLongPaths             # DisableNTFSLongPaths
 # DisableNTFSLastAccess         # EnableNTFSLastAccess
