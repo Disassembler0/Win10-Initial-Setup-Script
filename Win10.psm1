@@ -402,33 +402,33 @@ Function EnableBiometrics {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics" -Name "Enabled" -ErrorAction SilentlyContinue
 }
 
-# Disable access to camera from ModernUI applications
+# Disable access to camera from UWP apps
 Function DisableCamera {
-	Write-Output "Disabling access to camera from ModernUI applications..."
+	Write-Output "Disabling access to camera from UWP apps..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Force | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Name "AllowCamera" -Type DWord -Value 0
 }
 
-# Enable access to camera in ModernUI applications
+# Enable access to camera in UWP apps
 Function EnableCamera {
-	Write-Output "Enabling access to camera from ModernUI applications..."
+	Write-Output "Enabling access to camera from UWP apps..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Name "AllowCamera" -ErrorAction SilentlyContinue
 }
 
-# Disable access to microphone in ModernUI applications
+# Disable access to microphone in UWP apps
 Function DisableMicrophone {
-	Write-Output "Disabling access to microphone in ModernUI applications..."
+	Write-Output "Disabling access to microphone in UWP apps..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessMicrophone" -Type DWord -Value 2
 }
 
-# Enable access to microphone in ModernUI applications
+# Enable access to microphone in UWP apps
 Function EnableMicrophone {
-	Write-Output "Enabling access to microphone from ModernUI applications..."
+	Write-Output "Enabling access to microphone from UWP apps..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessMicrophone" -ErrorAction SilentlyContinue
 }
 
@@ -1385,16 +1385,16 @@ Function EnableIndexing {
 	Start-Service "WSearch" -WarningAction SilentlyContinue
 }
 
-# Disable Modern UI swap file
-# This disables creation and use of swapfile.sys and frees 256 MB of disk space. Swapfile.sys is used only by Modern UI apps. The tweak has no effect on the real swap in pagefile.sys.
+# Disable UWP apps swap file
+# This disables creation and use of swapfile.sys and frees 256 MB of disk space. Swapfile.sys is used only by UWP apps. The tweak has no effect on the real swap in pagefile.sys.
 Function DisableSwapFile {
-	Write-Output "Disabling Modern UI swap file..."
+	Write-Output "Disabling UWP apps swap file..."
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "SwapfileControl" -Type Dword -Value 0
 }
 
-# Enable Modern UI swap file
+# Enable UWP apps swap file
 Function EnableSwapFile {
-	Write-Output "Enabling Modern UI swap file..."
+	Write-Output "Enabling UWP apps swap file..."
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "SwapfileControl" -ErrorAction SilentlyContinue
 }
 
