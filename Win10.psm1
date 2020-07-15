@@ -387,7 +387,8 @@ Function EnableCortana {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" -Name "AllowInputPersonalization" -ErrorAction SilentlyContinue
 }
 
-# Disable biometric features in Windows. Note - it's recommended to create a password recovery disk, if you log on using biometrics.
+# Disable biometric features
+# Note: If you log on using biometrics (fingerprint, Windows Hello etc.) it's recommended to create a password recovery disk before applying this tweak.
 Function DisableBiometrics {
 	Write-Output "Disabling biometric services..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics")) {
@@ -402,33 +403,35 @@ Function EnableBiometrics {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics" -Name "Enabled" -ErrorAction SilentlyContinue
 }
 
-# Disable access to camera from UWP apps
+# Disable access to camera
+# Note: This disables access using standard Windows API. Direct access to device will still be allowed.
 Function DisableCamera {
-	Write-Output "Disabling access to camera from UWP apps..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera")) {
-		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Force | Out-Null
+	Write-Output "Disabling access to camera..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
 	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Name "AllowCamera" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessCamera" -Type DWord -Value 2
 }
 
-# Enable access to camera in UWP apps
+# Enable access to camera
 Function EnableCamera {
-	Write-Output "Enabling access to camera from UWP apps..."
-	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Camera" -Name "AllowCamera" -ErrorAction SilentlyContinue
+	Write-Output "Enabling access to camera..."
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessCamera" -ErrorAction SilentlyContinue
 }
 
-# Disable access to microphone in UWP apps
+# Disable access to microphone
+# Note: This disables access using standard Windows API. Direct access to device will still be allowed.
 Function DisableMicrophone {
-	Write-Output "Disabling access to microphone in UWP apps..."
+	Write-Output "Disabling access to microphone..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy")) {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessMicrophone" -Type DWord -Value 2
 }
 
-# Enable access to microphone in UWP apps
+# Enable access to microphone
 Function EnableMicrophone {
-	Write-Output "Enabling access to microphone from UWP apps..."
+	Write-Output "Enabling access to microphone..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessMicrophone" -ErrorAction SilentlyContinue
 }
 
