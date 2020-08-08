@@ -1889,6 +1889,21 @@ Function EnableLockScreenBlur {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "DisableAcrylicBackgroundOnLogon" -ErrorAction SilentlyContinue
 }
 
+# Disable the password reveal button in password fields
+Function DisablePasswordReveal {
+    Write-Output "Disabling password reveal button..."
+	If (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\CredUI")) {
+		New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\CredUI" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\CredUI" -Name "DisablePasswordReveal" -Type DWord -Value 1
+}
+
+# Enable the password reveal button in password fields
+Function EnablePasswordReveal {
+    Write-Output "Enabling password reveal button..."
+    Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\CredUI" -Name "DisablePasswordReveal" -Type DWord -Value 0
+}
+
 # Disable Aero Shake (minimizing other windows when one is dragged by mouse and shaken)
 Function DisableAeroShake {
 	Write-Output "Disabling Aero Shake..."
