@@ -291,6 +291,8 @@ Function DisableLocation {
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Name "DisableLocation" -Type DWord -Value 1
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Name "DisableLocationScripting" -Type DWord -Value 1
+	Stop-Service "lfsvc" -WarningAction SilentlyContinue # Geolocation Service
+	Set-Service "lfsvc" -StartupType Disabled
 }
 
 # Enable location feature and scripting for the location feature
@@ -298,18 +300,24 @@ Function EnableLocation {
 	Write-Output "Enabling location services..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Name "DisableLocation" -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors" -Name "DisableLocationScripting" -ErrorAction SilentlyContinue
+	Set-Service "lfsvc" -StartupType Manual
+	Start-Service "lfsvc" -WarningAction SilentlyContinue # Geolocation Service
 }
 
 # Disable automatic Maps updates
 Function DisableMapUpdates {
 	Write-Output "Disabling automatic Maps updates..."
 	Set-ItemProperty -Path "HKLM:\SYSTEM\Maps" -Name "AutoUpdateEnabled" -Type DWord -Value 0
+	Stop-Service "MapsBroker" -WarningAction SilentlyContinue # Downloaded Maps Manager
+	Set-Service "MapsBroker" -StartupType Disabled
 }
 
 # Enable automatic Maps updates
 Function EnableMapUpdates {
 	Write-Output "Enable automatic Maps updates..."
 	Remove-ItemProperty -Path "HKLM:\SYSTEM\Maps" -Name "AutoUpdateEnabled" -ErrorAction SilentlyContinue
+	Set-Service "MapsBroker" -StartupType Automatic
+	Start-Service "MapsBroker" -WarningAction SilentlyContinue # Downloaded Maps Manager
 }
 
 # Disable Feedback
@@ -3471,6 +3479,14 @@ Function DisableXboxFeatures {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
+	Stop-Service "XblAuthManager" -WarningAction SilentlyContinue # Xbox Live Auth Manager
+	Set-Service "XblAuthManager" -StartupType Disabled
+	Stop-Service "XblGameSave" -WarningAction SilentlyContinue # Xbox Live Game Save Service
+	Set-Service "XblGameSave" -StartupType Disabled
+	Stop-Service "XboxNetApiSvc" -WarningAction SilentlyContinue # Xbox Live Networking Service
+	Set-Service "XboxNetApiSvc" -StartupType Disabled
+	Stop-Service "XboxGipSvc" -WarningAction SilentlyContinue # Xbox Accessory Managment Service
+	Set-Service "XboxGipSvc" -StartupType Disabled
 }
 
 # Enable Xbox features - Not applicable to Server
@@ -3485,6 +3501,14 @@ Function EnableXboxFeatures {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\GameBar" -Name "AutoGameModeEnabled" -ErrorAction SilentlyContinue
 	Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -ErrorAction SilentlyContinue
+	Set-Service "XblAuthManager" -StartupType Manual
+	Start-Service "XblAuthManager" -WarningAction SilentlyContinue # Xbox Live Auth Manager
+	Set-Service "XblGameSave" -StartupType Manual
+	Start-Service "XblGameSave" -WarningAction SilentlyContinue # Xbox Live Game Save Service
+	Set-Service "XboxNetApiSvc" -StartupType Manual
+	Start-Service "XboxNetApiSvc" -WarningAction SilentlyContinue # Xbox Live Networking Service
+	Set-Service "XboxGipSvc" -StartupType Manual
+	Start-Service "XboxGipSvc" -WarningAction SilentlyContinue # Xbox Accessory Managment Service
 }
 
 # Disable Fullscreen optimizations
@@ -3591,12 +3615,16 @@ Function DisableMediaSharing {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsMediaPlayer" -Force | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsMediaPlayer" -Name "PreventLibrarySharing" -Type DWord -Value 1
+	Stop-Service "WMPNetworkSvc" -WarningAction SilentlyContinue # Windows Media Player Network Sharing Service
+	Set-Service "WMPNetworkSvc" -StartupType Disabled
 }
 
 # Enable Windows Media Player's media sharing feature
 Function EnableMediaSharing {
 	Write-Output "Enabling Windows Media Player media sharing..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsMediaPlayer" -Name "PreventLibrarySharing" -ErrorAction SilentlyContinue
+	Set-Service "WMPNetworkSvc" -StartupType Manual
+	Start-Service "WMPNetworkSvc" -WarningAction SilentlyContinue # Windows Media Player Network Sharing Service
 }
 
 # Disable Windows Media Player online access - audio file metadata download, radio presets, DRM.
