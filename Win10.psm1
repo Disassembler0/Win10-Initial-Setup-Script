@@ -1765,6 +1765,30 @@ Function EnableSleepTimeout {
 	powercfg /X standby-timeout-dc 15
 }
 
+# Set lid closing action to Do Nothing
+Function SetLidActionNone {
+	Write-Output "Setting lid closing action to Do Nothing..."
+	powercfg /SETACVALUEINDEX SCHEME_CURRENT SUB_BUTTONS LIDACTION 0
+}
+
+# Set lid closing action to Sleep
+Function SetLidActionSleep {
+	Write-Output "Setting lid closing action to Sleep..."
+	powercfg /SETACVALUEINDEX SCHEME_CURRENT SUB_BUTTONS LIDACTION 1
+}
+
+# Set lid closing action to Hibernate
+Function SetLidActionHibernate {
+	Write-Output "Setting lid closing action to Hibernate..."
+	powercfg /SETACVALUEINDEX SCHEME_CURRENT SUB_BUTTONS LIDACTION 2
+}
+
+# Set lid closing action to Shut Down
+Function SetLidActionShutDown {
+	Write-Output "Setting lid closing action to Shut Down..."
+	powercfg /SETACVALUEINDEX SCHEME_CURRENT SUB_BUTTONS LIDACTION 3
+}
+
 # Disable Fast Startup
 Function DisableFastStartup {
 	Write-Output "Disabling Fast Startup..."
