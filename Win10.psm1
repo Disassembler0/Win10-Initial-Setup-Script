@@ -252,7 +252,7 @@ Function EnableAppSuggestions {
 }
 
 # Disable Activity History feed in Task View
-# Note: The checkbox "Let Windows collect my activities from this PC" remains checked even when the function is disabled
+# Note: The checkbox "Store my activity history on this device" ("Let Windows collect my activities from this PC" on older versions) remains checked even when the function is disabled
 Function DisableActivityHistory {
 	Write-Output "Disabling Activity History..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableActivityFeed" -Type DWord -Value 0
