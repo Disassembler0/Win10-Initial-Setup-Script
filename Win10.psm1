@@ -2069,6 +2069,18 @@ Function HideTrayIcons {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoAutoTrayNotify" -ErrorAction SilentlyContinue
 }
 
+# Show Bluetooth tray icon
+Function ShowBluetoothTrayIcon {
+	Write-Output "Showing Bluetooth tray icon..."
+	Set-Itemproperty 'HKCU:\Control Panel\Bluetooth' -Name 'Notification Area Icon' -Value '1' -Type DWord
+}
+
+# Hide Bluetooth tray icon
+Function HideBluetoothTrayIcon {
+	Write-Output "Hiding Bluetooth tray icon..."
+	Set-Itemproperty 'HKCU:\Control Panel\Bluetooth' -Name 'Notification Area Icon' -Value '0' -Type DWord
+}
+
 # Show seconds in taskbar
 Function ShowSecondsInTaskbar {
 	Write-Output "Showing seconds in taskbar..."
